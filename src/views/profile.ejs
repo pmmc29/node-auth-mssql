@@ -1,0 +1,19 @@
+<% include resources.ejs %>
+<div class="center">
+    <h1><%= title %></h1>
+    <p class="blue-text text-darken-2">
+        ID: <%= user.id %><br />
+        Email: <%= user.email%><br />
+    </p>
+
+    <div>
+        <img src=" <%= typeof file != 'undefined' ? file : '' %>" class="responsive-file" style="height: 300px;">
+    </div>
+    <div>
+        <p>
+            QR:
+        </p>
+        <img src="<%= typeof qr != 'undefined' ? qr : '' %>" height="150" width="150">
+    </div>
+    <button onclick="location.href = '/logout'" class="btn">Log Out</button>
+</div>
