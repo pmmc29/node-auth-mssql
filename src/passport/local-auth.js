@@ -42,7 +42,7 @@ passport.use('local', new LocalStrategy({
         if (req.body.password == '' | req.body.email == '') {
             console.log('Ingrese datos validos! LOGIN')
         } else {
-            var currentAccountsData = await JSON.stringify(request.query(`SELECT id,login,pass FROM usuarios WHERE login='${username}'`, function (err, result) {
+            var currentAccountsData = await request.query(`SELECT id,login,pass,tipo FROM usuarios WHERE login='${username}'`, function (err, result) {
                 if (err) {
                     return done(err)
                 }
@@ -56,9 +56,10 @@ passport.use('local', new LocalStrategy({
                             console.log('Error while checking password');
                             return done();
                         } else if (check) {
-                            return done(null, { //DATOS DEL USUARIO QUE SE MANDA A LA SESSION
+                            return done(null, { //DATOS DEL USUARIO QUE SE MANDA A LA SESSION 'req.user'
                                 id: result.recordset[0].id,
-                                email: result.recordset[0].login
+                                email: result.recordset[0].login,
+                                tipo: result.recordset[0].tipo
                                 // pass: result.rows[0].pass
                             });
                         } else {
@@ -67,7 +68,7 @@ passport.use('local', new LocalStrategy({
                         }
                     });
                 }
-            }))
+            })
         }
     } catch (e) {
         console.log(e)

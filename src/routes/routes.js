@@ -110,7 +110,7 @@ router.post('/signup', async function (req, res) {
                         } else {
                             console.log('3:', req.body.email, req.body.password)
                             var pwd = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
-                            request.query(`INSERT INTO usuarios (login, pass) VALUES ('${req.body.email}', '${pwd}')`, function (err, result) {
+                            request.query(`INSERT INTO usuarios (login, pass,tipo,created_at) VALUES ('${req.body.email}', '${pwd}','2',SYSDATETIME())`, function (err, result) {
                                 if (err) {
                                     console.log('ERROR: ', err);
                                 } else {
@@ -179,7 +179,8 @@ router.get('/logout', function (req, res) {
 //----------------------------------------------
 router.get('/profile', async function (req, res, next) {
     if (req.isAuthenticated()) {
-        QRCode.toDataURL(`${req.user.id}`, function (err, url) {
+
+        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
             // console.log(url)
             res.render('profile', {
                 title: "Profile",
