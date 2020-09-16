@@ -24,33 +24,58 @@
                 <a href="#"><span class="white-text name">Id: <%= user.tipo%> <% if (user.tipo === '1') { %>
                         (Administrador)
                         <%}%></span></a>
-                <a href="#"><span class="white-text name">Email: <%= user.email%></span></a>
+                    <a href="#"><span class="white-text name">Email: <%= user.email%></span></a>
                 <a href="#"><span class="white-text name">Tipo: <%= user.tipo%></span></a><br>
             </div>
         </li>
-        <li><a href="/profile"><i class="material-icons">person</i>Profile2</a></li>
-        <% if (user.tipo === '1') { %>
-        <li><a href="#"><i class="material-icons">public</i>Menu admin1</a></li>
-        <li><a href="#"><i class="material-icons">public</i>Menu admin2</a></li>
-        <li><a href="#"><i class="material-icons">public</i>Menu admin3</a></li>
-        <li><a href="#"><i class="material-icons">public</i>Menu admin4</a></li>
-        <li><a href="/home/1"><i class="material-icons">people</i>Buscar Asegurado</a></li>
-        <%}%>
-        <li><a href="#"><i class="material-icons">mail</i>Menu4</a></li>
-        <li><a href="#"><i class="material-icons">laptop</i>Menu5</a></li>
+        <ul class="collapsible">
+            <li>
+                <div class="collapsible-header"><i class="material-icons">person</i>Perfil</div>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="/home/2"><i class="material-icons">person</i>Ver Perfil</a></li>
+
+                    </ul>
+                </div>
+            </li>
+            <% if (user.tipo === '1') { %>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">people</i>Usuarios</div>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="/home/3"><i class="material-icons">person_add</i>Crear Usuario</a></li>
+
+                    </ul>
+                </div>
+            </li>
+            <%}%>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">people</i>Asegurados</div>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="/home/1"><i class="material-icons">people</i>Buscar Asegurado</a></li>
+                        <li><a href="#"><i class="material-icons">mail</i>Menu4</a></li>
+                        <li><a href="#"><i class="material-icons">laptop</i>Menu5</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
         <li>
             <div class="divider"></div>
         </li>
-        <li><a class="subheader">Subheader</a></li>
-        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+        
     </ul>
     <button href="#" data-target="slide-out" class="sidenav-trigger show-on-large waves-effect waves-light btn"><i
             class="material-icons">menu</i></button>
 
             <div>
                 <% if(menu == 1 && user.tipo == '1') {%>
-        <% include buscarAsegurado.ejs %>
-        <%}%>
+            <% include buscarAsegurado.ejs %>
+            <%} if(menu == 2) {%>
+            <% include profile.ejs %>
+            <%} if(menu == 3) {%>
+            <% include signup.ejs %>
+            <%}%>
             </div>
 
 </body>

@@ -196,7 +196,7 @@ router.get('/home/:menu?', async function (req, res, next) {
                     file: `../photos/${req.user.email}.jpg`
                 });
             })
-            console.log(req.user.id, 'menu: ', num)
+            console.log(req.user.id)
         } else {
             res.redirect('/login');
         }
