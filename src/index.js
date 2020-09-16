@@ -42,6 +42,7 @@ app.use((req, res, next) => {
 //routes
 app.use('/', require('./routes/routes'))
 app.use('/photos', express.static(__dirname + '/photos'))
+app.use('/public', express.static(__dirname + '/public'))
 
 //starting the server
 app.listen(app.get('port'), () => {

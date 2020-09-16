@@ -21,7 +21,7 @@ pool.on('error', err => {
 //-------------ROUTES-------------------
 router.get('/', function (req, res, next) {
     if (req.isAuthenticated()) {
-        res.redirect('/profile');
+        res.redirect('/home');
     } else {
         res.render('index', {
             title: "Home",
@@ -71,7 +71,7 @@ function checkFileType(file, cb) {
 //----------------------------------------------
 router.get('/signup', function (req, res, next) {
     if (req.isAuthenticated()) {
-        res.redirect('/profile');
+        res.redirect('/home');
     } else {
         res.render('signup', {
             title: "Sign Up",
@@ -140,7 +140,7 @@ router.post('/signup', async function (req, res) {
 //----------------------------------------------
 router.get('/login', function (req, res, next) {
     if (req.isAuthenticated()) {
-        res.redirect('/profile');
+        res.redirect('/home');
     } else {
         res.render('login', {
             title: "Sign In",
@@ -177,6 +177,23 @@ router.get('/logout', function (req, res) {
     res.redirect('/');
 });
 //----------------------------------------------
+router.get('/home', async function (req, res, next) {
+    if (req.isAuthenticated()) {
+
+        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+            // console.log(url)
+            res.render('home', {
+                title: "Home",
+                user: req.user,
+                qr: `${url}`,
+                file: `photos/${req.user.email}.jpg`
+            });
+        })
+        console.log(req.user.id)
+    } else {
+        res.redirect('/login');
+    }
+});
 router.get('/profile', async function (req, res, next) {
     if (req.isAuthenticated()) {
 

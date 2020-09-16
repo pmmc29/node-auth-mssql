@@ -2,10 +2,45 @@
 <html lang="en">
 
 <% include resources.ejs %>
+<script src="../public/sidenav.js"></script>
 <title>Home</title>
 
 <body>
 
+    <ul id="slide-out" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background" style="background-color: darksalmon;">
+                    <!-- <img src="<%= typeof file != 'undefined' ? file : '' %>"> -->
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <a href="#"><img class="circle" src="<%= typeof file != 'undefined' ? file : '' %>"></a>
+                    </div>
+                    <div class="col s6">
+                        <button onclick="location.href = '/logout'" class="btn">Log Out</button>
+                    </div>
+                </div>
+                <a href="#"><span class="white-text name">Id: <%= user.tipo%> <% if (user.tipo === '1') { %>
+                        (Administrador)
+                        <%}%></span></a>
+                <a href="#"><span class="white-text name">Email: <%= user.email%></span></a>
+                <a href="#"><span class="white-text name">Tipo: <%= user.tipo%></span></a>
+            </div>
+        </li>
+        <li><a href="/profile"><i class="material-icons">person</i>Profile2</a></li>
+        <li><a href="#"><i class="material-icons">public</i>Menu2</a></li>
+        <li><a href="#"><i class="material-icons">people</i>Menu3</a></li>
+        <li><a href="#"><i class="material-icons">mail</i>Menu4</a></li>
+        <li><a href="#"><i class="material-icons">laptop</i>Menu5</a></li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li><a class="subheader">Subheader</a></li>
+        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+    </ul>
+    <button href="#" data-target="slide-out" class="sidenav-trigger show-on-large waves-effect waves-light btn"><i
+            class="material-icons">menu</i></button>
 </body>
 
 </html>
