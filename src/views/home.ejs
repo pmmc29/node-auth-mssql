@@ -25,12 +25,17 @@
                         (Administrador)
                         <%}%></span></a>
                 <a href="#"><span class="white-text name">Email: <%= user.email%></span></a>
-                <a href="#"><span class="white-text name">Tipo: <%= user.tipo%></span></a>
+                <a href="#"><span class="white-text name">Tipo: <%= user.tipo%></span></a><br>
             </div>
         </li>
         <li><a href="/profile"><i class="material-icons">person</i>Profile2</a></li>
-        <li><a href="#"><i class="material-icons">public</i>Menu2</a></li>
-        <li><a href="#"><i class="material-icons">people</i>Menu3</a></li>
+        <% if (user.tipo === '1') { %>
+        <li><a href="#"><i class="material-icons">public</i>Menu admin1</a></li>
+        <li><a href="#"><i class="material-icons">public</i>Menu admin2</a></li>
+        <li><a href="#"><i class="material-icons">public</i>Menu admin3</a></li>
+        <li><a href="#"><i class="material-icons">public</i>Menu admin4</a></li>
+        <li><a href="/home/1"><i class="material-icons">people</i>Buscar Asegurado</a></li>
+        <%}%>
         <li><a href="#"><i class="material-icons">mail</i>Menu4</a></li>
         <li><a href="#"><i class="material-icons">laptop</i>Menu5</a></li>
         <li>
@@ -41,6 +46,13 @@
     </ul>
     <button href="#" data-target="slide-out" class="sidenav-trigger show-on-large waves-effect waves-light btn"><i
             class="material-icons">menu</i></button>
+
+            <div>
+                <% if(menu == 1 && user.tipo == '1') {%>
+        <% include buscarAsegurado.ejs %>
+        <%}%>
+            </div>
+
 </body>
 
 </html>
