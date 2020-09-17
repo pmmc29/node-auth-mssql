@@ -63,7 +63,8 @@ passport.use('local', new LocalStrategy({
                                 // pass: result.rows[0].pass
                             });
                         } else {
-                            console.log('danger', "Oops. Incorrect login details.");
+                            // console.log('danger', "Oops. Incorrect login details.");
+                            req.flash('loginMessage', 'Datos Incorrectos')
                             return done(null, false);
                         }
                     });

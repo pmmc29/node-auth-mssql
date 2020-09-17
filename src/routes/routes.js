@@ -223,9 +223,8 @@ router.get('/profile', async function (req, res, next) {
 
 
 //----------------API---------------------------
-let json = {}
 
 router.get('/api/getUsers', test.test2)
 
 
-module.exports = router, json
+module.exports = router
