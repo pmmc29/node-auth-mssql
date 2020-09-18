@@ -15,7 +15,7 @@ pool.on('error', err => {
     console.log(err)
 })
 
-async function test() {
+async function testConnection() {
     await poolConnect; // ensures that the pool has been created
     try {
         const request = pool.request(); // or: new sql.Request(pool1)
@@ -26,6 +26,6 @@ async function test() {
         console.error('SQL error', err);
     }
 }
-test()
+testConnection()
 
 module.exports = pool

@@ -10,8 +10,6 @@ const flash = require('connect-flash')
 const app = express()
 require('./database') //conexion a la bd 
 require('./passport/local-auth')
-require('./test')
-
 
 //settings
 app.set('views', path.join(__dirname, 'views')) //definir la ruta de views
@@ -36,6 +34,7 @@ app.use(passport.session())
 
 app.use((req, res, next) => {
     app.locals.loginMessage = req.flash('loginMessage')
+    app.locals.tempData = req.flash('tempData')
     next()
 })
 

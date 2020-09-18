@@ -6,7 +6,8 @@ const pool = require('../database')
 const multer = require('multer')
 const path = require('path')
 const QRCode = require('qrcode')
-const test = require('../test')
+const cuentas = require('../models/cuentas')
+const asegurados = require('../models/asegurados')
 
 const poolConnect = pool.connect();
 
@@ -178,9 +179,9 @@ router.get('/logout', function (req, res) {
 });
 //----------------------------------------------
 
-router.get('/home/:menu?', async function (req, res, next) {
+router.get('/home/:menu?/:data?', async function (req, res, next) {
     var menu = req.params.menu
-
+    var data = req.params.data
     render(menu)
 
     async function render(num) {
@@ -192,6 +193,7 @@ router.get('/home/:menu?', async function (req, res, next) {
                     title: "Home",
                     user: req.user,
                     menu: num,
+                    data: data,
                     qr: `${url}`,
                     file: `../photos/${req.user.email}.jpg`
                 });
@@ -221,10 +223,15 @@ router.get('/profile', async function (req, res, next) {
     }
 });
 
+router.post('/buscarAsegurado', asegurados.obtenerInfoAsegurado)
+
+
+
 
 //----------------API---------------------------
 
-router.get('/api/getUsers', test.test2)
+router.get('/api/getUsers/:tipo?', cuentas.obtenerCuentas)
+router.get('/api/getAsegurados/:codigo?', asegurados.obtenerAsegurados)
 
 
 module.exports = router
