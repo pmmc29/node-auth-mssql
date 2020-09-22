@@ -1,78 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<% include resources.ejs %>
+<%- include resources.ejs %>
 <script src="../public/sidenav.js"></script>
 <!-- <link rel="stylesheet" href="../public/css/sidenav.css"> -->
 <title>Home</title>
 
-<body>
-    <header>
-        <nav class="top-nav">
-            <!-- <button href="#" data-target="slide-out"
+<header>
+    <nav class="top-nav">
+        <!-- <button href="#" data-target="slide-out"
                 class="sidenav-trigger show-on-large waves-effect waves-light btn"><i
                     class="material-icons">menu</i></button> -->
-            <div><a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i
-                        class="material-icons">menu</i></a></div>
-            <div>
-                SINEC
-            </div>
-        </nav>
-        <ul id="slide-out" class="sidenav">
-            <li>
-                <div class="user-view">
-                    <div class="background" style="background-color: darkslategrey;">
-                        <!-- <img src="<%= typeof file != 'undefined' ? file : '' %>"> -->
-                    </div>
-                    <div class="row">
-                        <div class="col s6">
-                            <a href="#"><img class="circle" src="<%= typeof file != 'undefined' ? file : '' %>"></a>
-                        </div>
-                        <div class="col s6">
-                            <a href="/logout" class="btn">Log Out</a>
-                        </div>
-                    </div>
-                    <a href="#"><span class="white-text name">Id: <%= user.tipo%> <% if (user.tipo === '1') { %>
-                            (Administrador)
-                            <%}%></span></a>
-                    <a href="#"><span class="white-text name">Email: <%= user.email%></span></a>
-                    <a href="#"><span class="white-text name">Tipo: <%= user.tipo%></span></a><br>
+        <div><a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i
+                    class="material-icons">menu</i></a></div>
+        <div>
+            SINEC
+        </div>
+    </nav>
+    <ul id="slide-out" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background" style="background-color: darkslategrey;">
+                    <!-- <img src="<%= typeof file != 'undefined' ? file : '' %>"> -->
                 </div>
-            </li>
-            <ul class="collapsible collapsible-accordion">
-                <li class="bold <% if (menu === '2') { %>
+                <div class="row">
+                    <div class="col s6">
+                        <a href="#"><img class="circle" src="<%= typeof file != 'undefined' ? file : '' %>"></a>
+                    </div>
+                    <div class="col s6">
+                        <a href="/logout" class="btn">Log Out</a>
+                    </div>
+                </div>
+                <a href="#"><span class="white-text name">Id: <%= user.tipo%> <% if (user.tipo === '1') { %>
+                        (Administrador)
+                        <%}%></span></a>
+                    <a href="#"><span class="white-text name">Email: <%= user.email%></span></a>
+                <a href="#"><span class="white-text name">Tipo: <%= user.tipo%></span></a><br>
+            </div>
+        </li>
+        <ul class="collapsible collapsible-accordion">
+            <li class="bold <% if (menu === 'profile') { %>
         active
         <%}%>">
                     <div class="collapsible-header waves-effect waves-teal"><i class="material-icons">person</i>Perfil
                     </div>
                     <div class="collapsible-body">
                         <ul>
-                            <li class="<% if (menu === '2') { %>
+                            <li class="<% if (menu === 'profile') { %>
         active
-        <%}%>"><a href="/home/2"><i class="material-icons">person</i>Ver Perfil</a></li>
+        <%}%>"><a href="/profile"><i class="material-icons">person</i>Ver Perfil</a></li>
 
                         </ul>
                     </div>
                 </li>
                 <% if (user.tipo === '1') { %>
-                <li class=" bold <% if (menu === '3') { %> active <%}%>">
+                <li class=" bold <% if (menu === 'crear_usuario') { %> active <%}%>">
                     <div class="collapsible-header waves-effect waves-teal"><i class="material-icons">account_circle</i>Usuarios
                     </div>
                     <div class="collapsible-body">
                         <ul>
-                            <li class="<% if (menu === '3') { %> active <%}%>"><a href="/home/3"><i class="material-icons">person_add</i>Crear
+                            <li class="<% if (menu === 'crear_usuario') { %> active <%}%>"><a href="/crear_usuario"><i class="material-icons">person_add</i>Crear
                                     Usuario</a>
                             </li>
                         </ul>
                     </div>
                 </li>
-                <%}%> <li class="bold <% if (menu === '1') { %> active <%}%>">
+                <%}%> <li class="bold <% if (menu === 'buscarAsegurado') { %> active <%}%>">
                     <div class="collapsible-header waves-effect waves-teal"><i
                             class="material-icons">people</i>Asegurados
                     </div>
                     <div class="collapsible-body">
                         <ul>
-                            <li class="<% if (menu === '1') { %> active <%}%>"><a href="/home/1"><i class="material-icons">search</i>Buscar Asegurado</a></li>
+                            <li class="<% if (menu === 'buscarAsegurado') { %> active <%}%>"><a href="/buscarAsegurado"><i class="material-icons">search</i>Buscar Asegurado</a></li>
                             <li class="<% if (menu === '4') { %> active <%}%>"><a href="#"><i class="material-icons">credit_card</i>Menu</a></li>
                             <li class="<% if (menu === '5') { %> active <%}%>"><a href="#"><i class="material-icons">devices</i>Menu</a></li>
                         </ul>
@@ -87,19 +83,3 @@
         <!-- <button href="#" data-target="slide-out" class="sidenav-trigger show-on-large waves-effect waves-light btn"><i
             class="material-icons">menu</i></button> -->
     </header>
-
-    <main>
-            <% if(menu == 1) {%>
-            <% include buscarAsegurado.ejs %>
-            <%} if(menu == 2) {%>
-            <% include profile.ejs %>
-            <%} if(menu == 3) {%>
-            <% include signup.ejs %>
-            <%}%>
-</main>
-    
-
-
-</body>
-
-</html>

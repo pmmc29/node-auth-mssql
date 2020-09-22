@@ -1,6 +1,6 @@
 const pool = require('../database');
 const poolConnect = pool.connect();
-
+const QRCode = require('qrcode')
 
 const request = pool.request(); // or: new sql.Request(pool1)
 
@@ -27,11 +27,17 @@ async function obtenerAsegurados(req, res, next) {
 
 
 async function obtenerInfoAsegurado(req, res, next) {
-    if (req.body.btnBuscar != undefined) { //click en buscar
-        await renderDatos(req, res, next, "")
-    }
-    if (req.body.btnRegistrar != undefined) { //click en registrar
+    if (req.isAuthenticated()) {
+        if (req.body.btnBuscar != undefined) { //click en buscar
+            await renderDatos(req, res, next, "")
+        }
+        if (req.body.btnRegistrar != undefined) { //click en registrar
 
+        }
+    } else {
+        res.render('login', {
+            title: "Sign In"
+        });
     }
 }
 
@@ -57,6 +63,7 @@ async function registrarSangre(req, res, next, msg) {
 }
 
 async function renderDatos(req, res, next, msg) {
+
     try {
         await poolConnect;
         const result = await request.query(`select * from asegurados2 where cod = '${req.body.edtBuscar}'`)
@@ -64,23 +71,20 @@ async function renderDatos(req, res, next, msg) {
         console.log(response)
         if (response == undefined) { // no existe el codigo del asegurado
             req.flash('loginMessage', 'Asegurado no encontrado')
-            res.redirect('/home/1')
+            res.redirect('/buscarAsegurado')
         }
         if (response !== undefined) { // asegurado encontrado
-            // res.render('home', {
-            //     message: msg,
-            //     id: req.body.edtBuscar,
-            //     nombre: response.name,
-            //     apellido: response.name,
-            //     empresa: 'test',
-            //     fec_ing: 'test',
-            //     matricula: 'test',
-            //     fec_nac: 'test',
-            //     tipo_sangre: response.tipo_sangre
-            // })
-            req.flash('tempData', JSON.stringify(response))
-            res.redirect(`/home/1`)
-
+            QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+                res.render('buscarAsegurado', {
+                    message: 'Asegurado encontrado',
+                    menu: 'buscarAsegurado',
+                    id: req.body.edtBuscar,
+                    user: req.user,
+                    qr: `${url}`,
+                    file: `../photos/${req.user.email}.jpg`,
+                    res: response
+                })
+            })
         }
     } catch (err) {
         console.error('SQL error', err);

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include resources.ejs %>
+<link rel="stylesheet" href="../public/css/card.css">
+<script src="https://unpkg.com/simple-print/lib/bundle/simple-print.min.js"></script>
+<title>Carnet</title>
+
+<body>
+
+    <div class="grid-container" id="testprint">
+        <div class="grid-item">
+            <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" style="width: 150px;">
+        </div>
+        <div class="grid-item">2</div>
+        <div class="grid-item">3</div>
+        <div class="grid-item">4</div>
+        <div class="grid-item">5</div>
+        <div class="grid-item">6</div>
+        <div class="grid-item">7</div>
+        <div class="grid-item">8</div>
+        <div class="grid-item">9</div>
+    </div>
+
+    <button onclick="btnClick()" class="btn"> test</button>
+</body>
+<script>
+    var element = document.getElementById('testprint')
+
+    var opts = {
+        name: '_blank',
+        specs: [
+            'fullscreen=yes',
+            'titlebar=yes',
+            'scrollbars=yes'
+        ],
+        styles: [
+            '../public/css/card.css'
+        ]
+    }
+
+    var print = new SimplePrint(opts)
+
+    function btnClick() {
+        // you can assign your new options like this
+
+        print.render(element, function () {
+            console.log('Printing completed or was cancelled!')
+        })
+    }
+</script>
+
+</html>

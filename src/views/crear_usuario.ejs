@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="../public/sidenav.js"></script>
+<!-- <link rel="stylesheet" href="../public/css/sidenav.css"> -->
+<title>Home</title>
+
+<body>
+    <%- include home.ejs %>
+    <main>
+        <div class="container">
+            <div class="row center">
+                <h1>Crear Usuario</h1>
+                <%= typeof msg != 'undefined' ? msg : '' %>
+                <div class="input-field col s12">
+                    <form action="/signup" method="POST" id="form1" enctype="multipart/form-data">
+                        <input type="email" name="email" placeholder="Email" required class="input-field">
+                        <input type="password" name="password" placeholder="Password" required class="input-field">
+                        <br>
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>Photo</span>
+                                <input type="file" name="myPhoto">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
+                        </div>
+                        <input type="submit" value="Register" class="btn">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+</body>
+
+</html>

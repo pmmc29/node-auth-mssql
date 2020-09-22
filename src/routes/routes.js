@@ -22,7 +22,7 @@ pool.on('error', err => {
 //-------------ROUTES-------------------
 router.get('/', function (req, res, next) {
     if (req.isAuthenticated()) {
-        res.redirect('/home/0');
+        res.redirect('/home');
     } else {
         res.render('index', {
             title: "Home",
@@ -49,7 +49,7 @@ const storage = multer.diskStorage({
 const uploadPhoto = multer({
     storage: storage,
     limits: {
-        fileSize: 5000000
+        fileSize: 5000000 //bytes = 5mb
     },
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb)
@@ -72,7 +72,7 @@ function checkFileType(file, cb) {
 //----------------------------------------------
 router.get('/signup', function (req, res, next) {
     if (req.isAuthenticated()) {
-        res.redirect('/home/0');
+        res.redirect('/home');
     } else {
         res.render('signup', {
             title: "Sign Up",
@@ -141,7 +141,7 @@ router.post('/signup', async function (req, res) {
 //----------------------------------------------
 router.get('/login', function (req, res, next) {
     if (req.isAuthenticated()) {
-        res.redirect('/home/0');
+        res.redirect('/home');
     } else {
         res.render('login', {
             title: "Sign In",
@@ -179,31 +179,24 @@ router.get('/logout', function (req, res) {
 });
 //----------------------------------------------
 
-router.get('/home/:menu?/:data?', async function (req, res, next) {
-    var menu = req.params.menu
-    var data = req.params.data
-    render(menu)
-
-    async function render(num) {
-        if (req.isAuthenticated()) {
-
-            QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
-                // console.log(url)
-                res.render('home', {
-                    title: "Home",
-                    user: req.user,
-                    menu: num,
-                    data: data,
-                    qr: `${url}`,
-                    file: `../photos/${req.user.email}.jpg`
-                });
-            })
-            console.log(req.user.id)
-        } else {
-            res.redirect('/login');
-        }
+router.get('/home', async function (req, res, next) {
+    if (req.isAuthenticated()) {
+        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+            // console.log(url)
+            res.render('home', {
+                user: req.user,
+                menu: 'home',
+                qr: `${url}`,
+                file: `../photos/${req.user.email}.jpg`
+            });
+        })
+        console.log(req.user.id)
+    } else {
+        res.redirect('/login');
     }
 });
+
+
 
 router.get('/profile', async function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -211,10 +204,28 @@ router.get('/profile', async function (req, res, next) {
         QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
             // console.log(url)
             res.render('profile', {
-                title: "Profile",
                 user: req.user,
+                menu: 'profile',
                 qr: `${url}`,
-                file: `photos/${req.user.email}.jpg`
+                file: `../photos/${req.user.email}.jpg`
+            });
+        })
+        console.log(req.user.id)
+    } else {
+        res.redirect('/login');
+    }
+});
+
+router.get('/buscarAsegurado', async function (req, res, next) {
+    if (req.isAuthenticated()) {
+        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+            // console.log(url)
+            res.render('buscarAsegurado', {
+                user: req.user,
+                menu: 'buscarAsegurado',
+                qr: `${url}`,
+                file: `../photos/${req.user.email}.jpg`,
+                res: ''
             });
         })
         console.log(req.user.id)
@@ -225,6 +236,27 @@ router.get('/profile', async function (req, res, next) {
 
 router.post('/buscarAsegurado', asegurados.obtenerInfoAsegurado)
 
+router.get('/crear_usuario', async function (req, res, next) {
+    if (req.isAuthenticated()) {
+        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+            // console.log(url)
+            res.render('crear_usuario', {
+                user: req.user,
+                menu: 'crear_usuario',
+                qr: `${url}`,
+                file: `../photos/${req.user.email}.jpg`
+            });
+        })
+        console.log(req.user.id)
+    } else {
+        res.redirect('/login');
+    }
+});
+
+// router.post('/crear_usuario', asegurados.obtenerInfoAsegurado)
+router.get('/carnet', async (req, res, next) => {
+    res.render('carnet')
+})
 
 
 

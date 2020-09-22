@@ -1,5 +1,7 @@
 const pool = require('../database');
 const poolConnect = pool.connect();
+const QRCode = require('qrcode')
+
 
 
 const request = pool.request(); // or: new sql.Request(pool1)
@@ -25,6 +27,22 @@ async function obtenerCuentas(req, res, next) {
     }
 }
 
+async function datosCuenta(req, res, next) {
+    await QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+        let cuenta = {
+            user: req.user,
+            menu: 'buscarAsegurado',
+            qr: `${url}`,
+            file: `../photos/${req.user.email}.jpg`
+        }
+        return cuenta;
+    })
+
+}
+
+
+
 module.exports = {
-    obtenerCuentas
+    obtenerCuentas,
+    datosCuenta
 }
