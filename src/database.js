@@ -1,10 +1,15 @@
-const sql = require('mssql')
+const sql = require('mssql');
+
 
 const config = {
     user: 'testuser',
     password: 'pedro123',
     server: 'localhost',
-    database: 'test'
+    database: 'test',
+    options: {
+        enableArithAbort: true,
+        encrypt: true
+    }
 }
 
 const pool = new sql.ConnectionPool(config);
