@@ -3,7 +3,6 @@
 
 <%- include resources.ejs %>
 <link rel="stylesheet" href="../public/css/card.css">
-<script src="https://unpkg.com/simple-print/lib/bundle/simple-print.min.js"></script>
 <title>Carnet</title>
 
 <body>
@@ -22,31 +21,25 @@
         <div class="grid-item">9</div>
     </div>
 
-    <button onclick="btnClick()" class="btn"> test</button>
+    <button onclick="PrintDiv('testprint')" class="btn"> test</button>
 </body>
-<script>
-    var element = document.getElementById('testprint')
+<script type="text/javascript">
+    function PrintDiv(id) {
+        var data = document.getElementById(id).innerHTML;
+        var myWindow = window.open('', 'my div', 'height=400,width=600');
+        myWindow.document.write('<html><head><title>my div</title>');
+        /*optional stylesheet*/ //myWindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+        myWindow.document.write('</head><body >');
+        myWindow.document.write(data);
+        myWindow.document.write('</body></html>');
+        myWindow.document.close(); // necessary for IE >= 10
 
-    var opts = {
-        name: '_blank',
-        specs: [
-            'fullscreen=yes',
-            'titlebar=yes',
-            'scrollbars=yes'
-        ],
-        styles: [
-            '../public/css/card.css'
-        ]
-    }
+        myWindow.onload = function () { // necessary if the div contain images
 
-    var print = new SimplePrint(opts)
-
-    function btnClick() {
-        // you can assign your new options like this
-
-        print.render(element, function () {
-            console.log('Printing completed or was cancelled!')
-        })
+            myWindow.focus(); // necessary for IE >= 10
+            myWindow.print();
+            myWindow.close();
+        };
     }
 </script>
 

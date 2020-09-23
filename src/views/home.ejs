@@ -43,7 +43,7 @@
                     </div>
                     <div class="collapsible-body">
                         <ul>
-                            <li class="<% if (menu === 'profile') { %>
+                            <li class="<% if (subm === 'profile') { %>
         active
         <%}%>"><a href="/profile"><i class="material-icons">person</i>Ver Perfil</a></li>
 
@@ -51,26 +51,26 @@
                     </div>
                 </li>
                 <% if (user.tipo === '1') { %>
-                <li class=" bold <% if (menu === 'crear_usuario') { %> active <%}%>">
+                <li class=" bold <% if (menu === 'Usuarios') { %> active <%}%>">
                     <div class="collapsible-header waves-effect waves-teal"><i class="material-icons">account_circle</i>Usuarios
                     </div>
                     <div class="collapsible-body">
                         <ul>
-                            <li class="<% if (menu === 'crear_usuario') { %> active <%}%>"><a href="/crear_usuario"><i class="material-icons">person_add</i>Crear
+                            <li class="<% if (subm === 'crear_usuario') { %> active <%}%>"><a href="/crear_usuario"><i class="material-icons">person_add</i>Crear
                                     Usuario</a>
                             </li>
                         </ul>
                     </div>
                 </li>
-                <%}%> <li class="bold <% if (menu === 'buscarAsegurado') { %> active <%}%>">
+                <%}%> <li class="bold <% if (menu === 'Asegurados') { %> active <%}%>">
                     <div class="collapsible-header waves-effect waves-teal"><i
                             class="material-icons">people</i>Asegurados
                     </div>
                     <div class="collapsible-body">
                         <ul>
-                            <li class="<% if (menu === 'buscarAsegurado') { %> active <%}%>"><a href="/buscarAsegurado"><i class="material-icons">search</i>Buscar Asegurado</a></li>
-                            <li class="<% if (menu === '4') { %> active <%}%>"><a href="#"><i class="material-icons">credit_card</i>Menu</a></li>
-                            <li class="<% if (menu === '5') { %> active <%}%>"><a href="#"><i class="material-icons">devices</i>Menu</a></li>
+                            <li class="<% if (subm === 'buscarAsegurado') { %> active <%}%>"><a href="/buscarAsegurado"><i class="material-icons">search</i>Buscar Asegurado</a></li>
+                            <li class="<% if (subm === 'test') { %> active <%}%>"><a href="/test"><i class="material-icons">credit_card</i>Menu2</a></li>
+                            <li class="<% if (subm === '5') { %> active <%}%>"><a href="#"><i class="material-icons">devices</i>Menu3</a></li>
                         </ul>
                     </div>
                 </li>

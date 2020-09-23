@@ -6,6 +6,7 @@ const pool = require('../database')
 const multer = require('multer')
 const path = require('path')
 const QRCode = require('qrcode')
+
 const cuentas = require('../models/cuentas')
 const asegurados = require('../models/asegurados')
 
@@ -42,7 +43,7 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         const user = req.body
         // console.log(user.email)
-        cb(null, user.email + '.jpg')
+        cb(null, user.email + '.jpg') //nombre de las fotos
     }
 })
 
@@ -76,12 +77,7 @@ router.get('/signup', function (req, res, next) {
     } else {
         res.render('signup', {
             title: "Sign Up",
-            user: req.user,
-            messages: {
-                danger: req.flash('danger'),
-                warning: req.flash('warning'),
-                success: req.flash('success')
-            }
+            user: req.user
         });
     }
 });
@@ -145,12 +141,7 @@ router.get('/login', function (req, res, next) {
     } else {
         res.render('login', {
             title: "Sign In",
-            user: req.user,
-            messages: {
-                danger: req.flash('danger'),
-                warning: req.flash('warning'),
-                success: req.flash('success')
-            }
+            user: req.user
         });
     }
 
@@ -186,6 +177,7 @@ router.get('/home', async function (req, res, next) {
             res.render('home', {
                 user: req.user,
                 menu: 'home',
+                subm: 'home',
                 qr: `${url}`,
                 file: `../photos/${req.user.email}.jpg`
             });
@@ -206,6 +198,25 @@ router.get('/profile', async function (req, res, next) {
             res.render('profile', {
                 user: req.user,
                 menu: 'profile',
+                subm: 'profile',
+                qr: `${url}`,
+                file: `../photos/${req.user.email}.jpg`
+            });
+        })
+        console.log(req.user.id)
+    } else {
+        res.redirect('/login');
+    }
+});
+router.get('/test', async function (req, res, next) {
+    if (req.isAuthenticated()) {
+
+        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+            // console.log(url)
+            res.render('profile', {
+                user: req.user,
+                menu: 'Asegurados',
+                subm: 'test',
                 qr: `${url}`,
                 file: `../photos/${req.user.email}.jpg`
             });
@@ -222,10 +233,13 @@ router.get('/buscarAsegurado', async function (req, res, next) {
             // console.log(url)
             res.render('buscarAsegurado', {
                 user: req.user,
-                menu: 'buscarAsegurado',
+                menu: 'Asegurados',
+                subm: 'buscarAsegurado',
                 qr: `${url}`,
                 file: `../photos/${req.user.email}.jpg`,
-                res: ''
+                res: '',
+                apellido: '',
+                nombre: ''
             });
         })
         console.log(req.user.id)
@@ -242,7 +256,8 @@ router.get('/crear_usuario', async function (req, res, next) {
             // console.log(url)
             res.render('crear_usuario', {
                 user: req.user,
-                menu: 'crear_usuario',
+                menu: 'Usuarios',
+                subm: 'crear_usuario',
                 qr: `${url}`,
                 file: `../photos/${req.user.email}.jpg`
             });
@@ -255,6 +270,7 @@ router.get('/crear_usuario', async function (req, res, next) {
 
 // router.post('/crear_usuario', asegurados.obtenerInfoAsegurado)
 router.get('/carnet', async (req, res, next) => {
+    console.log(req.body)
     res.render('carnet')
 })
 

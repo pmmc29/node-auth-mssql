@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="../public/sidenav.js"></script>
+<!-- <link rel="stylesheet" href="../public/css/sidenav.css"> -->
+<title>Home</title>
+
+<body>
+    <%- include home.ejs %>
+    <main>
+        <div class="container">
+            <div class="center">
+                <h1>Perfil</h1>
+                <p class="blue-text text-darken-2">
+                    ID: <%= user.id %><br />
+                    Email: <%= user.email%><br />
+                    Tipo: <%= user.tipo%> <% if (user.tipo === '1') { %>
+                    (Administrador)
+                    <%}%><br />
+                    </p>
+                        <img src=" <%= typeof file != 'undefined' ? file : '' %>" class=" responsive-img"
+                    width="400">
+                    <p>
+                        QR:
+                    </p>
+                    <img src="<%= typeof qr != 'undefined' ? qr : '' %>" height="150" width="150">
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

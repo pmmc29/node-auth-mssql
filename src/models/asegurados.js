@@ -9,7 +9,7 @@ pool.on('error', err => {
     console.log(err)
 });
 
-async function obtenerAsegurados(req, res, next) {
+async function obtenerAsegurados(req, res) {
     const codigo = req.params.codigo
     try {
         await poolConnect;
@@ -26,13 +26,13 @@ async function obtenerAsegurados(req, res, next) {
 }
 
 
-async function obtenerInfoAsegurado(req, res, next) {
+async function obtenerInfoAsegurado(req, res) {
     if (req.isAuthenticated()) {
         if (req.body.btnBuscar != undefined) { //click en buscar
-            await renderDatos(req, res, next, "")
+            await renderDatos(req, res, "Asegurado encontrado")
         }
         if (req.body.btnRegistrar != undefined) { //click en registrar
-
+            await registrarSangre(req, res)
         }
     } else {
         res.render('login', {
@@ -41,28 +41,24 @@ async function obtenerInfoAsegurado(req, res, next) {
     }
 }
 
-async function registrarSangre(req, res, next, msg) {
-    await sql.connect(sqlConfig, (err) => {
-        if (err) {
-            console.log(err)
+async function registrarSangre(req, res) {
+    try {
+        await poolConnect;
+        const result = await request.query(`update asegurados2 set tipo_sangre = '${req.body.tipo_sangre}' where cod = '${req.body.edtBuscar}'`)
+        const response = result.rowsAffected[0]
+
+        if (response > 0) { // 1 fila afectada = actualizacion exitosa
+            renderDatos(req, res, "Registro Exitoso") //cargo los datos de nuevo
+        } else { // 0 filas afectadas = no se actualizo
+            renderDatos(req, res, "") //cargo los datos de nuevo
         }
-        var request = new sql.Request();
-        request.query(`update asegurados2 set tipo_sangre = '${req.body.tipo_sangre}' where cod = '${req.body.edtBuscar}'`, (err, result) => {
-            if (err) {
-                console.log(err)
-            }
-            const response = result.rowsAffected[0]
-            if (response > 0) { // 1 fila afectada = actualizacion exitosa
-                renderDatos(req, res, next, "Registro Exitoso") //cargo los datos de nuevo
-            } else { // 0 filas afectadas = no se actualizo
-                renderDatos(req, res, next, "") //cargo los datos de nuevo
-            }
-            console.log(response)
-        });
-    })
+        console.log(response)
+    } catch (err) {
+        console.error('SQL error', err);
+    }
 }
 
-async function renderDatos(req, res, next, msg) {
+async function renderDatos(req, res, msg) {
 
     try {
         await poolConnect;
@@ -74,20 +70,32 @@ async function renderDatos(req, res, next, msg) {
             res.redirect('/buscarAsegurado')
         }
         if (response !== undefined) { // asegurado encontrado
+            const str = response.name.split(" ")
+            const apellido = str[0] + " " + str[1]
+            let nombre = ''
+            for (let index = 2; index < str.length; index++) {
+                nombre = nombre + " " + str[index]
+            }
+
             QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
                 res.render('buscarAsegurado', {
-                    message: 'Asegurado encontrado',
-                    menu: 'buscarAsegurado',
+                    message: msg,
+                    menu: 'Asegurados',
+                    subm: 'buscarAsegurado',
                     id: req.body.edtBuscar,
                     user: req.user,
                     qr: `${url}`,
                     file: `../photos/${req.user.email}.jpg`,
-                    res: response
+                    res: response,
+                    apellido: apellido,
+                    nombre: nombre
                 })
             })
         }
     } catch (err) {
         console.error('SQL error', err);
+        req.flash('loginMessage', 'ERROR')
+        res.redirect('/buscarAsegurado')
     }
 }
 
