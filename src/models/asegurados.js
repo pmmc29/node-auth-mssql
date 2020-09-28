@@ -49,9 +49,14 @@ async function registrarSangre(req, res) {
         const response = result.rowsAffected[0]
 
         if (response > 0) { // 1 fila afectada = actualizacion exitosa
-            renderDatos(req, res, "Registro Exitoso") //cargo los datos de nuevo
+            req.flash('loginMessage', 'Registro Exitoso')
+            req.flash('aux', req.body.edtBuscar)
+            res.redirect('/buscarAsegurado')
         } else { // 0 filas afectadas = no se actualizo
-            renderDatos(req, res, "") //cargo los datos de nuevo
+            req.flash('loginMessage', 'Error en el Registro')
+            req.flash('aux', req.body.edtBuscar)
+            res.redirect('/buscarAsegurado')
+
         }
         console.log(response)
     } catch (err) {

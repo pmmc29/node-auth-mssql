@@ -34,6 +34,7 @@ app.use(passport.session())
 
 app.use((req, res, next) => {
     app.locals.loginMessage = req.flash('loginMessage')
+    app.locals.aux = req.flash('aux')
     next()
 })
 
