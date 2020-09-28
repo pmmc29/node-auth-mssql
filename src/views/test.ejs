@@ -9,21 +9,73 @@
     <%- include home.ejs %>
     <main>
         <div class="container">
-            <div class="center">
-                <h1>Perfil</h1>
-                <p class="blue-text text-darken-2">
-                    ID: <%= user.id %><br />
-                    Email: <%= user.email%><br />
-                    Tipo: <%= user.tipo%> <% if (user.tipo === '1') { %>
-                    (Administrador)
-                    <%}%><br />
-                    </p>
-                        <img src=" <%= typeof file != 'undefined' ? file : '' %>" class=" responsive-img"
-                    width="400">
-                    <p>
-                        QR:
-                    </p>
-                    <img src="<%= typeof qr != 'undefined' ? qr : '' %>" height="150" width="150">
+            <div class="row">
+                <form action="/buscarAsegurado" method="POST" class="col s12">
+                    <div>
+                        <h3>New Form</h3>
+                        <blockquote>
+                            <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
+                            <%= typeof message != 'undefined' ? message : '' %>
+                        </blockquote>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="search" name="edtBuscar" type="text" class="validate"
+                            value="<%= typeof id != 'undefined' ? id : '' %><%= typeof aux != 'undefined' ? aux : '' %>">
+                        <label for="search">Buscar</label>
+                        <button class="btn waves-effect waves-light" type="submit" name="btnBuscar">Buscar
+                            <i class="material-icons right">search</i>
+                        </button>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="name" name="nombre" type="text" class="validate"
+                            value="<%= typeof nombre != 'undefined' ? nombre : '' %>" disabled>
+                        <label for="name">Nombres</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="last_name" name="apellidos" type="text" class="validate"
+                            value="<%= typeof apellido != 'undefined' ? apellido : '' %>" disabled>
+                        <label for="last_name">Apellidos</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="company" name="empresa" type="text" class="validate"
+                            value="<%= typeof res.name != 'undefined' ? res.name : '' %>" disabled>
+                        <label for="company">Empresa</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="join_date" name="empresa" type="text" class="validate"
+                            value="<%= typeof res.name != 'undefined' ? res.name : '' %>" disabled>
+                        <label for="join_date">Fecha de Ingreso</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="num_matricula" name="nro_matricua" type="text" class="validate"
+                            value="<%= typeof res.name != 'undefined' ? res.name : '' %>" disabled>
+                        <label for="num_matricula">Nro. Matricula</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="birth_date" name="nro_matricua" type="text" class="validate"
+                            value="<%= typeof res.fec_nac != 'undefined' ? res.fec_nac : '' %>" disabled>
+                        <label for="birth_date">Fecha de Nacimiento</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select name="select_sangre" <% if(res.tipo_sangre !== null){ %> disabled <% }%>>
+                            <option value="<% if(res.tipo_sangre !== null){ %> <%= res.tipo_sangre %><% }%>" disabled
+                                selected> <% if(res.tipo_sangre !== null){ %> <%= res.tipo_sangre %>
+                                <% } else {%>Elige un Tipo<%}%>
+                            </option>
+                            <option value="tipo1">Tipo 1</option>
+                            <option value="tipo2">Tipo 2</option>
+                            <option value="tipo3">Tipo 3</option>
+                        </select>
+                        <label>Tipo de Sangre</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <% if (res.tipo_sangre == null || res.tipo_sangre == '') { %> <button
+                                    class="btn waves-effect waves-light" type="submit" name="btnRegistrar">Registrar
+                                    <i class="material-icons right">person_add</i>
+                                </button>
+                                <%}%>
+                    </div>
+                </form>
             </div>
         </div>
     </main>

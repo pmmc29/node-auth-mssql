@@ -153,7 +153,7 @@ router.post('/login', passport.authenticate('local', {
         console.log('remember')
         req.session.cookie.expires = false; // Cookie expires at end of session
     } else {
-        req.session.cookie.maxAge = 5000; // Cookie expires after 5 seconds
+        req.session.cookie.maxAge = 60000; // Cookie expires after 60 seconds
     }
 
     res.redirect('/');
@@ -209,15 +209,17 @@ router.get('/profile', async function (req, res, next) {
 });
 router.get('/test', async function (req, res, next) {
     if (req.isAuthenticated()) {
-
         QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
             // console.log(url)
-            res.render('profile', {
+            res.render('test', {
                 user: req.user,
                 menu: 'Asegurados',
-                subm: 'test',
+                subm: 'menu2',
                 qr: `${url}`,
-                file: `../photos/${req.user.email}.jpg`
+                file: `../photos/${req.user.email}.jpg`,
+                res: '',
+                apellido: '',
+                nombre: ''
             });
         })
         console.log(req.user.id)
