@@ -11,7 +11,9 @@
         <div><a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i
                     class="material-icons">menu</i></a></div>
         <div>
-            SINEC
+            <a href="/home">
+                SINEC
+            </a>
         </div>
     </nav>
     <ul id="slide-out" class="sidenav">
@@ -28,7 +30,7 @@
                         <a href="/logout" class="btn">Log Out</a>
                     </div>
                 </div>
-                <a href="#"><span class="white-text name">Id: <%= user.tipo%> <% if (user.tipo === '1') { %>
+                <a href="#"><span class="white-text name">Id: <%= user.id%> <% if (user.tipo === '1') { %>
                         (Administrador)
                         <%}%></span></a>
                     <a href="#"><span class="white-text name">Email: <%= user.email%></span></a>

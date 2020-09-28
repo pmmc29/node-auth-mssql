@@ -33,6 +33,7 @@ async function obtenerInfoAsegurado(req, res) {
         }
         if (req.body.btnRegistrar != undefined) { //click en registrar
             await registrarSangre(req, res)
+            console.log(req.body)
         }
     } else {
         res.render('login', {
@@ -44,7 +45,7 @@ async function obtenerInfoAsegurado(req, res) {
 async function registrarSangre(req, res) {
     try {
         await poolConnect;
-        const result = await request.query(`update asegurados2 set tipo_sangre = '${req.body.tipo_sangre}' where cod = '${req.body.edtBuscar}'`)
+        const result = await request.query(`update asegurados2 set tipo_sangre = '${req.body.select_sangre}' where cod = '${req.body.edtBuscar}'`)
         const response = result.rowsAffected[0]
 
         if (response > 0) { // 1 fila afectada = actualizacion exitosa

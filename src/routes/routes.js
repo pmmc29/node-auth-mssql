@@ -88,11 +88,11 @@ router.post('/signup', async function (req, res) {
         console.log('1:', req.body, req.body.password) //sin valor en el body
         await poolConnect;
         // await request.query('BEGIN')
-        await JSON.stringify(request.query(`SELECT id FROM usuarios WHERE login='${req.body.email}'`, function (err, result) {
+        JSON.stringify(request.query(`SELECT id FROM usuarios WHERE login='${req.body.email}'`, function (err, result) {
             console.log('2:', req.body.email, req.body.password) //sin valor en el body
             if (result.recordset[0]) {
-                console.log('warning', "This user login is already registered. <a href='/login'>Log in!</a>");
-                res.redirect('/signup');
+                console.log('warning', "This user login is already registered. <a href='/login'>Log in!</a>")
+                res.redirect('/login')
             } else {
                 uploadPhoto(req, res, (err) => {
                     if (err) {
@@ -106,21 +106,20 @@ router.post('/signup', async function (req, res) {
                             })
                         } else {
                             console.log('3:', req.body.email, req.body.password)
-                            var pwd = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+                            var pwd = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
                             request.query(`INSERT INTO usuarios (login, pass,tipo,created_at) VALUES ('${req.body.email}', '${pwd}','2',SYSDATETIME())`, function (err, result) {
                                 if (err) {
-                                    console.log('ERROR: ', err);
+                                    console.log('ERROR: ', err)
                                 } else {
-
                                     // request.query('COMMIT')
                                     console.log('AQUI ', result)
                                     res.render('login', {
                                         msg: 'Usuario Creado!!!'
                                     })
                                     // res.redirect('/login');
-                                    return;
+                                    return
                                 }
-                            });
+                            })
                             // console.log('success', 'User created.')
                         }
                     }

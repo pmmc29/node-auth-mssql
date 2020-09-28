@@ -57,17 +57,22 @@
                         <label for="birth_date">Fecha de Nacimiento</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="blood_type" name="tipo_sangre" type="text" class="validate"
-                            value="<%= typeof res.tipo_sangre != 'undefined' ? res.tipo_sangre : '' %>"
-                            <% if (res.tipo_sangre !== null) { %> disabled <%}%>>
-                        <label for="blood_type">Tipo de Sangre</label>
+                        <select name="select_sangre" <% if(res.tipo_sangre !== null){ %> disabled <% }%>>
+                            <option value="<% if(res.tipo_sangre !== null){ %> <%= res.tipo_sangre %><% }%>" disabled
+                                selected> <% if(res.tipo_sangre !== null){ %> <%= res.tipo_sangre %><% } else {%> Elige
+                                un Tipo <%}%></option>
+                            <option value="tipo1">Tipo 1</option>
+                            <option value="tipo2">Tipo 2</option>
+                            <option value="tipo3">Tipo 3</option>
+                        </select>
+                        <label>Tipo de Sangre</label>
                     </div>
                     <div class="input-field col s6">
                         <% if (res.tipo_sangre == null || res.tipo_sangre == '') { %> <button
-                            class="btn waves-effect waves-light" type="submit" name="btnRegistrar">Registrar
-                        <i class="material-icons right">person_add</i>
-                        </button>
-                        <%}%>
+                                    class="btn waves-effect waves-light" type="submit" name="btnRegistrar">Registrar
+                                    <i class="material-icons right">person_add</i>
+                                </button>
+                                <%}%>
                     </div>
                 </form>
             </div>
