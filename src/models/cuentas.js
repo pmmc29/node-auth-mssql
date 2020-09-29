@@ -26,6 +26,59 @@ async function obtenerCuentas(req, res, next) {
         console.error('SQL error', err);
     }
 }
+async function listaCuenta(req, res, next) {
+    try {
+        if (req.isAuthenticated()) {
+            await poolConnect;
+            const result = await request.query(`SELECT * FROM usuarios`)
+            let cuentas = []
+
+            for (let index = 0; index < result.recordset.length; index++) {
+                const photo = `../photos/${result.recordset[index].login}.jpg`
+                cuentas.push({
+                    id: result.recordset[index].id,
+                    login: result.recordset[index].login,
+                    pass: result.recordset[index].pass,
+                    tipo: result.recordset[index].tipo,
+                    created_at: result.recordset[index].created_at,
+                    modified_at: result.recordset[index].modified_at,
+                    photo: photo
+                })
+            }
+            // console.log(cuentas)
+            QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+                // console.log(url)
+                res.render('crear_usuario', {
+                    user: req.user,
+                    menu: 'Usuarios',
+                    subm: 'crear_usuario',
+                    qr: `${url}`,
+                    file: `../photos/${req.user.email}.jpg`,
+                    cuentas: cuentas
+                });
+            })
+            console.log(req.user.id)
+        } else {
+            res.redirect('/login');
+        }
+    } catch (err) {
+        console.error('SQL error', err);
+
+    }
+}
+async function resetCuenta(req, res) {
+    try {
+        if (req.isAuthenticated()) {
+            console.log(req.body)
+            res.redirect('/crear_usuario')
+        } else {
+            res.redirect('/login');
+        }
+    } catch (err) {
+        console.error('SQL error', err);
+
+    }
+}
 
 async function datosCuenta(req, res, next) {
     await QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
@@ -44,5 +97,7 @@ async function datosCuenta(req, res, next) {
 
 module.exports = {
     obtenerCuentas,
-    datosCuenta
+    datosCuenta,
+    listaCuenta,
+    resetCuenta
 }

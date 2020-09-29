@@ -2,7 +2,7 @@
 <html lang="en">
 
 <script src="../public/sidenav.js"></script>
-<!-- <link rel="stylesheet" href="../public/css/sidenav.css"> -->
+<link rel="stylesheet" href="../public/css/cuentas.css">
 <title>Home</title>
 
 <body>
@@ -12,6 +12,7 @@
             <div class="row center">
                 <h1>Crear Usuario</h1>
                 <%= typeof msg != 'undefined' ? msg : '' %>
+                <%= typeof cuentas[0] != 'undefined' ? cuentas[0] : '' %>
                 <div class="input-field col s12">
                     <form action="/signup" method="POST" id="form1" enctype="multipart/form-data">
                         <input type="email" name="email" placeholder="Email" required class="input-field">
@@ -28,6 +29,42 @@
                         </div>
                         <input type="submit" value="Register" class="btn">
                     </form>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <form method="POST" action="/test">
+                            <table class="highlight centered">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>LOGIN</th>
+                                        <th>TIPO</th>
+                                        <th>CREATED_AT</th>
+                                        <th>MODIFIED_AT</th>
+                                        <th>PHOTO</th>
+                                        <th>RESET</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <% for(var i=0; i<cuentas.length; i++) {%>
+                                    <tr>
+                                        <td><%= cuentas[i].id %></td>
+                                        <td><%= cuentas[i].login %></td>
+                                        <td><%= cuentas[i].tipo %></td>
+                                        <td><%= cuentas[i].created_at %></td>
+                                        <td><%= cuentas[i].modified_at %></td>
+                                        <td><img class="circle materialboxed"
+                                                src="<%= typeof cuentas[i].photo != 'undefined' ? cuentas[i].photo : '' %>">
+                                        </td>
+                                        <td><button class="btn" name="id_cuenta" type="submit"
+                                                value="<%= cuentas[i].id %>">TEST</button></td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
