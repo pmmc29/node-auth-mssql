@@ -2,6 +2,12 @@
 <html lang="en">
 
 <script src="../public/sidenav.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script> -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script type="text/javascript"
+    src="https://cdn.rawgit.com/pinzon1992/materialize_table_pagination/f9a8478f/js/pagination.js"></script>
+<script src="../public/js/table.js"></script>
 <!-- <link rel="stylesheet" href="../public/css/sidenav.css"> -->
 <title>Home</title>
 
@@ -10,73 +16,42 @@
     <main>
         <div class="container">
             <div class="row">
-                <form action="/buscarAsegurado" method="POST" class="col s12">
-                    <div>
-                        <h3>New Form</h3>
-                        <blockquote>
-                            <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
-                            <%= typeof message != 'undefined' ? message : '' %>
-                        </blockquote>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="search" name="edtBuscar" type="text" class="validate"
-                            value="<%= typeof id != 'undefined' ? id : '' %><%= typeof aux != 'undefined' ? aux : '' %>">
-                        <label for="search">Buscar</label>
-                        <button class="btn waves-effect waves-light" type="submit" name="">Buscar
-                            <i class="material-icons right">search</i>
-                        </button>
-                    </div>
-                    <div class="input-field col s6">
-                        <input id="name" name="nombre" type="text" class="validate"
-                            value="<%= typeof nombre != 'undefined' ? nombre : '' %>" disabled>
-                        <label for="name">Nombres</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <input id="last_name" name="apellidos" type="text" class="validate"
-                            value="<%= typeof apellido != 'undefined' ? apellido : '' %>" disabled>
-                        <label for="last_name">Apellidos</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="company" name="empresa" type="text" class="validate"
-                            value="<%= typeof res.name != 'undefined' ? res.name : '' %>" disabled>
-                        <label for="company">Empresa</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="join_date" name="empresa" type="text" class="validate"
-                            value="<%= typeof res.name != 'undefined' ? res.name : '' %>" disabled>
-                        <label for="join_date">Fecha de Ingreso</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="num_matricula" name="nro_matricua" type="text" class="validate"
-                            value="<%= typeof res.name != 'undefined' ? res.name : '' %>" disabled>
-                        <label for="num_matricula">Nro. Matricula</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="birth_date" name="nro_matricua" type="text" class="validate"
-                            value="<%= typeof res.fec_nac != 'undefined' ? res.fec_nac : '' %>" disabled>
-                        <label for="birth_date">Fecha de Nacimiento</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <select name="select_sangre" <% if(res.tipo_sangre !== null){ %> disabled <% }%>>
-                            <option value="<% if(res.tipo_sangre !== null){ %> <%= res.tipo_sangre %><% }%>" disabled
-                                selected> <% if(res.tipo_sangre !== null){ %> <%= res.tipo_sangre %>
-                                <% } else {%>Elige un Tipo<%}%>
-                            </option>
-                            <option value="tipo1">Tipo 1</option>
-                            <option value="tipo2">Tipo 2</option>
-                            <option value="tipo3">Tipo 3</option>
-                        </select>
-                        <label>Tipo de Sangre</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <% if (res.tipo_sangre == null || res.tipo_sangre == '') { %> <button
-                                    class="btn waves-effect waves-light" type="submit" name="">Registrar
-                                    <i class="material-icons right">person_add</i>
-                                </button>
-                                <%}%>
-                    </div>
+                <form action="/test2" method="POST">
+                    <table class="highlight centered" id="tb_asegurados">
+                        <thead>
+                            <tr>
+                                <th>CODIGO</th>
+                                <th>NOMBRE</th>
+                                <th>FEC. NAC.</th>
+                                <th>SEXO</th>
+                                <th>CI.</th>
+                                <th>TIPO DE SANGRE</th>
+                                <th>TEST</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <% for(var i=0; i<asegurados.length; i++) {%>
+                            <tr>
+                                <td><%= asegurados[i].cod %></td>
+                                <td><%= asegurados[i].name %></td>
+                                <td><%= asegurados[i].fec_nac %></td>
+                                <td><%= asegurados[i].sexo %></td>
+                                <td><%= asegurados[i].ci %> <%= asegurados[i].ci_loc %></td>
+                                <td><%= asegurados[i].tipo_sangre %></td>
+
+                                <td><button class="btn" name="cod_ase" type="submit"
+                                        value="<%= asegurados[i].cod %>">TEST</button></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
                 </form>
             </div>
+        </div>
+        <div class="col-md-12 center text-center">
+            <span class="left" id="total_reg"></span>
+            <ul class="pagination pager" id="myPager"></ul>
         </div>
     </main>
 </body>

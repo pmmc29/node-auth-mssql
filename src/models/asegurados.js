@@ -24,6 +24,47 @@ async function obtenerAsegurados(req, res) {
         console.error('SQL error', err);
     }
 }
+async function listAsegurados(req, res) {
+    try {
+        if (req.isAuthenticated()) {
+            await poolConnect;
+            const result = await request.query(`select * from asegurados2`)
+            // console.log(result.recordset)
+            QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+                // console.log(url)
+                res.render('test', {
+                    user: req.user,
+                    menu: 'Asegurados',
+                    subm: 'menu2',
+                    qr: `${url}`,
+                    file: `../photos/${req.user.email}.jpg`,
+                    res: '',
+                    apellido: '',
+                    nombre: '',
+                    asegurados: result.recordset
+                });
+            })
+            console.log(req.user.id)
+        } else {
+            res.redirect('/login');
+        }
+    } catch (err) {
+        console.error('SQL error', err);
+    }
+}
+
+async function test2(req, res) {
+    try {
+        if (req.isAuthenticated()) {
+            console.log(req.body)
+            res.redirect('/test')
+        } else {
+            res.redirect('/login');
+        }
+    } catch (err) {
+        console.error('SQL error', err);
+    }
+}
 
 
 async function obtenerInfoAsegurado(req, res) {
@@ -107,5 +148,7 @@ async function renderDatos(req, res, msg) {
 
 module.exports = {
     obtenerAsegurados,
-    obtenerInfoAsegurado
+    obtenerInfoAsegurado,
+    listAsegurados,
+    test2
 }

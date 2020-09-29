@@ -207,26 +207,7 @@ router.get('/profile', async function (req, res, next) {
         res.redirect('/login');
     }
 });
-router.get('/test', async function (req, res, next) {
-    if (req.isAuthenticated()) {
-        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
-            // console.log(url)
-            res.render('test', {
-                user: req.user,
-                menu: 'Asegurados',
-                subm: 'menu2',
-                qr: `${url}`,
-                file: `../photos/${req.user.email}.jpg`,
-                res: '',
-                apellido: '',
-                nombre: ''
-            });
-        })
-        console.log(req.user.id)
-    } else {
-        res.redirect('/login');
-    }
-});
+router.get('/test', asegurados.listAsegurados);
 
 router.get('/buscarAsegurado', async function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -251,6 +232,7 @@ router.get('/buscarAsegurado', async function (req, res, next) {
 
 router.post('/buscarAsegurado', asegurados.obtenerInfoAsegurado)
 router.post('/test', cuentas.resetCuenta)
+router.post('/test2', asegurados.test2)
 
 router.get('/crear_usuario', cuentas.listaCuenta);
 
