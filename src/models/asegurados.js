@@ -27,8 +27,11 @@ async function obtenerAsegurados(req, res) {
 async function listAsegurados(req, res) {
     try {
         if (req.isAuthenticated()) {
+
             await poolConnect;
-            const result = await request.query(`select * from asegurados2`)
+            const result = await request.query(`select * from asegurados2
+            order by name 
+            OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY`)
             // console.log(result.recordset)
             QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
                 // console.log(url)
@@ -57,7 +60,7 @@ async function test2(req, res) {
     try {
         if (req.isAuthenticated()) {
             console.log(req.body)
-            res.redirect('/test')
+            // res.redirect('/test')
         } else {
             res.redirect('/login');
         }
