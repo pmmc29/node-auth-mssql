@@ -207,7 +207,7 @@ router.get('/profile', async function (req, res, next) {
         res.redirect('/login');
     }
 });
-router.get('/test', asegurados.listAsegurados);
+router.get('/listaAsegurados', asegurados.listAsegurados);
 
 router.get('/buscarAsegurado', async function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -231,8 +231,8 @@ router.get('/buscarAsegurado', async function (req, res, next) {
 });
 
 router.post('/buscarAsegurado', asegurados.obtenerInfoAsegurado)
-router.post('/test', cuentas.resetCuenta)
-router.post('/test2', asegurados.test2)
+router.post('/listaCuentas', cuentas.btnListaCuentas)
+router.post('/listaAsegurados', asegurados.btnListaAsegurados)
 
 router.get('/crear_usuario', cuentas.listaCuenta);
 

@@ -35,10 +35,10 @@ async function listAsegurados(req, res) {
             // console.log(result.recordset)
             QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
                 // console.log(url)
-                res.render('test', {
+                res.render('listaAsegurados', {
                     user: req.user,
                     menu: 'Asegurados',
-                    subm: 'menu2',
+                    subm: 'listaAsegurados',
                     qr: `${url}`,
                     file: `../photos/${req.user.email}.jpg`,
                     res: '',
@@ -56,11 +56,12 @@ async function listAsegurados(req, res) {
     }
 }
 
-async function test2(req, res) {
+async function btnListaAsegurados(req, res) {
     try {
         if (req.isAuthenticated()) {
             console.log(req.body)
-            // res.redirect('/test')
+            req.flash('aux', `Accion para el Asegurado ${req.body.cod_ase}`)
+            res.redirect('/listaAsegurados')
         } else {
             res.redirect('/login');
         }
@@ -153,5 +154,5 @@ module.exports = {
     obtenerAsegurados,
     obtenerInfoAsegurado,
     listAsegurados,
-    test2
+    btnListaAsegurados
 }

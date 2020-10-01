@@ -9,10 +9,12 @@
     <%- include home.ejs %>
     <main>
         <div class="container">
-            <div class="row center">
+            <div class="row">
                 <h1>Crear Usuario</h1>
-                <%= typeof msg != 'undefined' ? msg : '' %>
-                <%= typeof cuentas[0] != 'undefined' ? cuentas[0] : '' %>
+                <blockquote>
+                    <%= typeof msg != 'undefined' ? msg : '' %>
+                    <%= typeof aux != 'undefined' ? aux : '' %>
+                </blockquote>
                 <div class="input-field col s12">
                     <form action="/signup" method="POST" id="form1" enctype="multipart/form-data">
                         <input type="email" name="email" placeholder="Email" required class="input-field">
@@ -27,12 +29,14 @@
                                 <input class="file-path validate" type="text">
                             </div>
                         </div>
-                        <input type="submit" value="Register" class="btn">
+                        <div class="center">
+                            <input type="submit" value="Register" class="btn">
+                        </div>
                     </form>
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <form method="POST" action="/test">
+                        <form method="POST" action="/listaCuentas">
                             <table class="highlight centered">
                                 <thead>
                                     <tr>
@@ -42,7 +46,7 @@
                                         <th>CREATED_AT</th>
                                         <th>MODIFIED_AT</th>
                                         <th>PHOTO</th>
-                                        <th>RESET</th>
+                                        <th>ACCION</th>
                                     </tr>
                                 </thead>
 
@@ -58,7 +62,7 @@
                                                 src="<%= typeof cuentas[i].photo != 'undefined' ? cuentas[i].photo : '' %>">
                                         </td>
                                         <td><button class="btn" name="id_cuenta" type="submit"
-                                                value="<%= cuentas[i].id %>">TEST</button></td>
+                                                value="<%= cuentas[i].id %>">ACCION</button></td>
                                     </tr>
                                     <% } %>
                                 </tbody>

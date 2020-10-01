@@ -69,8 +69,18 @@
                         <label>Tipo de Sangre</label>
                     </div>
                     <div class="input-field col s6">
-                        <% if (res.tipo_sangre == null || res.tipo_sangre == '') { %> <button
-                                    class="btn waves-effect waves-light" type="submit" name="btnRegistrar">Registrar
+                        <% if (res.tipo_sangre === null || res.tipo_sangre == '') { %>
+                                <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar">Registrar
+                                    <i class="material-icons right">person_add</i>
+                                </button>
+                                <%}%>
+                        <% if (nombre !== '' && res.tipo_sangre !== null) { %>
+                                <button class="btn waves-effect waves-light" type="submit" name="btnImprimir" onclick="printJS({printable: datos, 
+                                properties: ['cod', 'name', 'fec_nac','sexo','ci','tipo_sangre'],
+	    type: 'json',
+	    gridHeaderStyle: 'color: red;  border: 2px solid #3971A5;',
+	    gridStyle: 'border: 2px solid #3971A5;'
+	})">Imprimir
                                     <i class="material-icons right">person_add</i>
                                 </button>
                                 <%}%>
@@ -79,7 +89,24 @@
             </div>
         </div>
     </main>
+<script>
+    //recuperar los datos del formulario
+const codigo = document.getElementById('search').value;
+const nombre = document.getElementById('name').value +' '+ document.getElementById('last_name').value;
+const fec_nac = document.getElementById('search').value;
+const sexo = document.getElementById('search').value;
+const ci = document.getElementById('search').value;
+const tipo_sangre = document.getElementById('search').value;
 
+    let datos = [{
+        cod: codigo,
+        name: nombre,
+        fec_nac: fec_nac,
+        sexo: sexo,
+        ci: ci,
+        tipo_sangre: tipo_sangre
+    }]
+</script>
 
 
 </body>

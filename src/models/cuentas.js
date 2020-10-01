@@ -66,10 +66,11 @@ async function listaCuenta(req, res, next) {
 
     }
 }
-async function resetCuenta(req, res) {
+async function btnListaCuentas(req, res) {
     try {
         if (req.isAuthenticated()) {
             console.log(req.body)
+            req.flash('aux', `Accion para el usuario ${req.body.id_cuenta}`)
             res.redirect('/crear_usuario')
         } else {
             res.redirect('/login');
@@ -99,5 +100,5 @@ module.exports = {
     obtenerCuentas,
     datosCuenta,
     listaCuenta,
-    resetCuenta
+    btnListaCuentas
 }
