@@ -10,7 +10,7 @@
     <main>
         <div class="container">
             <div class="row">
-                <form action="/buscarAsegurado" method="POST" class="col s12">
+                <form action="/buscarAsegurado" method="POST" class="col s12" id="form1">
                     <div>
                         <h3>Buscar Asegurado</h3>
                         <blockquote>
@@ -75,12 +75,16 @@
                                 </button>
                                 <%}%>
                         <% if (nombre !== '' && res.tipo_sangre !== null) { %>
-                                <button class="btn waves-effect waves-light" type="submit" name="btnImprimir" onclick="printJS({printable: datos, 
+                                <!-- <button class="btn waves-effect waves-light" type="submit" name="btnImprimir" onclick="printJS({printable: datos, 
                                 properties: ['cod', 'name', 'fec_nac','sexo','ci','tipo_sangre'],
 	    type: 'json',
 	    gridHeaderStyle: 'color: red;  border: 2px solid #3971A5;',
 	    gridStyle: 'border: 2px solid #3971A5;'
 	})">Imprimir
+                                    <i class="material-icons right">person_add</i>
+                                </button> -->
+                                <button class="btn waves-effect waves-light" type="submit" name="btnImprimir"
+                                    id="btn1">Imprimir
                                     <i class="material-icons right">person_add</i>
                                 </button>
                                 <%}%>
@@ -89,8 +93,10 @@
             </div>
         </div>
     </main>
-<script>
+<script type="module">
     //recuperar los datos del formulario
+import tinyPrint from '../public/tiny-print/src/index.js'
+
 const codigo = document.getElementById('search').value;
 const nombre = document.getElementById('name').value +' '+ document.getElementById('last_name').value;
 const fec_nac = document.getElementById('search').value;
@@ -106,6 +112,18 @@ const tipo_sangre = document.getElementById('search').value;
         ci: ci,
         tipo_sangre: tipo_sangre
     }]
+const element = document.getElementById('form1');
+
+    $( "#btn1" ).click(function() {
+    tinyPrint(element, {
+    scanStyles: true, 
+    scanHTML: false, 
+    importStyles: ["https://fonts.googleapis.com/icon?family=Material+Icons"],
+    cssStyle: '', 
+    hidePageRule: true
+    });
+    });
+
 </script>
 
 
