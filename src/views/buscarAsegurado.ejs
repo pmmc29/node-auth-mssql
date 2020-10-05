@@ -10,7 +10,7 @@
     <main>
         <div class="container">
             <div class="row">
-                <form action="/buscarAsegurado" method="POST" class="col s12" id="form1">
+                <form action="/buscarAsegurado" method="POST" class="col s6" id="form1">
                     <div>
                         <h3>Buscar Asegurado</h3>
                         <blockquote>
@@ -90,11 +90,28 @@
                                 <%}%>
                     </div>
                 </form>
+                <div class="col s6">
+                        <h3>Historial</h3>
+                    <% for(var i=0; i<historial.length; i++) {%>
+                                <div class="card blue-grey">
+                                    <div class="card-content white-text">
+                                        <ul>
+                                            <li><%= historial[i].cod %></li>
+                                            <li><%= historial[i].name %></li>
+                                            <li><%= historial[i].login %></li>
+                                            <li><%= historial[i].created_at %></li>
+                                            <li><%= historial[i].motivo %></li>
+                                        </ul>
+                                    </div>
+                                    <hr>
+                                    <% } %>
+                                </div>
+                    </div>
             </div>
         </div>
     </main>
-<script type="module">
-    //recuperar los datos del formulario
+    <script type="module">
+        //recuperar los datos del formulario
 import tinyPrint from '../public/tiny-print/src/index.js'
 
 const codigo = document.getElementById('search').value;

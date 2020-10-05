@@ -9,6 +9,7 @@ const QRCode = require('qrcode')
 
 const cuentas = require('../models/cuentas')
 const asegurados = require('../models/asegurados')
+const carnet = require('../models/carnet')
 
 const poolConnect = pool.connect();
 
@@ -221,7 +222,9 @@ router.get('/buscarAsegurado', async function (req, res, next) {
                 file: `../photos/${req.user.email}.jpg`,
                 res: '',
                 apellido: '',
-                nombre: ''
+                nombre: '',
+                historial: ''
+
             });
         })
         console.log(req.user.id)
@@ -248,6 +251,7 @@ router.get('/carnet', async (req, res, next) => {
 
 router.get('/api/getUsers/:tipo?', cuentas.obtenerCuentas)
 router.get('/api/getAsegurados/:codigo?', asegurados.obtenerAsegurados)
+router.get('/api/getCarnet/:codigo', carnet.obtenerCarnet)
 
 
 module.exports = router

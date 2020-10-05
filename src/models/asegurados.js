@@ -127,7 +127,9 @@ async function renderDatos(req, res, msg) {
             for (let index = 2; index < str.length; index++) {
                 nombre = nombre + " " + str[index]
             }
-
+            const carnet = await request.query(`SELECT id_carnet,cod,name,login, carnet.created_at,motivo FROM carnet,usuarios,asegurados2 where cod = '${response.cod}'
+                                                and cod = cod_asegurado and id_usuario = usuarios.id`)
+            console.log(carnet.recordset)
             QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
                 res.render('buscarAsegurado', {
                     message: msg,
@@ -139,7 +141,8 @@ async function renderDatos(req, res, msg) {
                     file: `../photos/${req.user.email}.jpg`,
                     res: response,
                     apellido: apellido,
-                    nombre: nombre
+                    nombre: nombre,
+                    historial: carnet.recordset
                 })
             })
         }

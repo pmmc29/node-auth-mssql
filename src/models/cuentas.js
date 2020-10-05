@@ -45,7 +45,6 @@ async function listaCuenta(req, res, next) {
                     photo: photo
                 })
             }
-            // console.log(cuentas)
             QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
                 // console.log(url)
                 res.render('crear_usuario', {
@@ -58,6 +57,7 @@ async function listaCuenta(req, res, next) {
                 });
             })
             console.log(req.user.id)
+            console.log(cuentas)
         } else {
             res.redirect('/login');
         }
