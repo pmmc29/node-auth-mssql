@@ -1,14 +1,100 @@
-.grid-container {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    /* background-color: #2196F3; */
-    padding: 10px;
+* {
+    padding: 0;
+    margin: 0;
 }
 
-.grid-item {
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    font-size: 30px;
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+
+}
+
+.container {
+    display: flex;
+}
+
+.card {
+    width: 100%;
+    border-radius: 20px;
+}
+
+.card .card-body.frente {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    column-gap: 15px;
+}
+
+.card .card-body.frente .foto {
+    position: relative;
+}
+
+.card .card-body.frente .foto .jefe {
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+}
+
+.card .card-body.frente .foto figure {
+    margin: 0;
+}
+
+.card .card-body.frente .foto img {
+    width: 100%;
+    height: 200px;
+    border: 4px solid black;
+}
+
+.card .card-body.frente .info {
+    display: flex;
+    flex-direction: column;
+}
+
+.card .card-body.frente .info p {
+    margin: 5px 5px;
+}
+
+.card .card-body.frente .info figure {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.card .card-body.frente .info figure img {
+    width: 50%;
+}
+
+h2,
+h6 {
     text-align: center;
+    font-weight: bold;
+}
+
+h6 {
+    margin: 30px 0;
+}
+
+.card .card-body.atras p {
+    margin: 0;
+    text-align: center;
+    font-size: 14px;
+    margin: 15px 0;
+    position: relative;
+}
+
+.card .card-body.atras .fecha p {
+    font-size: 14px;
+    position: absolute;
+    bottom: 5px;
+    left: 30px;
+}
+
+.card .card-body.atras .fecha-hasta p {
+    font-size: 14px;
+    position: absolute;
+    bottom: 5px;
+    right: 100px;
 }

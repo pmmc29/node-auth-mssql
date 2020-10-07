@@ -15,7 +15,7 @@ async function obtenerCarnet(req, res) {
     const codigo = req.params.codigo
     try {
         await poolConnect;
-        const result = await request.query(`SELECT id_carnet,cod,name,login, carnet.created_at,motivo FROM carnet,usuarios,asegurados2 where cod = '${codigo}'
+        const result = await request.query(`SELECT id_carnet,cod,name,login, carnet.created_at,motivo,comprobante FROM carnet,usuarios,asegurados2 where cod = '${codigo}'
         and cod = cod_asegurado and id_usuario = usuarios.id`)
         res.json(result.recordset)
     } catch (err) {

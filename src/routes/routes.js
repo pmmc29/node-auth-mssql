@@ -10,6 +10,7 @@ const QRCode = require('qrcode')
 const cuentas = require('../models/cuentas')
 const asegurados = require('../models/asegurados')
 const carnet = require('../models/carnet')
+const beneficiarios = require('../models/beneficiarios')
 
 const poolConnect = pool.connect();
 
@@ -234,6 +235,7 @@ router.get('/buscarAsegurado', async function (req, res, next) {
 });
 
 router.post('/buscarAsegurado', asegurados.obtenerInfoAsegurado)
+router.post('/buscarBeneficiario', beneficiarios.obtenerInfoBeneficiario)
 router.post('/listaCuentas', cuentas.btnListaCuentas)
 router.post('/listaAsegurados', asegurados.btnListaAsegurados)
 
@@ -241,8 +243,22 @@ router.get('/crear_usuario', cuentas.listaCuenta);
 
 // router.post('/crear_usuario', asegurados.obtenerInfoAsegurado)
 router.get('/carnet', async (req, res, next) => {
-    console.log(req.body)
-    res.render('carnet')
+    if (req.isAuthenticated()) {
+
+        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+            // console.log(url)
+            res.render('carnet', {
+                user: req.user,
+                menu: 'test',
+                subm: 'test',
+                qr: `${url}`,
+                file: `../photos/${req.user.email}.jpg`
+            });
+        })
+        console.log(req.user.id)
+    } else {
+        res.redirect('/login');
+    }
 })
 
 
@@ -251,6 +267,7 @@ router.get('/carnet', async (req, res, next) => {
 
 router.get('/api/getUsers/:tipo?', cuentas.obtenerCuentas)
 router.get('/api/getAsegurados/:codigo?', asegurados.obtenerAsegurados)
+router.get('/api/getBeneficiarios/:codigo?', beneficiarios.obtenerBeneficiarios)
 router.get('/api/getCarnet/:codigo', carnet.obtenerCarnet)
 
 

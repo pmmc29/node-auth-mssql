@@ -9,22 +9,22 @@ pool.on('error', err => {
     console.log(err)
 });
 
-async function obtenerAsegurados(req, res) {
+async function obtenerBeneficiarios(req, res) {
     const codigo = req.params.codigo
     try {
         await poolConnect;
         if (codigo !== undefined) {
-            const result2 = await request.query(`select * from asegurados2 where cod = '${codigo}'`)
+            const result2 = await request.query(`select * from beneficiarios2 where cod_be = '${codigo}'`)
             res.json(result2.recordset)
         } else {
-            const result = await request.query(`select * from asegurados2`)
+            const result = await request.query(`select * from beneficiarios2`)
             res.json(result.recordset)
         }
     } catch (err) {
         console.error('SQL error', err);
     }
 }
-async function listAsegurados(req, res) {
+async function listaBeneficiarios(req, res) {
     try {
         if (req.isAuthenticated()) {
 
@@ -56,7 +56,7 @@ async function listAsegurados(req, res) {
     }
 }
 
-async function btnListaAsegurados(req, res) {
+async function btnListaBeneficiarios(req, res) {
     try {
         if (req.isAuthenticated()) {
             console.log(req.body)
@@ -71,14 +71,13 @@ async function btnListaAsegurados(req, res) {
 }
 
 
-async function obtenerInfoAsegurado(req, res) {
+async function obtenerInfoBeneficiario(req, res) {
     if (req.isAuthenticated()) {
-        console.log(req.body)
         if (req.body.btnBuscar != undefined) { //click en buscar
-            await renderDatos(req, res, "Asegurado encontrado")
+            await renderDatos(req, res, "Beneficiario encontrado")
         }
         if (req.body.btnRegistrar != undefined) { //click en registrar
-            await registrarSangre(req, res)
+            await registrarDatos(req, res)
             console.log(req.body)
         }
     } else {
@@ -88,10 +87,10 @@ async function obtenerInfoAsegurado(req, res) {
     }
 }
 
-async function registrarSangre(req, res) {
+async function registrarDatos(req, res) {
     try {
         await poolConnect;
-        const result = await request.query(`update asegurados2 set tipo_sangre = '${req.body.select_sangre}' where cod = '${req.body.edtBuscar}'`)
+        const result = await request.query(`update beneficiarios2 set tipo_sangre = '${req.body.select_sangre}', ci = '${req.body.ci}', ci_loc = '${req.body.ci_loc}' where cod_be = '${req.body.edtBuscar}'`)
         const response = result.rowsAffected[0]
 
         if (response > 0) { // 1 fila afectada = actualizacion exitosa
@@ -114,11 +113,11 @@ async function renderDatos(req, res, msg) {
 
     try {
         await poolConnect;
-        const result = await request.query(`select * from asegurados2 where cod = '${req.body.edtBuscar}'`)
+        const result = await request.query(`select * from beneficiarios2 where cod_be = '${req.body.edtBuscar}'`)
         const response = result.recordset[0]
         console.log(response)
         if (response == undefined) { // no existe el codigo del asegurado
-            req.flash('loginMessage', 'Asegurado no encontrado')
+            req.flash('loginMessage', 'Beneficiario no encontrado')
             res.redirect('/buscarAsegurado')
         }
         if (response !== undefined) { // asegurado encontrado
@@ -128,8 +127,8 @@ async function renderDatos(req, res, msg) {
             for (let index = 2; index < str.length; index++) {
                 nombre = nombre + " " + str[index]
             }
-            const carnet = await request.query(`SELECT id_carnet,cod,name,login, carnet.created_at,motivo,comprobante FROM carnet,usuarios,asegurados2 where cod = '${response.cod}'
-                                                and cod = cod_asegurado and id_usuario = usuarios.id`)
+            const carnet = await request.query(`SELECT id_carnet,cod_be,name,login, carnet.created_at,motivo,comprobante FROM carnet,usuarios,beneficiarios2 where cod_be = '${response.cod_be}'
+                                                and cod_be = cod_beneficiario and id_usuario = usuarios.id`)
             console.log(carnet.recordset)
             QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
                 res.render('buscarAsegurado', {
@@ -155,8 +154,8 @@ async function renderDatos(req, res, msg) {
 }
 
 module.exports = {
-    obtenerAsegurados,
-    obtenerInfoAsegurado,
-    listAsegurados,
-    btnListaAsegurados
+    obtenerBeneficiarios,
+    obtenerInfoBeneficiario,
+    listaBeneficiarios,
+    btnListaBeneficiarios
 }
