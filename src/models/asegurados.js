@@ -111,7 +111,6 @@ async function registrarSangre(req, res) {
 }
 
 async function renderDatos(req, res, msg) {
-
     try {
         await poolConnect;
         const result = await request.query(`select * from asegurados2 where cod = '${req.body.edtBuscar}'`)

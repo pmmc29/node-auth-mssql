@@ -238,6 +238,7 @@ router.post('/buscarAsegurado', asegurados.obtenerInfoAsegurado)
 router.post('/buscarBeneficiario', beneficiarios.obtenerInfoBeneficiario)
 router.post('/listaCuentas', cuentas.btnListaCuentas)
 router.post('/listaAsegurados', asegurados.btnListaAsegurados)
+router.post('/comprobarPago', carnet.comprobarPago)
 
 router.get('/crear_usuario', cuentas.listaCuenta);
 
@@ -268,7 +269,7 @@ router.get('/carnet', async (req, res, next) => {
 router.get('/api/getUsers/:tipo?', cuentas.obtenerCuentas)
 router.get('/api/getAsegurados/:codigo?', asegurados.obtenerAsegurados)
 router.get('/api/getBeneficiarios/:codigo?', beneficiarios.obtenerBeneficiarios)
-router.get('/api/getCarnet/:codigo', carnet.obtenerCarnet)
+router.get('/api/getCarnet/:codigo/:tipo', carnet.obtenerCarnet)
 
 
 module.exports = router
