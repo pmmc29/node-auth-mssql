@@ -38,17 +38,13 @@ async function comprobarPago(req, res) {
     try {
         await poolConnect;
         console.log(req.body)
-        // const result = await request.query(`SELECT id_carnet,cod,name,login, carnet.created_at,motivo,comprobante FROM carnet,usuarios,asegurados2 where cod = '${codigo}'
-        //     and cod = cod_asegurado and id_usuario = usuarios.id and id_carnet = `)
-        // if (req.body.comprobarPago == result.recordset[0]) {
-
-        // }
+        const result = await request.query(`SELECT id_carnet,cod,name,login, carnet.created_at,motivo,comprobante FROM carnet,usuarios,asegurados2 where 
+        cod = cod_asegurado and id_usuario = usuarios.id and id_carnet = ${req.body.id_carnet}`)
+        if (req.body.comprobarPago == result.recordset[0]) {}
+        req.flash('aux', req.body.edtBuscar)
         res.redirect('/buscarAsegurado')
     } catch (err) {
         console.error('SQL error', err);
-        res.json({
-            message: 'Error en el comprobante'
-        })
     }
 }
 
