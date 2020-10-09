@@ -69,7 +69,7 @@
                     <label for="ci">CI.</label>
                      </div> 
                      <div class="input-field col s3">
-                    <select name="ci_loc" <% if(res.ci_loc !== null){ %> disabled <% }%>>
+                    <select name="ci_loc" <% if(res.ci_loc !== null){ %> disabled <% }%> >
                     <option value="<% if(res.ci_loc !== null){ %> <%= res.ci_loc %><% }%>" disabled selected><% if(res.ci_loc !== null){ %> <%= res.ci_loc %><% } else {%>Elige un Lugar<%}%></option>
                         <option value="SC">SC</option>
                         <option value="LP">LP</option>
@@ -78,11 +78,8 @@
                     <label>Lugar</label>
                 </div>
                 <div class="input-field col s6">
-                    <select name="select_sangre" <% if(res.tipo_sangre !== null){ %> disabled <% }%>>
-                    <option value="<% if(res.tipo_sangre !== null){ %> <%= res.tipo_sangre %><% }%>" disabled selected>
-                        <% if(res.tipo_sangre !== null){ %> <%= res.tipo_sangre %>
-                        <% } else {%>Elige un Tipo<%}%>
-                            </option>
+                    <select name="select_sangre" <% if(res.tipo_sangre !== null){ %> disabled <% }%> >
+                    <option value="" disabled selected><% if(res.tipo_sangre !== null){ %> <%= res.tipo_sangre %><% } else {%>Elige un Tipo<%}%></option>
                             <option value="tipo1">Tipo 1</option>
                             <option value="tipo2">Tipo 2</option>
                             <option value="tipo3">Tipo 3</option>
@@ -103,7 +100,7 @@
                         <%}%>
                     </div>
                 </form>
-                <div class="col s4" id="test">
+                <div class="col s6" id="test" style="height: 800px; overflow-y: scroll;">
                         <h3>Historial de Carnet</h3>
                         <% for(var i=0; i<historial.length; i++) {%>
                             <div class="card blue-grey">
@@ -182,6 +179,7 @@ const element = document.getElementById('form1');
                     <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
                     <input name="id_carnet" type="text" class="validate" value="2" hidden>
                     <input name="comprobante" type="text" class="validate" value="" placeholder="Comprobante" required>
+                    <input name="motivo" type="text" class="validate" value="" placeholder="Motivo" required>
                     <button class="btn waves-effect waves-light" type="submit" name="btnComprobar"
                         id="btnComprobar">Comprobar
                         <i class="material-icons right">search</i>

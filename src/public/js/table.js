@@ -8,5 +8,5 @@ $(document).ready(function () {
         hidePageNumbers: false,
         perPage: 10
     });
-    console.log('asdasdasd')
+    console.log('test')
 });
