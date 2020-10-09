@@ -37,14 +37,27 @@ async function obtenerCarnet(req, res) {
 async function comprobarPago(req, res) {
     try {
         await poolConnect;
-        console.log(req.body)
-        const result = await request.query(`SELECT id_carnet,cod,name,login, carnet.created_at,motivo,comprobante FROM carnet,usuarios,asegurados2 where 
-        cod = cod_asegurado and id_usuario = usuarios.id and id_carnet = ${req.body.id_carnet}`)
-        if (req.body.comprobarPago == result.recordset[0]) {}
-        req.flash('aux', req.body.edtBuscar)
-        res.redirect('/buscarAsegurado')
+            console.log(req.body)
+            const result = await request.query(`SELECT id_carnet,cod,name,login, carnet.created_at,motivo,comprobante FROM carnet,usuarios,asegurados2 where 
+            cod = cod_asegurado and id_usuario = usuarios.id and comprobante = ${req.body.comprobante}`)
+            console.log(result.recordset.length)
+            if (result.recordset.length > 0 ) {
+                req.flash('loginMessage', 'Comprobante Verificado')
+            }else{
+                req.flash('loginMessage', 'No existe ese Nro. de Comprobante')
+            }
+            
+            req.flash('aux', req.body.codigo)
+            res.redirect('/buscarAsegurado')
+
+
+        // console.log(req.body)
+        // req.flash('aux', req.body.edtBuscar)
+        // res.redirect('/buscarAsegurado')
     } catch (err) {
         console.error('SQL error', err);
+        req.flash('aux', req.body.codigo)
+        res.redirect('/buscarAsegurado')
     }
 }
 

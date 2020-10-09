@@ -1,6 +1,7 @@
 const pool = require('../database');
 const poolConnect = pool.connect();
-const QRCode = require('qrcode')
+const QRCode = require('qrcode');
+const { off } = require('../database');
 
 const request = pool.request(); // or: new sql.Request(pool1)
 
@@ -83,7 +84,7 @@ async function obtenerInfoAsegurado(req, res) {
         }
     } else {
         res.render('login', {
-            title: "Sign In"
+            title: "Iniciar Sesion"
         });
     }
 }
