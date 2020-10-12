@@ -17,12 +17,12 @@ async function obtenerCarnet(req, res) {
     try {
         await poolConnect;
         if (tipo == '1') { //asegurados
-            const result = await request.query(`SELECT id_carnet,cod,name,login, carnet.created_at,motivo,comprobante FROM carnet,usuarios,asegurados2 where cod = '${codigo}'
+            const result = await request.query(`SELECT id_carnet,cod,name,login, carnet.created_at,motivo,comprobante,'Asegurado' as tipo FROM carnet,usuarios,asegurados2 where cod = '${codigo}'
             and cod = cod_asegurado and id_usuario = usuarios.id`)
             res.json(result.recordset)
         }
         if (tipo == '2') { //beneficiarios
-            const result2 = await request.query(`SELECT id_carnet,cod,name,login, carnet.created_at,motivo,comprobante FROM carnet,usuarios,beneficiarios2 where cod_be = '${codigo}'
+            const result2 = await request.query(`SELECT id_carnet,cod,name,login, carnet.created_at,motivo,comprobante,'Beneficiario' as tipo FROM carnet,usuarios,beneficiarios2 where cod_be = '${codigo}'
             and cod = cod_asegurado and id_usuario = usuarios.id`)
             res.json(result2.recordset)
         }

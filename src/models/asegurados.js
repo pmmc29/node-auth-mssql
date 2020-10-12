@@ -92,20 +92,26 @@ async function obtenerInfoAsegurado(req, res) {
 async function registrarSangre(req, res) {
     try {
         await poolConnect;
-        const result = await request.query(`update asegurados2 set tipo_sangre = '${req.body.select_sangre}' where cod = '${req.body.edtBuscar}'`)
-        const response = result.rowsAffected[0]
-
-        if (response > 0) { // 1 fila afectada = actualizacion exitosa
-            req.flash('loginMessage', 'Registro Exitoso')
-            req.flash('aux', req.body.edtBuscar)
-            res.redirect('/buscarAsegurado')
-        } else { // 0 filas afectadas = no se actualizo
-            req.flash('loginMessage', 'Error en el Registro')
-            req.flash('aux', req.body.edtBuscar)
-            res.redirect('/buscarAsegurado')
-
+        if (req.body.select_sangre === undefined) {
+            console.log(req.body)
+                req.flash('loginMessage', 'LLene los campos correspondientes')
+                req.flash('aux', req.body.edtBuscar)
+                res.redirect('/buscarAsegurado')
+        } else {
+            const result = await request.query(`update asegurados2 set tipo_sangre = '${req.body.select_sangre}' where cod = '${req.body.edtBuscar}'`)
+            const response = result.rowsAffected[0]
+    
+            if (response > 0) { // 1 fila afectada = actualizacion exitosa
+                req.flash('loginMessage', 'Registro Exitoso')
+                req.flash('aux', req.body.edtBuscar)
+                res.redirect('/buscarAsegurado')
+            } else { // 0 filas afectadas = no se actualizo
+                req.flash('loginMessage', 'Error en el Registro')
+                req.flash('aux', req.body.edtBuscar)
+                res.redirect('/buscarAsegurado')
+            }
+            console.log(response)
         }
-        console.log(response)
     } catch (err) {
         console.error('SQL error', err);
     }

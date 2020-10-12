@@ -78,7 +78,6 @@ async function obtenerInfoBeneficiario(req, res) {
         }
         if (req.body.btnRegistrar != undefined) { //click en registrar
             await registrarDatos(req, res)
-            console.log(req.body)
         }
     } else {
         res.render('login', {
@@ -90,22 +89,30 @@ async function obtenerInfoBeneficiario(req, res) {
 async function registrarDatos(req, res) {
     try {
         await poolConnect;
-        const result = await request.query(`update beneficiarios2 set tipo_sangre = '${req.body.select_sangre}', ci = '${req.body.ci}', ci_loc = '${req.body.ci_loc}' where cod_be = '${req.body.edtBuscar}'`)
-        const response = result.rowsAffected[0]
-
-        if (response > 0) { // 1 fila afectada = actualizacion exitosa
-            req.flash('loginMessage', 'Registro Exitoso')
-            req.flash('aux', req.body.edtBuscar)
-            res.redirect('/buscarAsegurado')
-        } else { // 0 filas afectadas = no se actualizo
-            req.flash('loginMessage', 'Error en el Registro')
-            req.flash('aux', req.body.edtBuscar)
-            res.redirect('/buscarAsegurado')
-
+        if (req.body.ci === '' || req.body.ci_loc === undefined || req.body.select_sangre === undefined) {
+                req.flash('loginMessage', 'LLene los campos correspondientes')
+                req.flash('aux', req.body.edtBuscar)
+                res.redirect('/buscarAsegurado')
+        } else {
+            const result = await request.query(`update beneficiarios2 set tipo_sangre = '${req.body.select_sangre}', ci = '${req.body.ci}', ci_loc = '${req.body.ci_loc}' where cod_be = '${req.body.edtBuscar}'`)
+            const response = result.rowsAffected[0]
+    
+            if (response > 0) { // 1 fila afectada = actualizacion exitosa
+                req.flash('loginMessage', 'Registro Exitoso')
+                req.flash('aux', req.body.edtBuscar)
+                res.redirect('/buscarAsegurado')
+            } else { // 0 filas afectadas = no se actualizo
+                console.log(req.body)
+                req.flash('loginMessage', 'Error en el Registro')
+                req.flash('aux', req.body.edtBuscar)
+                res.redirect('/buscarAsegurado')
+            }
         }
-        console.log(response)
     } catch (err) {
         console.error('SQL error', err);
+        req.flash('loginMessage', 'Error en el Registro')
+        req.flash('aux', req.body.edtBuscar)
+        res.redirect('/buscarAsegurado')
     }
 }
 
