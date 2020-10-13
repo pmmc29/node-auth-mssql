@@ -18,11 +18,14 @@
                     <table class="highlight centered" id="tb_asegurados">
                         <thead>
                             <tr>
-                                <th>CODIGO</th>
+                                <th>CNSS</th>
+                                <th>AGENDA</th>
                                 <th>NOMBRE</th>
                                 <th>FEC. NAC.</th>
                                 <th>SEXO</th>
                                 <th>CI.</th>
+                                <th>EMPRESA</th>
+                                <th>FEC. INGRESO</th>
                                 <th>TIPO DE SANGRE</th>
                                 <th>ACCION</th>
                             </tr>
@@ -31,18 +34,21 @@
                         <tbody>
                             <% for(var i=0; i<asegurados.length; i++) {%>
                             <tr>
-                                <td><%= asegurados[i].cod %></td>
-                                <td><%= asegurados[i].name %></td>
+                                <td><%= asegurados[i].cnss %></td>
+                                <td><%= asegurados[i].agenda %></td>
+                                <td><%= asegurados[i].nombre %></td>
                                 <td><%= asegurados[i].fec_nac %></td>
                                 <td><%= asegurados[i].sexo %></td>
                                 <td><%= asegurados[i].ci %> <%= asegurados[i].ci_loc %></td>
+                                <td><%= asegurados[i].empresa %></td>
+                                <td><%= asegurados[i].fec_ingreso %></td>
                                 <td><%= asegurados[i].tipo_sangre %></td>
 
                                 <!-- <td><button class="btn" name="cod_ase" type="submit" onclick="printJS({ printable: 'tb_asegurados', type: 'html', css:[
                                         'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css']
                                         })" value="<%#= asegurados[i].cod %>">ACCION</button></td> -->
                                 <td><button class="btn" name="cod_ase" type="submit"
-                                        value="<%= asegurados[i].cod %>">ACCION</button></td>
+                                        value="<%= asegurados[i].agenda %>">ACCION</button></td>
                             </tr>
                             <% } %>
                         </tbody>

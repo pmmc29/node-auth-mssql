@@ -17,7 +17,7 @@ async function obtenerBeneficiarios(req, res) {
             const result2 = await request.query(`select * from beneficiarios2 where cod_be = '${codigo}'`)
             res.json(result2.recordset)
         } else {
-            const result = await request.query(`select * from beneficiarios2`)
+            const result = await request.query(`select * from beneficiarios`)
             res.json(result.recordset)
         }
     } catch (err) {

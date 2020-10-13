@@ -17,7 +17,7 @@ body {
 }
 
 .card {
-    width: 100%;
+    width: 490px;
     border-radius: 20px;
 }
 
@@ -53,7 +53,12 @@ body {
 }
 
 .card .card-body.frente .info p {
-    margin: 5px 5px;
+    /* margin: 1px; */
+    margin: 0;
+    /* text-align: center; */
+    font-size: 15px;
+    /* margin: 5px 0; */
+    position: relative;
 }
 
 .card .card-body.frente .info figure {
@@ -67,21 +72,21 @@ body {
     width: 50%;
 }
 
-h2,
+h3,
 h6 {
     text-align: center;
     font-weight: bold;
 }
 
 h6 {
-    margin: 30px 0;
+    margin: 10px 0;
 }
 
 .card .card-body.atras p {
     margin: 0;
     text-align: center;
-    font-size: 14px;
-    margin: 15px 0;
+    font-size: 12px;
+    margin: 5px 0;
     position: relative;
 }
 
@@ -96,5 +101,5 @@ h6 {
     font-size: 14px;
     position: absolute;
     bottom: 5px;
-    right: 100px;
+    right: 50px;
 }
