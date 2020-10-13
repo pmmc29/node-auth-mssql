@@ -102,22 +102,30 @@
                 </form>
                 <div class="col s6" id="test" style="height: 800px; overflow-y: scroll;">
                         <h3>Historial de Carnet</h3>
+                        
                         <% for(var i=0; i<historial.length; i++) {%>
                             <div class="card blue-grey">
                                 <div class="card-content white-text">
                                     <h5>Carnet: <%= historial[i].id_carnet %></h5>
-                                <form action="/comprobarPago" method="POST">
-                                    <ul>
-                                        <input type="text" name="id_carnet" value="<%= historial[i].id_carnet %>"
+                                    <form action="/comprobarPago" method="POST">
+                                        <ul>
+                                            <input type="text" name="id_carnet" value="<%= historial[i].id_carnet %>"
                                             hidden>
-                                        <li>Usuario: <input type="text" name="usuario" value="<%= historial[i].login %>"
+                                            <li>Usuario: <input type="text" name="usuario" value="<%= historial[i].login %>"
                                                 hidden><%= historial[i].login %></li>
-                                        <li>Fecha: <%= historial[i].created_at %></li>
-                                        <li>Comprobante: <input type="text" name="nro_comprobante"
-                                                value="<%= historial[i].comprobante %>"
-                                                hidden><%= historial[i].comprobante %>
-                                        </li>
-                                        <li class="card teal">Motivo: <%= historial[i].motivo %></li>
+                                                <li>Fecha: <%= historial[i].created_at %></li>
+                                                <li>Comprobante: <input type="text" name="nro_comprobante"
+                                                    value="<%= historial[i].comprobante %>"
+                                                    hidden><%= historial[i].comprobante %>
+                                                </li>
+                                                <input type="text" name="codigo" value="<%= historial[i].agenda %>" hidden>
+                                                <li class="card teal">Motivo: <%= historial[i].motivo %></li>
+                                                <% if (historial[i].estado === 1) { %>
+                                                    <button class="btn waves-effect waves-light" type="submit"
+                                                name="btnImprimir" id="btnImprimir">Imprimir
+                                                <i class="material-icons right">print</i>
+                                            </button>
+                                                <% } %>
                                         <% if (historial[i].comprobante === null) { %>
                                         <div class="input-field">
                                             <input
@@ -132,8 +140,8 @@
                                             </button>
                                         </div>
                                     </ul>
+                                    <% } %>
                                 </form>
-                                <% } %>
                             </div>
                         </div>
                         <% } %>

@@ -3,7 +3,7 @@ const poolConnect = pool.connect();
 const QRCode = require('qrcode');
 const { off } = require('../database');
 
-const request = pool.request(); // or: new sql.Request(pool1)
+const request = pool.request(); 
 
 pool.on('error', err => {
     // ... error handler
@@ -134,7 +134,7 @@ async function renderDatos(req, res, msg) {
             for (let index = 2; index < str.length; index++) {
                 nombre = nombre + " " + str[index]
             }
-            const carnet = await request.query(`SELECT id_carnet,agenda,nombre,login, carnet.created_at,motivo,comprobante FROM carnet,usuarios,asegurados where agenda = '${response.agenda}'
+            const carnet = await request.query(`SELECT id_carnet,agenda,nombre,login, carnet.created_at,motivo,comprobante,estado FROM carnet,usuarios,asegurados where agenda = '${response.agenda}'
                                                 and agenda = age_asegurado and id_usuario = usuarios.id`)
             console.log(carnet.recordset)
             QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
