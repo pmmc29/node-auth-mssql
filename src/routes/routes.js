@@ -180,7 +180,7 @@ router.get('/home', async function (req, res, next) {
                 menu: 'home',
                 subm: 'home',
                 qr: `${url}`,
-                file: `../photos/${req.user.email}.jpg`
+                file: `../photos/Usuarios/${req.user.email}.jpg`
             });
         })
         console.log(req.user.id)
@@ -201,7 +201,7 @@ router.get('/profile', async function (req, res, next) {
                 menu: 'profile',
                 subm: 'profile',
                 qr: `${url}`,
-                file: `../photos/${req.user.email}.jpg`
+                file: `../photos/Usuarios/${req.user.email}.jpg`
             });
         })
         console.log(req.user.id)
@@ -220,7 +220,8 @@ router.get('/buscarAsegurado', async function (req, res, next) {
                 menu: 'Asegurados',
                 subm: 'buscarAsegurado',
                 qr: `${url}`,
-                file: `../photos/${req.user.email}.jpg`,
+                file: `../photos/Usuarios/${req.user.email}.jpg`,
+                file_ase: '',
                 res: '',
                 apellido: '',
                 nombre: '',
@@ -253,7 +254,7 @@ router.get('/carnet', async (req, res, next) => {
                 menu: 'test',
                 subm: 'test',
                 qr: `${url}`,
-                file: `../photos/${req.user.email}.jpg`
+                file: `../photos/Usuarios/${req.user.email}.jpg`
             });
         })
         console.log(req.user.id)

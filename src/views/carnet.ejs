@@ -20,28 +20,28 @@
             <div class="card-body frente">
                 <div class="foto">
                     <figure>
-                        <img src="../photos/a.jpg">
-
+                        <img src="../photos/Usuarios/a.jpg">
+                        
                     </figure>
                     <p>Nro. 9999999</p>
                     <p class="jefe" style="bottom: 0px;">Jefe de afiliacion</p>
                 </div>
                 <div class="info">
                     <figure>
-                        <img src="../photos/sinec.PNG">
+                        <img src="../photos/Usuarios/sinec.PNG">
                     </figure>
                     <p><i><b>
-                                <center>ENTE GESTOR DE LA SEGURIDAD SOCIAL</center>
-                            </b></i></p>
-                    <p><b>Nombres:</b> Pedro Michael</p>
-                    <p><b>Apellidos:</b> Mendoza Coronado</p>
-                    <p><b>Empresa:</b> UTEPSA</p>
-                    <p><b>Fecha de ingreso:</b> 29/06/1996</p>
-                    <p><b>Nro. Matricula:</b> 999999</p>
-                    <p><b>Fecha de nacimiento:</b> 29/06/1996</p>
-                    <p><b>Tipo de Sangre:</b> ARH+</p>
-                    <p><b>Validez:</b> 1 Año</p>
-
+                        <center>ENTE GESTOR DE LA SEGURIDAD SOCIAL</center>
+                    </b></i></p>
+                    <p><b>Nombres:</b> <%= res.nombre %></p>
+                    <p><b>Apellidos:</b> <%= res.nombre %></p>
+                    <p><b>Empresa:</b> <%= res.empresa %></p>
+                    <p><b>Fecha de ingreso:</b> <%= res.fec_ingreso %></p>
+                    <p><b>Nro. Matricula:</b> <%= res.cnss %></p>
+                    <p><b>Fecha de nacimiento: </b><%= res.fec_nac %></p>
+                    <p><b>Tipo de Sangre:</b> <%= res.tipo_sangre %></p>
+                    <p><b>Validez:</b> sin calcular</p>
+                    
                 </div>
             </div>
         </div>
@@ -59,12 +59,12 @@
                     </div>
                 </div>
                 <div class="fecha">
-                    <p><b>Valido Desde:</b> 1/10/2020</p>
-
+                    <p><b>Valido Desde:</b> <%= res %></p>
+                    
                 </div>
                 <div class="fecha-hasta">
-                    <p><b>Hasta:</b> 1/10/2021</p>
-
+                    <p><b>Hasta:</b> <%= res %></p>
+                    
                 </div>
             </div>
         </div>
@@ -72,12 +72,13 @@
     <button type="button" name="btnImprimir" id="btn1">Imprimir
     </button>
 
-
+    
+    
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
     </script>
 </body>
 <script type="module">

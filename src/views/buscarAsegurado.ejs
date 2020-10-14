@@ -33,15 +33,27 @@
                         <i class="material-icons right">search</i>
                     </button>
                 </div>
-                <div class="input-field col s6">
+                <div class="input-field col s9">
                     <input id="name" name="nombre" type="text" class="validate"
                         value="<%= typeof nombre != 'undefined' ? nombre : '' %>" disabled>
                     <label for="name">Nombres</label>
                 </div>
-                <div class="input-field col s6">
+                <div class="col s3">
+                        <img style="height: 100px;" id="imgtest"
+                                src="<%= typeof file_ase != 'undefined' ? file_ase : '' %>">
+                </div>
+                <div class="input-field col s9">
                     <input id="last_name" name="apellidos" type="text" class="validate"
                         value="<%= typeof apellido != 'undefined' ? apellido : '' %>" disabled>
                     <label for="last_name">Apellidos</label>
+                </div>
+                <div class="col s3">
+                    <% if (file_ase === undefined) { %>
+                        <button class="btn waves-effect waves-light" type="button" name="btnAgregarFoto"
+                            id="btn1">Agregar Foto
+                            <i class="material-icons right">add_a_photo</i>
+                        </button>
+                        <%}%>
                 </div>
                 <div class="input-field col s12">
                     <input id="company" name="empresa" type="text" class="validate"
@@ -146,12 +158,16 @@
                         </div>
                         <% } %>
                 </div>
+                <div class="col s6">
+                   <%#- include carnet.ejs%>
+                   test
+                </div>
         </div>
     </main>
     <script type="module">
-        //recuperar los datos del formulario
-import tinyPrint from '../public/tiny-print/src/index.js'
-
+        import tinyPrint from '../public/tiny-print/src/index.js'
+        
+//recuperar los datos del formulario
 const codigo = document.getElementById('search').value;
 const nombre = document.getElementById('name').value +' '+ document.getElementById('last_name').value;
 const fec_nac = document.getElementById('search').value;
@@ -207,6 +223,12 @@ const element = document.getElementById('form1');
                 $('#btnBuscar').prop('disabled', false); 
            }
         });
+
+window.addEventListener("load", event => {
+  var image = document.querySelector('imgtest');
+  var isLoaded = image.complete && image.naturalHeight !== 0;
+  alert(isLoaded);
+});
 
 </script>
 

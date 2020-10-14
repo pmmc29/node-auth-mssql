@@ -17,7 +17,7 @@ async function obtenerCarnet(req, res) {
     try {
         await poolConnect;
         if (tipo == '1') { //asegurados
-            const result = await request.query(`SELECT id_carnet,agenda,name,login, carnet.created_at,motivo,comprobante,'Asegurado' as tipo FROM carnet,usuarios,asegurados2 where cod = '${codigo}'
+            const result = await request.query(`SELECT id_carnet,agenda,nombre,login, carnet.created_at,motivo,comprobante,'Asegurado' as tipo,estado FROM carnet,usuarios,asegurados where agenda = '${codigo}'
             and agenda = age_asegurado and id_usuario = usuarios.id`)
             res.json(result.recordset)
         }
@@ -35,15 +35,28 @@ async function obtenerCarnet(req, res) {
 }
 
 async function comprobarPago(req, res) {
-    try {
+    if (req.isAuthenticated()) {
+        try {
         await poolConnect;
-        if (req.body.btnImprimir =='') {
+        if (req.body.btnImprimir =='') {//click en imprimir (historial de carnet)
             console.log(req.body)
             req.flash('loginMessage', 'Printed')
             req.flash('aux', req.body.codigo)
-            res.redirect('/buscarAsegurado')
+            const resultImp = await request.query(`SELECT * from asegurados,carnet where agenda = ${req.body.codigo} and agenda = age_asegurado and id_carnet = ${req.body.id_carnet}`)
+            console.log(resultImp.recordset)
+            QRCode.toDataURL(JSON.stringify(req.body.id_carnet), function (err, url) {
+                res.render('carnet', {
+                    menu: '',
+                    subm: '',
+                    id: req.body.edtBuscar,
+                    user: req.user,
+                    qr: `${url}`,
+                    file: `../photos/Usuarios/${req.user.email}.jpg`,
+                    res: resultImp.recordset[0]
+                })
+            })
         }
-        if (req.body.btnComprobar == '') {
+        if (req.body.btnComprobar == '') {//click en Comprobar (historial de carnet)
             console.log(req.body)
             const result = await request.query(`SELECT id_carnet,agenda,nombre,login, carnet.created_at,motivo,comprobante FROM carnet,usuarios,asegurados where 
             agenda = age_asegurado and id_usuario = usuarios.id and comprobante = ${req.body.comprobante}`)
@@ -57,17 +70,18 @@ async function comprobarPago(req, res) {
             req.flash('aux', req.body.codigo)
             res.redirect('/buscarAsegurado')
         }
-
-
-        // console.log(req.body)
-        // req.flash('aux', req.body.edtBuscar)
-        // res.redirect('/buscarAsegurado')
     } catch (err) {
         console.error('SQL error', err);
         req.flash('aux', req.body.codigo)
         req.flash('loginMessage', 'Error en el Nro. de Comprobante')
         res.redirect('/buscarAsegurado')
     }
+    } else {
+        res.render('login', {
+            title: "Iniciar Sesion"
+        });
+    }
+    
 }
 
 

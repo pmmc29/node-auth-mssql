@@ -34,7 +34,7 @@ async function listaCuenta(req, res, next) {
             let cuentas = []
 
             for (let index = 0; index < result.recordset.length; index++) {
-                const photo = `../photos/${result.recordset[index].login}.jpg`
+                const photo = `../photos/Usuarios/${result.recordset[index].login}.jpg`
                 cuentas.push({
                     id: result.recordset[index].id,
                     login: result.recordset[index].login,
@@ -52,7 +52,7 @@ async function listaCuenta(req, res, next) {
                     menu: 'Usuarios',
                     subm: 'crear_usuario',
                     qr: `${url}`,
-                    file: `../photos/${req.user.email}.jpg`,
+                    file: `../photos/Usuarios/${req.user.email}.jpg`,
                     cuentas: cuentas
                 });
             })
@@ -87,7 +87,7 @@ async function datosCuenta(req, res, next) {
             user: req.user,
             menu: 'buscarAsegurado',
             qr: `${url}`,
-            file: `../photos/${req.user.email}.jpg`
+            file: `../photos/Usuarios/${req.user.email}.jpg`
         }
         return cuenta;
     })
