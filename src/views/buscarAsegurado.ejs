@@ -39,7 +39,7 @@
                     <label for="name">Nombres</label>
                 </div>
                 <div class="col s3">
-                        <img style="height: 100px;" id="imgtest"
+                        <img style="height: 150px; position: absolute;" id="imgtest"
                                 src="<%= typeof file_ase != 'undefined' ? file_ase : '' %>">
                 </div>
                 <div class="input-field col s9">
@@ -48,7 +48,7 @@
                     <label for="last_name">Apellidos</label>
                 </div>
                 <div class="col s3">
-                    <% if (file_ase === undefined) { %>
+                    <% if (file_ase === '') { %>
                         <button class="btn waves-effect waves-light" type="button" name="btnAgregarFoto"
                             id="btn1">Agregar Foto
                             <i class="material-icons right">add_a_photo</i>
@@ -158,10 +158,6 @@
                         </div>
                         <% } %>
                 </div>
-                <div class="col s6">
-                   <%#- include carnet.ejs%>
-                   test
-                </div>
         </div>
     </main>
     <script type="module">
@@ -212,9 +208,12 @@ const element = document.getElementById('form1');
             </form>
         </div>
     </div>`);
-    });
+});
+// $('#btnBuscar').click(()=>{
+   
+// })
 
-    $("#tipo_asegurado").change(function () {
+$("#tipo_asegurado").change(function () {
            $('#btnBuscar').prop('disabled', false); 
            if ($('#tipo_asegurado').val() == '1') {
                $('#form1').attr('action', '/buscarAsegurado');
@@ -225,9 +224,11 @@ const element = document.getElementById('form1');
         });
 
 window.addEventListener("load", event => {
-  var image = document.querySelector('imgtest');
-  var isLoaded = image.complete && image.naturalHeight !== 0;
-  alert(isLoaded);
+    var x = document.getElementById("imgtest").complete;
+    var y = document.getElementById("imgtest").naturalHeight;
+    if (y === 0) {
+        console.log(x,y);
+    }
 });
 
 </script>

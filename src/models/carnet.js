@@ -43,8 +43,9 @@ async function comprobarPago(req, res) {
             req.flash('loginMessage', 'Printed')
             req.flash('aux', req.body.codigo)
             const resultImp = await request.query(`SELECT * from asegurados,carnet where agenda = ${req.body.codigo} and agenda = age_asegurado and id_carnet = ${req.body.id_carnet}`)
-            console.log(resultImp.recordset)
-            QRCode.toDataURL(JSON.stringify(req.body.id_carnet), function (err, url) {
+            const resultFirmas = await request.query(`select * from firma`)
+            console.log(resultImp.recordset, resultFirmas.recordset)
+            QRCode.toDataURL(JSON.stringify({ID:req.body.id_carnet,Nombre:resultImp.recordset[0].nombre}), function (err, url) {
                 res.render('carnet', {
                     menu: '',
                     subm: '',
@@ -52,7 +53,8 @@ async function comprobarPago(req, res) {
                     user: req.user,
                     qr: `${url}`,
                     file: `../photos/Usuarios/${req.user.email}.jpg`,
-                    res: resultImp.recordset[0]
+                    res: resultImp.recordset[0],
+                    firmas: resultFirmas.recordset
                 })
             })
         }

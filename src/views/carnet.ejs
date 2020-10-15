@@ -17,15 +17,19 @@
 
     <div class="container" id="carnet">
         <div class="card">
-            <div class="card-body frente">
+            <div class="card-body frente" style="padding: 15px;">
                 <div class="foto">
                     <figure>
                         <img src="../photos/Usuarios/a.jpg">
                         
                     </figure>
-                    <p>Nro. 9999999</p>
-                    <p class="jefe" style="bottom: 0px;">Jefe de afiliacion</p>
+                    <p><b>Nro.</b><%= res.id_carnet %></p>
+                    <p class="jefe" style="bottom: -15px;"><b>Jefe de afiliacion</b></p>
                 </div>
+                    <img id="foto_firma" style="width: 120px;
+    position: absolute;
+    top: 210px;
+    height: 40px;">
                 <div class="info">
                     <figure>
                         <img src="../photos/Usuarios/sinec.PNG">
@@ -49,14 +53,14 @@
             <div class="card-body atras">
                 <h3>SEGURO INTEGRAL DE SALUD</h3>
                 <h6><i>CREADO MEDIANTE D.S 26474 DEL 29 DE ENERO DE 1999</i></h6>
-                <div style="width: 300px;">
-                    <p>CONSULTORIO CALLE ESPAÑA Nº 473 TELF: 3364160 - 3371167</p>
-                    <p>OF. ADMINISTRATIVAS C/24 DE SEP. Nº 266 EDIF. ITAU TELF. 3323173 - 3326572</p>
+                <div style="width: 300px;" id="edit">
+                    <p id="">CONSULTORIO CALLE ESPAÑA Nº 473 TELF: 3364160 - 3371167</p>
+                    <p id="">OF. ADMINISTRATIVAS C/24 DE SEP. Nº 266 EDIF. ITAU TELF. 3323173 - 3326572</p>
                     <p>CLINICA Y LABORATORIO AV. 2 DE AGOSTO Nº 6135 PASANDO EL 6TO ANILLO</p>
                     <p>CLINICA TELF. 3452050 - 3427151 LABORATORIO TELF. 3442723</p>
-                    <div style="right: 10px; position: absolute; top: 80px;">
-                        <img src="<%= typeof qr != 'undefined' ? qr : '' %>" class="responsive-img">
-                    </div>
+                </div>
+                <div style="right: 10px; position: absolute; top: 80px;">
+                    <img src="<%= typeof qr != 'undefined' ? qr : '' %>" class="responsive-img">
                 </div>
                 <div class="fecha">
                     <p><b>Valido Desde:</b> <%= res %></p>
@@ -69,9 +73,19 @@
             </div>
         </div>
     </div>
-    <button type="button" name="btnImprimir" id="btn1">Imprimir
-    </button>
+    <div>
+        <button type="button" name="btnImprimir" id="btn1">Imprimir
+        </button>
+    </div>
 
+    <div style="position: absolute; bottom: 300px; left: 380px;">
+        <select name="" id="list_firmas">
+            <option value="0" disabled selected>Seleccione una Firma</option>
+            <% for(var i=0; i<firmas.length; i++) {%>
+            <option value="<%= firmas[i].ruta %>"><%= firmas[i].nombre %></option>
+            <% } %>
+        </select>
+    </div>
     
     
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
@@ -94,6 +108,10 @@
             cssStyle: '',
             hidePageRule: true
         });
+    });
+    document.getElementById('edit').contentEditable = true;
+    $("#list_firmas").change(function () {
+        $('#foto_firma').attr('src', `../photos/Firmas/${$('#list_firmas').val()}`);
     });
 </script>
 

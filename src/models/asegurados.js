@@ -1,7 +1,7 @@
 const pool = require('../database');
 const poolConnect = pool.connect();
 const QRCode = require('qrcode');
-const { off } = require('../database');
+const fs = require('fs')
 
 const request = pool.request(); 
 
@@ -137,6 +137,19 @@ async function renderDatos(req, res, msg) {
             const carnet = await request.query(`SELECT id_carnet,agenda,nombre,login, carnet.created_at,motivo,comprobante,estado FROM carnet,usuarios,asegurados where agenda = '${response.agenda}'
                                                 and agenda = age_asegurado and id_usuario = usuarios.id`)
             console.log(carnet.recordset)
+
+            let file_test = `./src/photos/Asegurados/${req.body.edtBuscar}.jpg`
+            let file_ase = ''
+            fs.access(file_test,fs.constants.F_OK, (err) => {
+                if (err) {
+                    // console.error(err)
+                file_ase = ''
+                    return
+                }
+                //file exists
+                file_ase = `../photos/Asegurados/${req.body.edtBuscar}.jpg`
+                })
+
             QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
                 res.render('buscarAsegurado', {
                     message: msg,
@@ -146,7 +159,7 @@ async function renderDatos(req, res, msg) {
                     user: req.user,
                     qr: `${url}`,
                     file: `../photos/Usuarios/${req.user.email}.jpg`,
-                    file_ase: `../photos/Asegurados/${req.body.edtBuscar}.jpg`,
+                    file_ase: file_ase,
                     res: response,
                     apellido: apellido,
                     nombre: nombre,
