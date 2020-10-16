@@ -53,6 +53,7 @@ async function comprobarPago(req, res) {
                     user: req.user,
                     qr: `${url}`,
                     file: `../photos/Usuarios/${req.user.email}.jpg`,
+                    file_carnet: `../photos/Asegurados/${req.body.codigo}.jpg`,
                     res: resultImp.recordset[0],
                     firmas: resultFirmas.recordset
                 })

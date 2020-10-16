@@ -2,6 +2,8 @@ const pool = require('../database');
 const poolConnect = pool.connect();
 const QRCode = require('qrcode');
 const fs = require('fs')
+const multer = require('multer')
+const path = require('path')
 
 const request = pool.request(); 
 
@@ -9,6 +11,40 @@ pool.on('error', err => {
     // ... error handler
     console.log(err)
 });
+
+//-------------UPLOAD PHOTOS------------------
+//Set Storage Engine
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, '../photos/Asegurados'),
+    filename: function (req, file, cb) {
+        cb(null, req.body.edtBuscar + '.jpg') //nombre de las fotos
+    }
+})
+
+const uploadPhoto = multer({
+    storage: storage,
+    limits: {
+        fileSize: 5000000 //bytes = 5mb
+    },
+    fileFilter: function (req, file, cb) {
+        checkFileType(file, cb)
+    }
+}).single('myPhoto')
+
+function checkFileType(file, cb) {
+    //extenciones permitidas
+    const filetypes = /jpeg|jpg|png|gif/
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
+    //check mime type
+    const mimetype = filetypes.test(file.mimetype)
+
+    if (mimetype && extname) {
+        return cb(null, true)
+    } else {
+        cb('Error: Formato no soportado!')
+    }
+}
+//----------------------------------------------
 
 async function obtenerAsegurados(req, res) {
     const codigo = req.params.codigo
@@ -75,10 +111,10 @@ async function btnListaAsegurados(req, res) {
 async function obtenerInfoAsegurado(req, res) {
     if (req.isAuthenticated()) {
         console.log(req.body)
-        if (req.body.btnBuscar != undefined) { //click en buscar
+        if (req.body.btnBuscar == '') { //click en buscar
             await renderDatos(req, res, "Asegurado encontrado")
         }
-        if (req.body.btnRegistrar != undefined) { //click en registrar
+        if (req.body.btnRegistrar == '') { //click en registrar
             await registrarSangre(req, res)
             console.log(req.body)
         }
@@ -87,6 +123,34 @@ async function obtenerInfoAsegurado(req, res) {
             title: "Iniciar Sesion"
         });
     }
+}
+async function agregarFoto(req, res) {//click en agregar foto
+    if (req.isAuthenticated()) {
+            uploadPhoto(req, res, (err) => {
+                    if (err) {
+                        req.flash('loginMessage', err)
+                        req.flash('aux', req.body.edtBuscar)
+                        res.redirect('/buscarAsegurado')
+                    } else {
+                        if (req.file == undefined) {
+                            req.flash('loginMessage', 'Seleccione una imagen!')
+                            req.flash('aux', req.body.edtBuscar)
+                            res.redirect('/buscarAsegurado')
+                        } else {
+                            console.log(req.body)
+                            console.log(req.file)
+                            req.flash('loginMessage', 'Foto agregada!')
+                            req.flash('aux', req.body.edtBuscar)
+                            res.redirect('/buscarAsegurado')
+                        }
+                    }
+                })
+    } else {
+        res.render('login', {
+            title: "Iniciar Sesion"
+        });
+    }
+
 }
 
 async function registrarSangre(req, res) {
@@ -178,5 +242,6 @@ module.exports = {
     obtenerAsegurados,
     obtenerInfoAsegurado,
     listAsegurados,
-    btnListaAsegurados
+    btnListaAsegurados,
+    agregarFoto
 }

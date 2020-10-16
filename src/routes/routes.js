@@ -237,6 +237,7 @@ router.get('/buscarAsegurado', async function (req, res, next) {
 
 router.post('/buscarAsegurado', asegurados.obtenerInfoAsegurado)
 router.post('/buscarBeneficiario', beneficiarios.obtenerInfoBeneficiario)
+router.post('/agregarFotoAsegurado', asegurados.agregarFoto)
 router.post('/listaCuentas', cuentas.btnListaCuentas)
 router.post('/listaAsegurados', asegurados.btnListaAsegurados)
 router.post('/comprobarPago', carnet.comprobarPago)

@@ -39,50 +39,63 @@
                     <label for="name">Nombres</label>
                 </div>
                 <div class="col s3">
-                        <img style="height: 150px; position: absolute;" id="imgtest"
-                                src="<%= typeof file_ase != 'undefined' ? file_ase : '' %>">
+                    <img style="height: 140px; position: absolute;"
+                        src="<%= typeof file_ase != 'undefined' ? file_ase : '' %>">
+                    <div class="file-field input-field">
+                        <% if (file_ase === '' && nombre !== '') { %>
+                        <div class="file-field input-field">
+                            <div>
+                                <input type="file" name="myPhoto" id="myPhoto" disabled>
+                            </div>
+                            <div class="input-field">
+                                <input class="file-path validate" type="text" disabled>
+                                <label for="myPhoto">Seleccione una Foto</label>
+                            </div>
+                        </div>
+                        <button class="btn waves-effect waves-light" type="submit" name="btnAgregarFoto"
+                            id="btnAgregarFoto" disabled>Agregar
+                            Foto
+                            <i class="material-icons right">add_a_photo</i>
+                        </button>
+                        <%}%>
+                        </div>
                 </div>
                 <div class="input-field col s9">
                     <input id="last_name" name="apellidos" type="text" class="validate"
                         value="<%= typeof apellido != 'undefined' ? apellido : '' %>" disabled>
-                    <label for="last_name">Apellidos</label>
-                </div>
-                <div class="col s3">
-                    <% if (file_ase === '') { %>
-                        <button class="btn waves-effect waves-light" type="button" name="btnAgregarFoto"
-                            id="btn1">Agregar Foto
-                            <i class="material-icons right">add_a_photo</i>
-                        </button>
-                        <%}%>
-                </div>
-                <div class="input-field col s12">
-                    <input id="company" name="empresa" type="text" class="validate"
-                        value="<%= typeof res.empresa != 'undefined' ? res.empresa : '' %>" disabled>
-                    <label for="company">Empresa</label>
-                </div>
-                <div class="input-field col s12">
-                    <input id="join_date" name="empresa" type="text" class="validate"
-                        value="<%= typeof res.fec_ingreso != 'undefined' ? res.fec_ingreso : '' %>" disabled>
-                    <label for="join_date">Fecha de Ingreso</label>
-                </div>
-                <div class="input-field col s12">
-                    <input id="num_matricula" name="nro_matricua" type="text" class="validate"
-                        value="<%= typeof res.cnss != 'undefined' ? res.cnss : '' %>" disabled>
-                    <label for="num_matricula">Nro. Matricula</label>
-                </div>
-                <div class="input-field col s12">
-                    <input id="birth_date" name="birth_date" type="text" class="validate"
-                        value="<%= typeof res.fec_nac != 'undefined' ? res.fec_nac : '' %>" disabled>
-                    <label for="birth_date">Fecha de Nacimiento</label>
-                </div>
-                <div class="input-field col s6">
-                    <input id="ci" name="ci" type="text" class="validate"
-                        value="<%= typeof res.ci != 'undefined' ? res.ci : '' %>" <% if(res.ci !== null){ %> disabled <% } else {%><%= res.ci %><%}%>>
+                        <label for="last_name">Apellidos</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input id="company" name="empresa" type="text" class="validate"
+                            value="<%= typeof res.empresa != 'undefined' ? res.empresa : '' %>" disabled>
+                        <label for="company">Empresa</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="join_date" name="empresa" type="text" class="validate"
+                            value="<%= typeof res.fec_ingreso != 'undefined' ? res.fec_ingreso : '' %>" disabled>
+                        <label for="join_date">Fecha de Ingreso</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="num_matricula" name="nro_matricua" type="text" class="validate"
+                            value="<%= typeof res.cnss != 'undefined' ? res.cnss : '' %>" disabled>
+                        <label for="num_matricula">Nro. Matricula</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="birth_date" name="birth_date" type="text" class="validate"
+                            value="<%= typeof res.fec_nac != 'undefined' ? res.fec_nac : '' %>" disabled>
+                        <label for="birth_date">Fecha de Nacimiento</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="ci" name="ci" type="text" class="validate"
+                            value="<%= typeof res.ci != 'undefined' ? res.ci : '' %>" <% if(res.ci !== null){ %>
+                            disabled <% } else {%><%= res.ci %><%}%>>
                     <label for="ci">CI.</label>
                      </div> 
                      <div class="input-field col s3">
-                    <select name="ci_loc" <% if(res.ci_loc !== null){ %> disabled <% }%> >
-                    <option value="<% if(res.ci_loc !== null){ %> <%= res.ci_loc %><% }%>" disabled selected><% if(res.ci_loc !== null){ %> <%= res.ci_loc %><% } else {%>Elige un Lugar<%}%></option>
+                    <select name="ci_loc" <% if(res.ci_loc !== null){ %> disabled <% }%>>
+                        <option value="" disabled selected> <% if(res.ci_loc !== null){ %>
+                            <%= res.ci_loc %><% } else {%>Elige un Lugar<%}%></option>
                         <option value="SC">SC</option>
                         <option value="LP">LP</option>
                         <option value="CB">CB</option>
@@ -91,7 +104,8 @@
                 </div>
                 <div class="input-field col s6">
                     <select name="select_sangre" <% if(res.tipo_sangre !== null){ %> disabled <% }%> >
-                    <option value="" disabled selected><% if(res.tipo_sangre !== null){ %> <%= res.tipo_sangre %><% } else {%>Elige un Tipo<%}%></option>
+                        <option value="" disabled selected><% if(res.tipo_sangre !== null){ %>
+                            <%= res.tipo_sangre %><% } else {%>Elige un Tipo<%}%></option>
                             <option value="tipo1">Tipo 1</option>
                             <option value="tipo2">Tipo 2</option>
                             <option value="tipo3">Tipo 3</option>
@@ -100,16 +114,17 @@
                     </div>
                     <div class="input-field col s6">
                         <% if (res.tipo_sangre === null || res.tipo_sangre == '') { %>
-                        <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar">Registrar
-                            <i class="material-icons right">person_add</i>
-                        </button>
-                        <%}%>
+                            <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar"
+                                id="btnRegistrar" disabled>Registrar
+                                <i class="material-icons right">person_add</i>
+                            </button>
+                            <%}%>
                         <% if (nombre !== '' && res.tipo_sangre !== null) { %>
-                        <button class="btn waves-effect waves-light" type="button" name="btnImprimir"
-                            id="btn1">Solicitar Carnet
-                            <i class="material-icons right">person_add</i>
-                        </button>
-                        <%}%>
+                            <button class="btn waves-effect waves-light" type="button" name="btnImprimir"
+                                id="btn1">Solicitar Carnet
+                                <i class="material-icons right">person_add</i>
+                            </button>
+                            <%}%>
                     </div>
                 </form>
                 <div class="col s6" id="test" style="height: 800px; overflow-y: scroll;">
@@ -122,43 +137,44 @@
                                     <form action="/comprobarPago" method="POST">
                                         <ul>
                                             <input type="text" name="id_carnet" value="<%= historial[i].id_carnet %>"
-                                            hidden>
-                                            <li>Usuario: <input type="text" name="usuario" value="<%= historial[i].login %>"
-                                                hidden><%= historial[i].login %></li>
-                                                <li>Fecha: <%= historial[i].created_at %></li>
-                                                <li>Comprobante: <input type="text" name="nro_comprobante"
+                                                hidden>
+                                            <li>Usuario: <input type="text" name="usuario"
+                                                    value="<%= historial[i].login %>" hidden><%= historial[i].login %>
+                                            </li>
+                                            <li>Fecha: <%= historial[i].created_at %></li>
+                                            <li>Comprobante: <input type="text" name="nro_comprobante"
                                                     value="<%= historial[i].comprobante %>"
                                                     hidden><%= historial[i].comprobante %>
-                                                </li>
-                                                <input type="text" name="codigo" value="<%= historial[i].agenda %>" hidden>
-                                                <li class="card teal">Motivo: <%= historial[i].motivo %></li>
-                                                <% if (historial[i].estado === 1) { %>
-                                                    <button class="btn waves-effect waves-light" type="submit"
+                                            </li>
+                                            <input type="text" name="codigo" value="<%= historial[i].agenda %>" hidden>
+                                            <li class="card teal">Motivo: <%= historial[i].motivo %></li>
+                                            <% if (historial[i].estado === 1) { %>
+                                            <button class="btn waves-effect waves-light" type="submit"
                                                 name="btnImprimir" id="btnImprimir">Imprimir
                                                 <i class="material-icons right">print</i>
                                             </button>
-                                                <% } %>
-                                        <% if (historial[i].comprobante === null) { %>
-                                        <div class="input-field">
-                                            <input
-                                                id="<%= typeof historial[i].id_carnet != 'undefined' ? historial[i].id_carnet : '' %>"
-                                                name="comprobante" type="text" class="validate" value="">
-                                            <label
-                                                for="<%= typeof historial[i].id_carnet != 'undefined' ? historial[i].id_carnet : '' %>">Nro.
-                                                Comprobante</label>
-                                            <button class="btn waves-effect waves-light" type="submit"
-                                                name="btnComprobar" id="btnComprobar">Comprobar
-                                                <i class="material-icons right">search</i>
-                                            </button>
-                                        </div>
-                                    </ul>
-                                    <% } %>
-                                </form>
+                                            <% } %>
+                                            <% if (historial[i].comprobante === null) { %>
+                                            <div class="input-field">
+                                                <input
+                                                    id="<%= typeof historial[i].id_carnet != 'undefined' ? historial[i].id_carnet : '' %>"
+                                                    name="comprobante" type="text" class="validate" value="">
+                                                <label
+                                                    for="<%= typeof historial[i].id_carnet != 'undefined' ? historial[i].id_carnet : '' %>">Nro.
+                                                    Comprobante</label>
+                                                <button class="btn waves-effect waves-light" type="submit"
+                                                    name="btnComprobar" id="btnComprobar">Comprobar
+                                                    <i class="material-icons right">search</i>
+                                                </button>
+                                            </div>
+                                        </ul>
+                                        <% } %>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                        <% } %>
+                            <% } %>
+                    </div>
                 </div>
-        </div>
     </main>
     <script type="module">
         import tinyPrint from '../public/tiny-print/src/index.js'
@@ -209,27 +225,62 @@ const element = document.getElementById('form1');
         </div>
     </div>`);
 });
-// $('#btnBuscar').click(()=>{
-   
-// })
+$('#btnAgregarFoto').click(()=>{
+   $('#form1').attr('enctype', 'multipart/form-data');
+   $('#form1').attr('action', '/agregarFotoAsegurado');
+
+})
+$('#myPhoto').click(()=>{
+   $('#form1').attr('enctype', 'multipart/form-data');
+   $('#form1').attr('action', '/agregarFotoAsegurado');
+
+})
+$('#btnBuscar').click(()=>{
+   $('#form1').attr('enctype', '');
+   if ($('#tipo_asegurado').val() == '1') {
+   $('#btnBuscar').prop('disabled', false);
+   $('#btnRegistrar').prop('disabled', false);
+   $('#btnAgregarFoto').prop('disabled', false);
+   $('#myPhoto').prop('disabled', false);
+   $('#form1').attr('action', '/buscarAsegurado');
+   $('#form_foto').attr('action', '/buscarAsegurado');
+   }if($('#tipo_asegurado').val() == '2'){
+   $('#form1').attr('action', '/buscarBeneficiario');
+   $('#form_foto').attr('action', '/buscarBeneficiario');
+   $('#btnBuscar').prop('disabled', false);
+   $('#btnRegistrar').prop('disabled', false);
+   $('#btnAgregarFoto').prop('disabled', false);
+   $('#myPhoto').prop('disabled', false);
+
+   }
+})
 
 $("#tipo_asegurado").change(function () {
-           $('#btnBuscar').prop('disabled', false); 
            if ($('#tipo_asegurado').val() == '1') {
+                $('#btnBuscar').prop('disabled', false); 
+                $('#btnRegistrar').prop('disabled', false); 
+                $('#btnAgregarFoto').prop('disabled', false);
+                $('#myPhoto').prop('disabled', false);
                $('#form1').attr('action', '/buscarAsegurado');
+               $('#form_foto').attr('action', '/buscarAsegurado');
             }if($('#tipo_asegurado').val() == '2'){
                 $('#form1').attr('action', '/buscarBeneficiario');
+                $('#form_foto').attr('action', '/buscarBeneficiario');
                 $('#btnBuscar').prop('disabled', false); 
+                $('#btnRegistrar').prop('disabled', false); 
+                $('#btnAgregarFoto').prop('disabled', false); 
+                $('#myPhoto').prop('disabled', false);
+
            }
         });
 
-window.addEventListener("load", event => {
-    var x = document.getElementById("imgtest").complete;
-    var y = document.getElementById("imgtest").naturalHeight;
-    if (y === 0) {
-        console.log(x,y);
-    }
-});
+// window.addEventListener("load", event => {
+//     var x = document.getElementById("imgtest").complete;
+//     var y = document.getElementById("imgtest").naturalHeight;
+//     if (y === 0) {
+//         console.log(x,y);
+//     }
+// });
 
 </script>
 
