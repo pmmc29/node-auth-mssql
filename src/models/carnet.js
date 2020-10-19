@@ -40,12 +40,20 @@ async function comprobarPago(req, res) {
         await poolConnect;
         if (req.body.btnImprimir =='') {//click en imprimir (historial de carnet)
             console.log(req.body)
-            req.flash('loginMessage', 'Printed')
-            req.flash('aux', req.body.codigo)
+            // req.flash('loginMessage', 'Printed')
+            // req.flash('aux', req.body.codigo)
             const resultImp = await request.query(`SELECT * from asegurados,carnet where agenda = ${req.body.codigo} and agenda = age_asegurado and id_carnet = ${req.body.id_carnet}`)
             const resultFirmas = await request.query(`select * from firma`)
+            //nombre y apellido
+            let str = resultImp.recordset[0].nombre.split(" ")
+            let apellido = str[0] + " " + str[1]
+            let nombre = ''
+            for (let index = 2; index < str.length; index++) {
+                nombre = nombre + " " + str[index]
+            }
+            //
             console.log(resultImp.recordset, resultFirmas.recordset)
-            QRCode.toDataURL(JSON.stringify({ID:req.body.id_carnet,Nombre:resultImp.recordset[0].nombre}), function (err, url) {
+            QRCode.toDataURL(JSON.stringify({Carnet:req.body.id_carnet,Nombre:resultImp.recordset[0].nombre}), function (err, url) {
                 res.render('carnet', {
                     menu: '',
                     subm: '',
@@ -55,7 +63,9 @@ async function comprobarPago(req, res) {
                     file: `../photos/Usuarios/${req.user.email}.jpg`,
                     file_carnet: `../photos/Asegurados/${req.body.codigo}.jpg`,
                     res: resultImp.recordset[0],
-                    firmas: resultFirmas.recordset
+                    firmas: resultFirmas.recordset,
+                    nombre: nombre,
+                    apellido: apellido
                 })
             })
         }
