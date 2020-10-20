@@ -51,7 +51,7 @@ async function obtenerAsegurados(req, res) {
     try {
         await poolConnect;
         if (codigo !== undefined) {
-            const result2 = await request.query(`select * from asegurados where agenda = '${codigo}'`)
+            const result2 = await request.query(`select * from asegurados where cod_asegurado = '${codigo}'`)
             res.json(result2.recordset)
         } else {
             const result = await request.query(`select * from asegurados`)
@@ -162,7 +162,7 @@ async function registrarSangre(req, res) {
                 req.flash('aux', req.body.edtBuscar)
                 res.redirect('/buscarAsegurado')
         } else {
-            const result = await request.query(`update asegurados set tipo_sangre = '${req.body.select_sangre}' where agenda = '${req.body.edtBuscar}'`)
+            const result = await request.query(`update asegurados set tipo_sangre = '${req.body.select_sangre}' where cod_asegurado = '${req.body.edtBuscar}'`)
             const response = result.rowsAffected[0]
     
             if (response > 0) { // 1 fila afectada = actualizacion exitosa
@@ -184,7 +184,7 @@ async function registrarSangre(req, res) {
 async function renderDatos(req, res, msg) {
     try {
         await poolConnect;
-        const result = await request.query(`select * from asegurados where agenda = '${req.body.edtBuscar}'`)
+        const result = await request.query(`select * from asegurados where cod_asegurado = '${req.body.edtBuscar}'`)
         const response = result.recordset[0]
         console.log(response)
         if (response == undefined) { // no existe el codigo del asegurado
@@ -198,8 +198,8 @@ async function renderDatos(req, res, msg) {
             for (let index = 2; index < str.length; index++) {
                 nombre = nombre + " " + str[index]
             }
-            const carnet = await request.query(`SELECT id_carnet,agenda,nombre,login, carnet.created_at,motivo,comprobante,estado FROM carnet,usuarios,asegurados where agenda = '${response.agenda}'
-                                                and agenda = age_asegurado and id_usuario = usuarios.id`)
+            const carnet = await request.query(`SELECT id_carnet,asegurados.cod_asegurado,nombre,login, carnet.created_at,motivo,comprobante,estado FROM carnet,usuarios,asegurados where asegurados.cod_asegurado = '${response.cod_asegurado}'
+                                                and asegurados.cod_asegurado = carnet.cod_asegurado and id_usuario = usuarios.id`)
             console.log(carnet.recordset)
 
             let file_test = `./src/photos/Asegurados/${req.body.edtBuscar}.jpg`
@@ -227,6 +227,7 @@ async function renderDatos(req, res, msg) {
                     res: response,
                     apellido: apellido,
                     nombre: nombre,
+                    codigo: response.cod_asegurado,
                     historial: carnet.recordset
                 })
             })

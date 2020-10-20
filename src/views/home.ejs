@@ -77,6 +77,18 @@
                         </ul>
                     </div>
                 </li>
+                <li class="bold <% if (menu === 'Beneficiarios') { %> active <%}%>">
+                    <div class="collapsible-header waves-effect waves-teal"><i
+                            class="material-icons">people</i>Beneficiarios
+                    </div>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li class="<% if (subm === 'buscarBeneficiario') { %> active <%}%>"><a href="/buscarBeneficiario"><i class="material-icons">search</i>Buscar Beneficiario</a></li>
+                            <li class="<% if (subm === 'listaBeneficiarios') { %> active <%}%>"><a href="/listaBeneficiarios"><i class="material-icons">credit_card</i>Lista de Beneficiarios</a></li>
+                            <li class="<% if (subm === '5') { %> active <%}%>"><a href="#"><i class="material-icons">devices</i>Menu3</a></li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
             <li>
                 <div class="divider"></div>

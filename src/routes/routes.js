@@ -235,9 +235,34 @@ router.get('/buscarAsegurado', async function (req, res, next) {
     }
 });
 
+router.get('/buscarBeneficiario', async function (req, res, next) {
+    if (req.isAuthenticated()) {
+        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+            // console.log(url)
+            res.render('buscarBeneficiario', {
+                user: req.user,
+                menu: 'Beneficiarios',
+                subm: 'buscarBeneficiario',
+                qr: `${url}`,
+                file: `../photos/Usuarios/${req.user.email}.jpg`,
+                file_ase: '',
+                res: '',
+                apellido: '',
+                nombre: '',
+                historial: ''
+
+            });
+        })
+        console.log(req.user.id)
+    } else {
+        res.redirect('/login');
+    }
+});
+
 router.post('/buscarAsegurado', asegurados.obtenerInfoAsegurado)
 router.post('/buscarBeneficiario', beneficiarios.obtenerInfoBeneficiario)
 router.post('/agregarFotoAsegurado', asegurados.agregarFoto)
+router.post('/agregarFotoBeneficiario', beneficiarios.agregarFotoB)
 router.post('/listaCuentas', cuentas.btnListaCuentas)
 router.post('/listaAsegurados', asegurados.btnListaAsegurados)
 router.post('/comprobarPago', carnet.comprobarPago)

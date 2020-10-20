@@ -9,19 +9,11 @@
     <main>
         <div class="row col s12">
             <form method="POST" class="col s6" id="form1">
-                <h3>Buscar Asegurado</h3>
-                <div class="input-field col s12">
-                    <select name="tipo_asegurado" id="tipo_asegurado">
-                        <option value="0" disabled selected>Elige un Tipo</option>
-                        <option value="1">Asegurado</option>
-                        <option value="2">Beneficiario</option>
-                    </select>
-                    <label>Tipo de Asegurado</label>
-                    <blockquote>
-                        <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
-                        <%= typeof message != 'undefined' ? message : '' %>
-                    </blockquote>
-                </div>
+                <h3>Buscar Beneficiario</h3>
+                <blockquote>
+                    <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
+                    <%= typeof message != 'undefined' ? message : '' %>
+                </blockquote>
                 <div class="input-field col s9">
                     <input id="search" name="edtBuscar" type="text" class="validate"
                         value="<%= typeof id != 'undefined' ? id : '' %><%= typeof aux != 'undefined' ? aux : '' %>">
