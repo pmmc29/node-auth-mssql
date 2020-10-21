@@ -20,16 +20,17 @@
             <div class="card-body frente" style="padding: 15px;">
                 <div class="foto">
                     <figure>
-                        <img src="<%= typeof file_carnet != 'undefined' ? file_carnet : '' %>">
+                        <img style="margin-top: 5px;" src="<%= typeof file_carnet != 'undefined' ? file_carnet : '' %>">
 
                     </figure>
-                    <p><b>Nro.</b><%= res.id_carnet %></p>
-                    <p class="jefe" style="bottom: -15px;"><b>Jefe de afiliacion</b></p>
+                    <p style="margin-bottom: 0px;"><b>Nro.</b><%= res.id_carnet %></p>
+                    <img id="foto_firma" style="height: 40px; width: 120px; border-bottom: 1px solid;">
+                    <p style="margin-bottom: -50px;"><b>Jefe de afiliacion</b></p>
                 </div>
-                <img id="foto_firma" style="width: 120px;
+                <!-- <img id="foto_firma" style="width: 120px;
     position: absolute;
-    top: 210px;
-    height: 40px;">
+    bottom: 25px;
+    height: 40px;"> -->
                 <div class="info">
                     <figure>
                         <img src="../photos/Usuarios/sinec.PNG">
@@ -39,9 +40,10 @@
                             </b></i></p>
                     <p><b>Nombres:</b> <%= nombre %></p>
                     <p><b>Apellidos:</b> <%= apellido %></p>
-                    <p><b>Empresa:</b> <%= res.empresa %></p>
-                    <p><b>Fecha de ingreso:</b> <%= res.fec_ingreso %></p>
-                    <p><b>Nro. Matricula:</b> <%= res.cnss %></p>
+                    <p><b>Empresa:</b> <%= res.nom_emp %></p>
+                    <p><b>Fecha de ingreso:</b> <%= res.fec_ing %></p>
+                    <p><b>Nro. Matricula:</b><%= res.cod_asegurado %><%= res.cod_bnf %>
+                    </p>
                     <p><b>Fecha de nacimiento: </b><%= res.fec_nac %></p>
                     <p><b>Tipo de Sangre:</b> <%= res.tipo_sangre %></p>
                     <p><b>Validez:</b> 1 Año</p>
@@ -117,7 +119,7 @@
             scanHTML: false,
             importStyles:
             ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
-            cssStyle: '.card {margin-top: 40px; margin-left: -530px; border: none;}',
+            cssStyle: '.card {margin-top: 55px; margin-left: -520px; border: none;}',
             hidePageRule: true
         });
     });
@@ -127,7 +129,7 @@
             scanHTML: false,
             importStyles:
             ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
-            cssStyle: '.card {margin-top: 40px; margin-left: -520px; border: none;}',
+            cssStyle: '.card {margin-top: 40px; margin-left: -520px; border: none;} .img{border: red;}',
             hidePageRule: true
         });
     });

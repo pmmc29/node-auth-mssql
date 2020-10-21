@@ -8,7 +8,7 @@
     <%- include home.ejs %>
     <main>
         <div class="row col s12">
-            <form method="POST" class="col s6" id="form1">
+            <form method="POST" class="col s6" id="form1" action="buscarBeneficiario">
                 <h3>Buscar Beneficiario</h3>
                 <blockquote>
                     <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
@@ -20,8 +20,7 @@
                     <label for="search">Codigo</label>
                 </div>
                 <div class="input-field col s3">
-                    <button class="btn waves-effect waves-light" type="submit" name="btnBuscar" id="btnBuscar"
-                        disabled>Buscar
+                    <button class="btn waves-effect waves-light" type="submit" name="btnBuscar" id="btnBuscar">Buscar
                         <i class="material-icons right">search</i>
                     </button>
                 </div>
@@ -63,11 +62,7 @@
                             value="<%= typeof res.nom_emp != 'undefined' ? res.nom_emp : '' %>" disabled>
                         <label for="company">Empresa</label>
                     </div>
-                    <div class="input-field col s12">
-                        <input id="join_date" name="empresa" type="text" class="validate"
-                            value="<%= typeof res.fec_ing != 'undefined' ? res.fec_ing : '' %>" disabled>
-                        <label for="join_date">Fecha de Ingreso</label>
-                    </div>
+
                     <div class="input-field col s12">
                         <input id="num_matricula" name="nro_matricua" type="text" class="validate"
                             value="<%= typeof codigo != 'undefined' ? codigo : '' %>" disabled>
@@ -78,14 +73,26 @@
                             value="<%= typeof res.fec_nac != 'undefined' ? res.fec_nac : '' %>" disabled>
                         <label for="birth_date">Fecha de Nacimiento</label>
                     </div>
+                    <div class="input-field col s12">
+                        <h5>Registrar Datos</h5>
+                        <blockquote id="msgRD">
+                            <%= typeof msgRD != 'undefined' ? msgRD : '' %>
+                        </blockquote>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="join_date" name="empresa" type="text" class="datepicker"
+                            value="<%= typeof res.fec_ing != 'undefined' ? res.fec_ing : '' %>"
+                            <% if(res.fec_ing !== null){ %> disabled <% } else {%><%= res.fec_ing %><%}%>>
+                        <label for="join_date">Fecha de Ingreso</label>
+                    </div>
                     <div class="input-field col s6">
                         <input id="ci" name="ci" type="text" class="validate"
                             value="<%= typeof res.ci != 'undefined' ? res.ci : '' %>" <% if(res.ci !== null){ %>
                             disabled <% } else {%><%= res.ci %><%}%>>
-                    <label for="ci">CI.</label>
+                        <label for="ci">CI.</label>
                      </div> 
                      <div class="input-field col s3">
-                    <select name="ci_loc" <% if(res.ci_loc !== null){ %> disabled <% }%>>
+                    <select name="ci_loc" id="ci_loc" <% if(res.ci_loc !== null){ %> disabled <% }%>>
                         <option value="" disabled selected> <% if(res.ci_loc !== null){ %>
                             <%= res.ci_loc %><% } else {%>Elige un Lugar<%}%></option>
                         <option value="SC">SC</option>
@@ -95,7 +102,8 @@
                     <label>Lugar</label>
                 </div>
                 <div class="input-field col s6">
-                    <select name="select_sangre" <% if(res.tipo_sangre !== null){ %> disabled <% }%> >
+                    <select name="select_sangre" id="select_sangre" <% if(res.tipo_sangre !== null){ %> disabled <% }%>
+                            >
                         <option value="" disabled selected><% if(res.tipo_sangre !== null){ %>
                             <%= res.tipo_sangre %><% } else {%>Elige un Tipo<%}%></option>
                             <option value="tipo1">Tipo 1</option>
@@ -106,8 +114,8 @@
                     </div>
                     <div class="input-field col s6">
                         <% if (res.tipo_sangre === null || res.tipo_sangre == '') { %>
-                            <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar"
-                                id="btnRegistrar" disabled>Registrar
+                            <button class="btn waves-effect waves-light" type="button" name="btnRegistrar"
+                                id="btnRegistrar">Registrar
                                 <i class="material-icons right">person_add</i>
                             </button>
                             <%}%>
@@ -126,7 +134,7 @@
                             <div class="card blue-grey">
                                 <div class="card-content white-text">
                                     <h5>Carnet: <%= historial[i].id_carnet %></h5>
-                                    <form action="/comprobarPago" method="POST">
+                                    <form action="/verificarCarnetB" method="POST">
                                         <ul>
                                             <input type="text" name="id_carnet" value="<%= historial[i].id_carnet %>"
                                                 hidden>
@@ -138,7 +146,7 @@
                                                     value="<%= historial[i].comprobante %>"
                                                     hidden><%= historial[i].comprobante %>
                                             </li>
-                                            <input type="text" name="codigo" value="<%= historial[i].agenda %>" hidden>
+                                            <input type="text" name="codigo" value="<%= historial[i].cod_bnf %>" hidden>
                                             <li class="card teal">Motivo: <%= historial[i].motivo %></li>
                                             <% if (historial[i].estado === 1) { %>
                                             <button class="btn waves-effect waves-light" type="submit"
@@ -171,23 +179,7 @@
     <script type="module">
         import tinyPrint from '../public/tiny-print/src/index.js'
         
-//recuperar los datos del formulario
 const codigo = document.getElementById('search').value;
-const nombre = document.getElementById('name').value +' '+ document.getElementById('last_name').value;
-const fec_nac = document.getElementById('search').value;
-const sexo = document.getElementById('search').value;
-const ci = document.getElementById('search').value;
-const tipo_sangre = document.getElementById('search').value;
-
-    let datos = [{
-        cod: codigo,
-        name: nombre,
-        fec_nac: fec_nac,
-        sexo: sexo,
-        ci: ci,
-        tipo_sangre: tipo_sangre
-    }]
-const element = document.getElementById('form1');
 
     $( "#btn1" ).click(function() {
     // tinyPrint(element, {
@@ -217,58 +209,76 @@ const element = document.getElementById('form1');
         </div>
     </div>`);
 });
-$('#btnAgregarFoto').click(()=>{
-   $('#form1').attr('enctype', 'multipart/form-data');
-    if ($('#tipo_asegurado').val() == '1') {
-        $('#form1').attr('action', '/agregarFotoAsegurado');
+//REGISTRAR DATOS
+
+$("#btnRegistrar").click(()=>{
+    const fec_ing = document.getElementById('join_date').value;
+    const ci = document.getElementById('ci').value;
+    const ci_loc = document.getElementById('ci_loc').value;
+    const sangre = document.getElementById('select_sangre').value;
+    // console.log(fec_ing,ci,ci_loc,sangre);
+
+    if (fec_ing === '' || ci === '' || ci_loc === '' || sangre === '') {
+        console.log('NO');
+
+        $('#msgRD').append(`test`)
+    }else{
+        console.log('SI');
     }
-    if ($('#tipo_asegurado').val() == '2') {
-        $('#form1').attr('action', '/agregarFotoBeneficiario');
-    }
-})
-$('#myPhoto').click(()=>{
-   $('#form1').attr('enctype', 'multipart/form-data');
-   $('#form1').attr('action', '/agregarFotoAsegurado');
-
-})
-$('#btnBuscar').click(()=>{
-   $('#form1').attr('enctype', '');
-   if ($('#tipo_asegurado').val() == '1') {
-   $('#btnBuscar').prop('disabled', false);
-   $('#btnRegistrar').prop('disabled', false);
-   $('#btnAgregarFoto').prop('disabled', false);
-   $('#myPhoto').prop('disabled', false);
-   $('#form1').attr('action', '/buscarAsegurado');
-   $('#form_foto').attr('action', '/buscarAsegurado');
-   }if($('#tipo_asegurado').val() == '2'){
-   $('#form1').attr('action', '/buscarBeneficiario');
-   $('#form_foto').attr('action', '/buscarBeneficiario');
-   $('#btnBuscar').prop('disabled', false);
-   $('#btnRegistrar').prop('disabled', false);
-   $('#btnAgregarFoto').prop('disabled', false);
-   $('#myPhoto').prop('disabled', false);
-
-   }
 })
 
-$("#tipo_asegurado").change(function () {
-           if ($('#tipo_asegurado').val() == '1') {
-                $('#btnBuscar').prop('disabled', false); 
-                $('#btnRegistrar').prop('disabled', false); 
-                $('#btnAgregarFoto').prop('disabled', false);
-                $('#myPhoto').prop('disabled', false);
-               $('#form1').attr('action', '/buscarAsegurado');
-               $('#form_foto').attr('action', '/buscarAsegurado');
-            }if($('#tipo_asegurado').val() == '2'){
-                $('#form1').attr('action', '/buscarBeneficiario');
-                $('#form_foto').attr('action', '/buscarBeneficiario');
-                $('#btnBuscar').prop('disabled', false); 
-                $('#btnRegistrar').prop('disabled', false); 
-                $('#btnAgregarFoto').prop('disabled', false); 
-                $('#myPhoto').prop('disabled', false);
+// $('#btnAgregarFoto').click(()=>{
+//    $('#form1').attr('enctype', 'multipart/form-data');
+//     if ($('#tipo_asegurado').val() == '1') {
+//         $('#form1').attr('action', '/agregarFotoAsegurado');
+//     }
+//     if ($('#tipo_asegurado').val() == '2') {
+//         $('#form1').attr('action', '/agregarFotoBeneficiario');
+//     }
+// })
+// $('#myPhoto').click(()=>{
+//    $('#form1').attr('enctype', 'multipart/form-data');
+//    $('#form1').attr('action', '/agregarFotoAsegurado');
 
-           }
-        });
+// })
+// $('#btnBuscar').click(()=>{
+//    $('#form1').attr('enctype', '');
+//    if ($('#tipo_asegurado').val() == '1') {
+//    $('#btnBuscar').prop('disabled', false);
+//    $('#btnRegistrar').prop('disabled', false);
+//    $('#btnAgregarFoto').prop('disabled', false);
+//    $('#myPhoto').prop('disabled', false);
+//    $('#form1').attr('action', '/buscarAsegurado');
+//    $('#form_foto').attr('action', '/buscarAsegurado');
+//    }if($('#tipo_asegurado').val() == '2'){
+//    $('#form1').attr('action', '/buscarBeneficiario');
+//    $('#form_foto').attr('action', '/buscarBeneficiario');
+//    $('#btnBuscar').prop('disabled', false);
+//    $('#btnRegistrar').prop('disabled', false);
+//    $('#btnAgregarFoto').prop('disabled', false);
+//    $('#myPhoto').prop('disabled', false);
+
+//    }
+// })
+
+// $("#tipo_asegurado").change(function () {
+//            if ($('#tipo_asegurado').val() == '1') {
+//                 $('#btnBuscar').prop('disabled', false); 
+//                 $('#btnRegistrar').prop('disabled', false); 
+//                 $('#btnAgregarFoto').prop('disabled', false);
+//                 $('#myPhoto').prop('disabled', false);
+//                $('#form1').attr('action', '/buscarAsegurado');
+//                $('#form_foto').attr('action', '/buscarAsegurado');
+//             }if($('#tipo_asegurado').val() == '2'){
+//                 $('#form1').attr('action', '/buscarBeneficiario');
+//                 $('#form_foto').attr('action', '/buscarBeneficiario');
+//                 $('#btnBuscar').prop('disabled', false); 
+//                 $('#btnRegistrar').prop('disabled', false); 
+//                 $('#btnAgregarFoto').prop('disabled', false); 
+//                 $('#myPhoto').prop('disabled', false);
+
+//            }
+//         });
 
 // window.addEventListener("load", event => {
 //     var x = document.getElementById("imgtest").complete;

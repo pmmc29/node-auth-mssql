@@ -10,4 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var select = document.querySelectorAll('select');
     var selectInstances = M.FormSelect.init(select);
+
+    var options= {format: 'mm/dd/yyyy'}
+    var datepicker = document.querySelectorAll('.datepicker');
+    var dateInstances = M.Datepicker.init(datepicker,options);
 });

@@ -134,7 +134,7 @@
                             <div class="card blue-grey">
                                 <div class="card-content white-text">
                                     <h5>Carnet: <%= historial[i].id_carnet %></h5>
-                                    <form action="/comprobarPago" method="POST">
+                                    <form action="/verificarCarnetA" method="POST">
                                         <ul>
                                             <input type="text" name="id_carnet" value="<%= historial[i].id_carnet %>"
                                                 hidden>
@@ -146,7 +146,8 @@
                                                     value="<%= historial[i].comprobante %>"
                                                     hidden><%= historial[i].comprobante %>
                                             </li>
-                                            <input type="text" name="codigo" value="<%= historial[i].agenda %>" hidden>
+                                            <input type="text" name="codigo" value="<%= historial[i].cod_asegurado %>"
+                                                hidden>
                                             <li class="card teal">Motivo: <%= historial[i].motivo %></li>
                                             <% if (historial[i].estado === 1) { %>
                                             <button class="btn waves-effect waves-light" type="submit"

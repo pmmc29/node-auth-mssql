@@ -265,7 +265,8 @@ router.post('/agregarFotoAsegurado', asegurados.agregarFoto)
 router.post('/agregarFotoBeneficiario', beneficiarios.agregarFotoB)
 router.post('/listaCuentas', cuentas.btnListaCuentas)
 router.post('/listaAsegurados', asegurados.btnListaAsegurados)
-router.post('/comprobarPago', carnet.comprobarPago)
+router.post('/verificarCarnetA', carnet.verificarCarnetA)
+router.post('/verificarCarnetB', carnet.verificarCarnetB)
 
 router.get('/crear_usuario', cuentas.listaCuenta);
 
