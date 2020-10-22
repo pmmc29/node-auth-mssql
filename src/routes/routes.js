@@ -11,6 +11,7 @@ const cuentas = require('../models/cuentas')
 const asegurados = require('../models/asegurados')
 const carnet = require('../models/carnet')
 const beneficiarios = require('../models/beneficiarios')
+const empresas = require('../models/empresas')
 
 const poolConnect = pool.connect();
 
@@ -210,6 +211,7 @@ router.get('/profile', async function (req, res, next) {
     }
 });
 router.get('/listaAsegurados', asegurados.listAsegurados);
+router.get('/listaEmpresas', empresas.listaEmpresas);
 
 router.get('/buscarAsegurado', async function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -265,6 +267,7 @@ router.post('/agregarFotoAsegurado', asegurados.agregarFoto)
 router.post('/agregarFotoBeneficiario', beneficiarios.agregarFotoB)
 router.post('/listaCuentas', cuentas.btnListaCuentas)
 router.post('/listaAsegurados', asegurados.btnListaAsegurados)
+router.post('/listaEmpresas', empresas.btnListaEmpresas)
 router.post('/verificarCarnetA', carnet.verificarCarnetA)
 router.post('/verificarCarnetB', carnet.verificarCarnetB)
 
@@ -298,6 +301,7 @@ router.get('/api/getUsers/:tipo?', cuentas.obtenerCuentas)
 router.get('/api/getAsegurados/:codigo?', asegurados.obtenerAsegurados)
 router.get('/api/getBeneficiarios/:codigo?', beneficiarios.obtenerBeneficiarios)
 router.get('/api/getCarnet/:codigo/:tipo', carnet.obtenerCarnet)
+router.get('/api/getEmpresas', empresas.obtenerEmpresas)
 
 
 module.exports = router

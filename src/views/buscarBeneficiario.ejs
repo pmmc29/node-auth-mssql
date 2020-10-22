@@ -95,9 +95,15 @@
                     <select name="ci_loc" id="ci_loc" <% if(res.ci_loc !== null){ %> disabled <% }%>>
                         <option value="" disabled selected> <% if(res.ci_loc !== null){ %>
                             <%= res.ci_loc %><% } else {%>Elige un Lugar<%}%></option>
-                        <option value="SC">SC</option>
-                        <option value="LP">LP</option>
-                        <option value="CB">CB</option>
+                        <option value="CH">Chuquisaca</option>
+                        <option value="LP">La Paz</option>
+                        <option value="CB">Cochabamba</option>
+                        <option value="OR">Oruro</option>
+                        <option value="PT">Potosí</option>
+                        <option value="TJ">Tarija</option>
+                        <option value="SC">Santa Cruz</option>
+                        <option value="BE">Beni</option>
+                        <option value="PD">Pando</option>
                     </select>
                     <label>Lugar</label>
                 </div>
@@ -106,9 +112,14 @@
                             >
                         <option value="" disabled selected><% if(res.tipo_sangre !== null){ %>
                             <%= res.tipo_sangre %><% } else {%>Elige un Tipo<%}%></option>
-                            <option value="tipo1">Tipo 1</option>
-                            <option value="tipo2">Tipo 2</option>
-                            <option value="tipo3">Tipo 3</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
                         </select>
                         <label>Tipo de Sangre</label>
                     </div>

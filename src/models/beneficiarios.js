@@ -156,7 +156,7 @@ async function registrarDatos(req, res) {
     try {
         await poolConnect;
         if (req.body.ci === '' || req.body.ci_loc === undefined || req.body.select_sangre === undefined) {
-                req.flash('loginMessage', 'LLene los campos correspondientes')
+                req.flash('msgRD', 'LLene los campos correspondientes')
                 req.flash('aux', req.body.edtBuscar)
                 res.redirect('/buscarBeneficiario')
         } else {
@@ -164,19 +164,19 @@ async function registrarDatos(req, res) {
             const response = result.rowsAffected[0]
     
             if (response > 0) { // 1 fila afectada = actualizacion exitosa
-                req.flash('loginMessage', 'Registro Exitoso')
+                req.flash('msgRD', 'Registro Exitoso')
                 req.flash('aux', req.body.edtBuscar)
                 res.redirect('/buscarBeneficiario')
             } else { // 0 filas afectadas = no se actualizo
                 console.log(req.body)
-                req.flash('loginMessage', 'Error en el Registro')
+                req.flash('msgRD', 'Error en el Registro')
                 req.flash('aux', req.body.edtBuscar)
                 res.redirect('/buscarBeneficiario')
             }
         }
     } catch (err) {
         console.error('SQL error', err);
-        req.flash('loginMessage', 'Error en el Registro')
+        req.flash('msgRD', 'Error en el Registro')
         req.flash('aux', req.body.edtBuscar)
         res.redirect('/buscarBeneficiario')
     }

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="../public/sidenav.js"></script>
+
+<title>Lista de Empresas</title>
+
+<body>
+    <%- include home.ejs %>
+    <main>
+        <div class="container">
+            <div class="row">
+                <h1>Lista de Empresas</h1>
+                <blockquote>
+                    <%= typeof aux != 'undefined' ? aux : '' %>
+                </blockquote>
+                <!-- Modal Structure -->
+                <div id="modal1" class="modal modal-fixed-footer">
+                    <div class="modal-content">
+                        <h4>Modal Header</h4>
+                        <div class="input-field col s12">
+                            <input id="id_emp" name="" type="text" class="validate" value="">
+                            <label for="id_emp">ID:</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="empresa" name="" type="text" class="validate" value="">
+                            <label for="empresa">Empresa:</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="validez" name="" type="text" class="validate" value="">
+                            <label for="validez">Validez</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="programa" name="" type="text" class="validate" value="">
+                            <label for="programa">Programa</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                    </div>
+                </div>
+                <form action="/listaEmpresas" method="POST">
+                    <table class="highlight centered" id="tb_empresas">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NOMBRE</th>
+                                <th>VALIDEZ</th>
+                                <th>PROGRAMA</th>
+                                <th>ACCION</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <% for(var i=0; i<empresas.length; i++) {%>
+                            <tr>
+                                <td><%= empresas[i].id_emp %></td>
+                                <td><%= empresas[i].nom_emp %></td>
+                                <td><%= empresas[i].validez %></td>
+                                <td><%= empresas[i].programa %></td>
+                                <%# if(empresas[i].validez === '') {%>
+                                <td><button class="btn modal-trigger" name="id_emp" type="button" data-target="modal1"
+                                        value="<%= empresas[i].id_emp %>">ACCION</button></td>
+                                <%# } %>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-12 center text-center">
+            <span class="left" id="total_reg"></span>
+            <ul class="pagination pager" id="myPager"></ul>
+        </div>
+    </main>
+</body>
+<script>
+    $(document).ready(function () {
+        // document.getElementById('validez').contentEditable = true;
+        const validez = document.getElementsByClassName('validez').value;
+        const programa = document.getElementsByClassName('programa').value;
+        console.log(validez)
+        if (validez === undefined) {
+            document.getElementsByClassName('validez').contentEditable = true;
+            // document.getElementById('programa').contentEditable = true;
+        }
+    });
+</script>
+
+</html>
