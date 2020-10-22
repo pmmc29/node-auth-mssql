@@ -260,6 +260,29 @@ router.get('/buscarBeneficiario', async function (req, res, next) {
         res.redirect('/login');
     }
 });
+router.get('/buscarEmpresa', async function (req, res, next) {
+    if (req.isAuthenticated()) {
+        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+            // console.log(url)
+            res.render('buscarEmpresa', {
+                user: req.user,
+                menu: 'Empresas',
+                subm: 'buscarEmpresa',
+                qr: `${url}`,
+                file: `../photos/Usuarios/${req.user.email}.jpg`,
+                file_ase: '',
+                res: '',
+                apellido: '',
+                nombre: '',
+                historial: ''
+
+            });
+        })
+        console.log(req.user.id)
+    } else {
+        res.redirect('/login');
+    }
+});
 
 router.post('/buscarAsegurado', asegurados.obtenerInfoAsegurado)
 router.post('/buscarBeneficiario', beneficiarios.obtenerInfoBeneficiario)

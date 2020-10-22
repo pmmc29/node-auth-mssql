@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="../public/sidenav.js"></script>
+<title>Buscar Empresa</title>
+
+<body>
+    <%- include home.ejs %>
+    <main>
+        <div class="row col s12">
+            <form method="POST" class="col s6" id="form1" action="buscarBeneficiario">
+                <h3>Buscar Empresa</h3>
+                <blockquote>
+                    <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
+                    <%= typeof message != 'undefined' ? message : '' %>
+                </blockquote>
+                <div class="input-field col s9">
+                    <input id="search" name="edtBuscar" type="text" class="validate"
+                        value="<%= typeof id != 'undefined' ? id : '' %><%= typeof aux != 'undefined' ? aux : '' %>">
+                    <label for="search">ID</label>
+                </div>
+                <div class="input-field col s3">
+                    <button class="btn waves-effect waves-light" type="submit" name="btnBuscar" id="btnBuscar">Buscar
+                        <i class="material-icons right">search</i>
+                    </button>
+                </div>
+                <div class="input-field col s12">
+                    <input id="company" name="empresa" type="text" class="validate"
+                        value="<%= typeof res.nom_emp != 'undefined' ? res.nom_emp : '' %>" disabled>
+                    <label for="company">Empresa</label>
+                </div>
+                <!-- <div class="input-field col s12">
+                    <input id="num_matricula" name="nro_matricua" type="text" class="validate"
+                        value="<%= typeof res.programa != 'undefined' ? res.programa : '' %>" disabled>
+                    <label for="num_matricula">Programa</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="birth_date" name="birth_date" type="text" class="validate"
+                        value="<%= typeof res.validez != 'undefined' ? res.validez : '' %>" disabled>
+                    <label for="birth_date">Validez</label>
+                </div> -->
+                <div class="input-field col s12">
+                    <h5>Registrar Datos</h5>
+                    <blockquote id="msgRD">
+                        <%= typeof msgRD != 'undefined' ? msgRD : '' %>
+                    </blockquote>
+                </div>
+                <div class="input-field col s12">
+                    <input id="programa" name="programa" type="text" class="validate"
+                        value="<%= typeof res.programa != 'undefined' ? res.programa : '' %>"
+                        <% if(res.programa !== null){ %> disabled <% } else {%><%= res.programa %><%}%>>
+                    <label for="programa">Programa</label>
+                </div> 
+                <div class="input-field col s12">
+                <input id="validez" name="validez" type="text" class="datepicker"
+                    value="<%= typeof res.validez != 'undefined' ? res.validez : '' %>" <% if(res.validez !== null){ %>
+                        disabled <% } else {%><%= res.validez %><%}%>>
+                    <label for="validez">Validez</label>
+                </div>
+                <div class="input-field col s6">
+                    <% if (res.tipo_sangre === null || res.tipo_sangre == '') { %> <button
+                        class="btn waves-effect waves-light" type="button" name="btnRegistrar"
+                        id="btnRegistrar">Registrar
+                    <i class="material-icons right">person_add</i>
+                    </button>
+                    <%}%>
+                </div>
+                </form>
+                <div class="col s6" id="test" style="height: 800px; overflow-y: scroll;">
+                        <h3>TEST</h3>
+                        
+                        <% for(var i=0; i<historial.length; i++) {%>
+                    <div class="card blue-grey">
+                        <div class="card-content white-text">
+                            <h5>Carnet: <%= historial[i].id_carnet %></h5>
+                            <form action="/verificarCarnetB" method="POST">
+                                <ul>
+                                    <input type="text" name="id_carnet" value="<%= historial[i].id_carnet %>" hidden>
+                                    <li>Usuario: <input type="text" name="usuario" value="<%= historial[i].login %>"
+                                            hidden><%= historial[i].login %>
+                                    </li>
+                                    <li>Fecha: <%= historial[i].created_at %></li>
+                                    <li>Comprobante: <input type="text" name="nro_comprobante"
+                                            value="<%= historial[i].comprobante %>"
+                                            hidden><%= historial[i].comprobante %>
+                                    </li>
+                                    <input type="text" name="codigo" value="<%= historial[i].cod_bnf %>" hidden>
+                                    <li class="card teal">Motivo: <%= historial[i].motivo %></li>
+                                    <% if (historial[i].estado === 1) { %>
+                                    <button class="btn waves-effect waves-light" type="submit" name="btnImprimir"
+                                        id="btnImprimir">Imprimir
+                                        <i class="material-icons right">print</i>
+                                    </button>
+                                    <% } %>
+                                    <% if (historial[i].comprobante === null) { %>
+                                    <div class="input-field">
+                                        <input
+                                            id="<%= typeof historial[i].id_carnet != 'undefined' ? historial[i].id_carnet : '' %>"
+                                            name="comprobante" type="text" class="validate" value="">
+                                        <label
+                                            for="<%= typeof historial[i].id_carnet != 'undefined' ? historial[i].id_carnet : '' %>">Nro.
+                                            Comprobante</label>
+                                        <button class="btn waves-effect waves-light" type="submit" name="btnComprobar"
+                                            id="btnComprobar">Comprobar
+                                            <i class="material-icons right">search</i>
+                                        </button>
+                                    </div>
+                                </ul>
+                                <% } %>
+                            </form>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+        </div>
+    </main>
+    <script type="module">
+        import tinyPrint from '../public/tiny-print/src/index.js'
+        
+const codigo = document.getElementById('search').value;
+
+    $( "#btn1" ).click(function() {
+    $( "#test" ).append(`<div class="card blue-grey">
+        <div class="card-content white-text">
+            <h5>Nuevo Carnet</h5>
+            <form action="/comprobarPago" method="POST">
+                <ul>
+                    <li>Usuario: <%= user.email %></li>
+                    <li>Codigo: ${codigo}</li>
+                    <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
+                    <input name="id_carnet" type="text" class="validate" value="2" hidden>
+                    <input name="comprobante" type="text" class="validate" value="" placeholder="Comprobante" required>
+                    <input name="motivo" type="text" class="validate" value="" placeholder="Motivo" required>
+                    <button class="btn waves-effect waves-light" type="submit" name="btnComprobar"
+                        id="btnComprobar">Comprobar
+                        <i class="material-icons right">search</i>
+                    </button>
+                </ul>
+            </form>
+        </div>
+    </div>`);
+});
+//REGISTRAR DATOS
+
+$("#btnRegistrar").click(()=>{
+    const fec_ing = document.getElementById('join_date').value;
+    const ci = document.getElementById('ci').value;
+    const ci_loc = document.getElementById('ci_loc').value;
+    const sangre = document.getElementById('select_sangre').value;
+    // console.log(fec_ing,ci,ci_loc,sangre);
+
+    if (fec_ing === '' || ci === '' || ci_loc === '' || sangre === '') {
+        console.log('NO');
+
+        $('#msgRD').append(`test`)
+    }else{
+        console.log('SI');
+    }
+})
+
+</script>
+
+
+</body>
+
+</html>
