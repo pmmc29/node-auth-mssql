@@ -286,6 +286,7 @@ router.get('/buscarEmpresa', async function (req, res, next) {
 
 router.post('/buscarAsegurado', asegurados.obtenerInfoAsegurado)
 router.post('/buscarBeneficiario', beneficiarios.obtenerInfoBeneficiario)
+router.post('/buscarEmpresa', empresas.obtenerInfoEmpresa)
 router.post('/agregarFotoAsegurado', asegurados.agregarFoto)
 router.post('/agregarFotoBeneficiario', beneficiarios.agregarFotoB)
 router.post('/listaCuentas', cuentas.btnListaCuentas)

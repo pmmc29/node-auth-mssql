@@ -8,7 +8,7 @@
     <%- include home.ejs %>
     <main>
         <div class="row col s12">
-            <form method="POST" class="col s6" id="form1" action="buscarBeneficiario">
+            <form method="POST" class="col s6" id="form_bnf">
                 <h3>Buscar Beneficiario</h3>
                 <blockquote>
                     <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
@@ -36,17 +36,17 @@
                         <% if (file_ase === '' && nombre !== '') { %>
                         <div class="file-field input-field">
                             <div>
-                                <input type="file" name="myPhoto" id="myPhoto" disabled>
+                                <input type="file" name="myPhoto" id="myPhoto">
                             </div>
                             <div class="input-field">
-                                <input class="file-path validate" type="text" disabled>
+                                <input class="file-path validate" type="text">
                                 <label for="myPhoto">Seleccione una Foto</label>
                             </div>
                         </div>
                         <button class="btn waves-effect waves-light" type="submit" name="btnAgregarFoto"
-                            id="btnAgregarFoto" disabled>Agregar
+                            id="btnAgregarFoto">Agregar
                             Foto
-                            <i class="material-icons right">add_a_photo</i>
+                            <i class="material-icons right"> add_a_photo</i>
                         </button>
                         <%}%>
                         </div>
@@ -80,21 +80,21 @@
                         </blockquote>
                     </div>
                     <div class="input-field col s12">
-                        <input id="join_date" name="empresa" type="text" class="datepicker"
+                        <input id="join_date" name="fec_ing" type="text" class="datepicker"
                             value="<%= typeof res.fec_ing != 'undefined' ? res.fec_ing : '' %>"
-                            <% if(res.fec_ing !== null){ %> disabled <% } else {%><%= res.fec_ing %><%}%>>
+                            <% if(res.fec_ing !== null){ %>disabled <% } else {%><%= res.fec_ing %><%}%>>
                         <label for="join_date">Fecha de Ingreso</label>
                     </div>
                     <div class="input-field col s6">
                         <input id="ci" name="ci" type="text" class="validate"
-                            value="<%= typeof res.ci != 'undefined' ? res.ci : '' %>" <% if(res.ci !== null){ %>
-                            disabled <% } else {%><%= res.ci %><%}%>>
+                            value="<%= typeof res.ci != 'undefined' ? res.ci : '' %>"
+                            <% if(res.ci !== null){ %>disabled <% } else {%><%= res.ci %><%}%>>
                         <label for="ci">CI.</label>
                      </div> 
                      <div class="input-field col s3">
-                    <select name="ci_loc" id="ci_loc" <% if(res.ci_loc !== null){ %> disabled <% }%>>
-                        <option value="" disabled selected> <% if(res.ci_loc !== null){ %>
-                            <%= res.ci_loc %><% } else {%>Elige un Lugar<%}%></option>
+                    <select name="ci_loc" id="ci_loc" <% if(res.ci_loc !== null){ %> disabled<% }%>>
+                        <option value="" selected><% if(res.ci_loc !== null){%><%= res.ci_loc %>
+                            <% } else {%>Elige un Lugar<%}%></option>
                         <option value="CH">Chuquisaca</option>
                         <option value="LP">La Paz</option>
                         <option value="CB">Cochabamba</option>
@@ -108,10 +108,10 @@
                     <label>Lugar</label>
                 </div>
                 <div class="input-field col s6">
-                    <select name="select_sangre" id="select_sangre" <% if(res.tipo_sangre !== null){ %> disabled <% }%>
-                            >
-                        <option value="" disabled selected><% if(res.tipo_sangre !== null){ %>
-                            <%= res.tipo_sangre %><% } else {%>Elige un Tipo<%}%></option>
+                    <select name="select_sangre" id="select_sangre" 
+                    <% if(res.tipo_sangre !== null){ %> disabled<% }%> >
+                        <option value="" selected><% if(res.tipo_sangre !== null){ %><%= res.tipo_sangre %>
+                            <% } else {%>Elige un Tipo<%}%></option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
                             <option value="B+">B+</option>
@@ -124,13 +124,13 @@
                         <label>Tipo de Sangre</label>
                     </div>
                     <div class="input-field col s6">
-                        <% if (res.tipo_sangre === null || res.tipo_sangre == '') { %>
-                            <button class="btn waves-effect waves-light" type="button" name="btnRegistrar"
+                        <% if (res.tipo_sangre === null || res.tipo_sangre == '' || res.fec_ing === null || res.fec_ing =='') { %>
+                            <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar"
                                 id="btnRegistrar">Registrar
                                 <i class="material-icons right">person_add</i>
                             </button>
                             <%}%>
-                        <% if (nombre !== '' && res.tipo_sangre !== null) { %>
+                        <% if (nombre !== '' && res.tipo_sangre !== null && res.fec_ing) { %>
                             <button class="btn waves-effect waves-light" type="button" name="btnImprimir"
                                 id="btn1">Solicitar Carnet
                                 <i class="material-icons right">person_add</i>
@@ -187,8 +187,9 @@
                     </div>
                 </div>
     </main>
-    <script type="module">
-        import tinyPrint from '../public/tiny-print/src/index.js'
+</body>
+<script type="module">
+    import tinyPrint from '../public/tiny-print/src/index.js'
         
 const codigo = document.getElementById('search').value;
 
@@ -220,57 +221,23 @@ const codigo = document.getElementById('search').value;
         </div>
     </div>`);
 });
-//REGISTRAR DATOS
 
-$("#btnRegistrar").click(()=>{
-    const fec_ing = document.getElementById('join_date').value;
-    const ci = document.getElementById('ci').value;
-    const ci_loc = document.getElementById('ci_loc').value;
-    const sangre = document.getElementById('select_sangre').value;
-    // console.log(fec_ing,ci,ci_loc,sangre);
-
-    if (fec_ing === '' || ci === '' || ci_loc === '' || sangre === '') {
-        console.log('NO');
-
-        $('#msgRD').append(`test`)
-    }else{
-        console.log('SI');
-    }
+$('#btnAgregarFoto').click(()=>{
+   $('#form_bnf').attr('enctype', 'multipart/form-data');
+   $('#form_bnf').attr('action', '/agregarFotoBeneficiario');
 })
-
-// $('#btnAgregarFoto').click(()=>{
-//    $('#form1').attr('enctype', 'multipart/form-data');
-//     if ($('#tipo_asegurado').val() == '1') {
-//         $('#form1').attr('action', '/agregarFotoAsegurado');
-//     }
-//     if ($('#tipo_asegurado').val() == '2') {
-//         $('#form1').attr('action', '/agregarFotoBeneficiario');
-//     }
-// })
-// $('#myPhoto').click(()=>{
-//    $('#form1').attr('enctype', 'multipart/form-data');
-//    $('#form1').attr('action', '/agregarFotoAsegurado');
-
-// })
-// $('#btnBuscar').click(()=>{
-//    $('#form1').attr('enctype', '');
-//    if ($('#tipo_asegurado').val() == '1') {
-//    $('#btnBuscar').prop('disabled', false);
-//    $('#btnRegistrar').prop('disabled', false);
-//    $('#btnAgregarFoto').prop('disabled', false);
-//    $('#myPhoto').prop('disabled', false);
-//    $('#form1').attr('action', '/buscarAsegurado');
-//    $('#form_foto').attr('action', '/buscarAsegurado');
-//    }if($('#tipo_asegurado').val() == '2'){
-//    $('#form1').attr('action', '/buscarBeneficiario');
-//    $('#form_foto').attr('action', '/buscarBeneficiario');
-//    $('#btnBuscar').prop('disabled', false);
-//    $('#btnRegistrar').prop('disabled', false);
-//    $('#btnAgregarFoto').prop('disabled', false);
-//    $('#myPhoto').prop('disabled', false);
-
-//    }
-// })
+$('#photo_bnf').click(()=>{
+   $('#form_bnf').attr('enctype', 'multipart/form-data');
+   $('#form_bnf').attr('action', '/agregarFotoAsegurado');
+})
+$('#btnBuscar').click(()=>{
+    $('#form_bnf').attr('enctype', '');
+    $('#form_bnf').attr('action', '/buscarBeneficiario');
+})
+$('#btnRegistrar').click(()=>{
+    $('#form_bnf').attr('enctype', '');
+    $('#form_bnf').attr('action', '/buscarBeneficiario');
+})
 
 // $("#tipo_asegurado").change(function () {
 //            if ($('#tipo_asegurado').val() == '1') {
@@ -300,8 +267,5 @@ $("#btnRegistrar").click(()=>{
 // });
 
 </script>
-
-
-</body>
 
 </html>

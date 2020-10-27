@@ -54,7 +54,7 @@ async function obtenerBeneficiarios(req, res) {
             const result2 = await request.query(`select * from beneficiarios where cod_bnf = '${codigo}'`)
             res.json(result2.recordset)
         } else {
-            const result = await request.query(`select * from beneficiarios`)
+            const result = await request.query(`select * from beneficiarios order by agenda`)
             res.json(result.recordset)
         }
     } catch (err) {
@@ -132,6 +132,7 @@ async function agregarFotoB(req, res) {//click en agregar foto
                         res.redirect('/buscarBeneficiario')
                     } else {
                         if (req.file == undefined) {
+                            console.log(req.body,req.file)
                             req.flash('loginMessage', 'Seleccione una imagen!')
                             req.flash('aux', req.body.edtBuscar)
                             res.redirect('/buscarBeneficiario')
@@ -155,12 +156,12 @@ async function agregarFotoB(req, res) {//click en agregar foto
 async function registrarDatos(req, res) {
     try {
         await poolConnect;
-        if (req.body.ci === '' || req.body.ci_loc === undefined || req.body.select_sangre === undefined) {
+        if (req.body.fec_ing === '' ||req.body.ci === '' || req.body.ci_loc === '' || req.body.select_sangre === '') {
                 req.flash('msgRD', 'LLene los campos correspondientes')
                 req.flash('aux', req.body.edtBuscar)
                 res.redirect('/buscarBeneficiario')
         } else {
-            const result = await request.query(`update beneficiarios set tipo_sangre = '${req.body.select_sangre}', ci = '${req.body.ci}', ci_loc = '${req.body.ci_loc}' where cod_bnf = '${req.body.edtBuscar}'`)
+            const result = await request.query(`update beneficiarios set fec_ing = '${req.body.fec_ing}', tipo_sangre = '${req.body.select_sangre}', ci = '${req.body.ci}', ci_loc = '${req.body.ci_loc}' where cod_bnf = '${req.body.edtBuscar}'`)
             const response = result.rowsAffected[0]
     
             if (response > 0) { // 1 fila afectada = actualizacion exitosa

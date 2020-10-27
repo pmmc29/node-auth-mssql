@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var select = document.querySelectorAll('select');
     var selectInstances = M.FormSelect.init(select);
 
-    var options= {format: 'mm/dd/yyyy',yearRange: [1950,new Date().getFullYear()]}
+    var options= {format: 'dd/mm/yyyy',yearRange: [1950,new Date().getFullYear()]}
     var datepicker = document.querySelectorAll('.datepicker');
     var dateInstances = M.Datepicker.init(datepicker,options);
 

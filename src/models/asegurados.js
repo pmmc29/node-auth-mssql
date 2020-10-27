@@ -54,7 +54,7 @@ async function obtenerAsegurados(req, res) {
             const result2 = await request.query(`select * from asegurados where cod_asegurado = '${codigo}'`)
             res.json(result2.recordset)
         } else {
-            const result = await request.query(`select * from asegurados`)
+            const result = await request.query(`select * from asegurados order by agenda`)
             res.json(result.recordset)
         }
     } catch (err) {
