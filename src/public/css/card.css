@@ -43,7 +43,7 @@ body {
 
 .card .card-body.frente .foto img {
     max-width: 100%;
-    height: 160px;
+    max-height: 160px;
     /* border: 1px solid black; */
 }
 

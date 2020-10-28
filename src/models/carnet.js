@@ -55,7 +55,8 @@ async function verificarCarnetA(req, res) {//ASEGURADOS
                 nombre = nombre + " " + str[index]
             }
             
-            QRCode.toDataURL(JSON.stringify({Carnet:req.body.id_carnet,Nombre:resultImp.recordset[0].nombre}), function (err, url) {
+            // QRCode.toDataURL(JSON.stringify({Carnet:req.body.id_carnet,Nombre:resultImp.recordset[0].nombre}), function (err, url) {
+            QRCode.toDataURL(`http://192.168.1.119:3000/api/getasegurados/${req.body.codigo}`, function (err, url) {
                 res.render('carnet', {
                     menu: '',
                     subm: '',
@@ -121,6 +122,7 @@ async function verificarCarnetB(req, res) {//BENEFICIARIOS
             }
             
             QRCode.toDataURL(JSON.stringify({Carnet:req.body.id_carnet,Nombre:resultImp.recordset[0].nombre}), function (err, url) {
+            // QRCode.toDataURL(`http://192.168.1.119:3000/api/getasegurados/${req.body.codigo}`, function (err, url) {
                 res.render('carnet', {
                     menu: '',
                     subm: '',

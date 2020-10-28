@@ -29,7 +29,7 @@ const uploadPhoto = multer({
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb)
     }
-}).single('myPhoto')
+}).single('photo_bnf')
 
 function checkFileType(file, cb) {
     //extenciones permitidas
@@ -118,7 +118,7 @@ async function obtenerInfoBeneficiario(req, res) {
         }
     } else {
         res.render('login', {
-            title: "Sign In"
+            title: "Iniciar Sesion"
         });
     }
 }
