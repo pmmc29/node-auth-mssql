@@ -12,6 +12,7 @@ const asegurados = require('../models/asegurados')
 const carnet = require('../models/carnet')
 const beneficiarios = require('../models/beneficiarios')
 const empresas = require('../models/empresas')
+const comprobante = require('../models/comprobante')
 
 const poolConnect = pool.connect();
 
@@ -294,6 +295,7 @@ router.post('/listaAsegurados', asegurados.btnListaAsegurados)
 router.post('/listaEmpresas', empresas.btnListaEmpresas)
 router.post('/verificarCarnetA', carnet.verificarCarnetA)
 router.post('/verificarCarnetB', carnet.verificarCarnetB)
+router.post('/numComprobante', comprobante.verificarComprobante)
 
 router.get('/crear_usuario', cuentas.listaCuenta);
 

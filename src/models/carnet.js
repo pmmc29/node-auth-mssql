@@ -40,8 +40,6 @@ async function verificarCarnetA(req, res) {//ASEGURADOS
         await poolConnect;
         if (req.body.btnImprimir =='') {//click en imprimir (historial de carnet)
             console.log(req.body)
-            // req.flash('loginMessage', 'Printed')
-            // req.flash('aux', req.body.codigo)
             const resultImp = await request.query(`SELECT nombre,nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,id_carnet
             from asegurados,carnet
             where asegurados.cod_asegurado = '${req.body.codigo}' and asegurados.cod_asegurado = carnet.cod_asegurado and id_carnet = ${req.body.id_carnet}`)
@@ -54,7 +52,6 @@ async function verificarCarnetA(req, res) {//ASEGURADOS
             for (let index = 2; index < str.length; index++) {
                 nombre = nombre + " " + str[index]
             }
-            
             // QRCode.toDataURL(JSON.stringify({Carnet:req.body.id_carnet,Nombre:resultImp.recordset[0].nombre}), function (err, url) {
             QRCode.toDataURL(`http://192.168.1.119:3000/api/getasegurados/${req.body.codigo}`, function (err, url) {
                 res.render('carnet', {
@@ -71,20 +68,6 @@ async function verificarCarnetA(req, res) {//ASEGURADOS
                     apellido: apellido
                 })
             })
-        }
-        if (req.body.btnComprobar == '') {//click en Comprobar (historial de carnet)
-            console.log(req.body)
-            const result = await request.query(`SELECT id_carnet,agenda,nombre,login, carnet.created_at,motivo,comprobante FROM carnet,usuarios,asegurados where 
-            agenda = age_asegurado and id_usuario = usuarios.id and comprobante = ${req.body.comprobante}`)
-            console.log(result.recordset.length)
-            if (result.recordset.length > 0 ) {
-                req.flash('loginMessage', 'Comprobante Verificado')
-            }else{
-                req.flash('loginMessage', 'No existe ese Nro. de Comprobante')
-            }
-            
-            req.flash('aux', req.body.codigo)
-            res.redirect('/buscarAsegurado')
         }
     } catch (err) {
         console.error('SQL error', err);

@@ -1,9 +1,10 @@
 const pool = require('../database');
-const poolConnect = pool.connect();
+const poolConnect = pool.connect()
 const QRCode = require('qrcode');
 const fs = require('fs')
 const multer = require('multer')
-const path = require('path')
+const path = require('path');
+const comprobante = require('./comprobante');
 
 const request = pool.request(); 
 
@@ -198,7 +199,7 @@ async function renderDatos(req, res, msg) {
             for (let index = 2; index < str.length; index++) {
                 nombre = nombre + " " + str[index]
             }
-            const carnet = await request.query(`SELECT id_carnet,asegurados.cod_asegurado,nombre,login, carnet.created_at,motivo,comprobante,estado FROM carnet,usuarios,asegurados where asegurados.cod_asegurado = '${response.cod_asegurado}'
+            const carnet = await request.query(`SELECT id_carnet,asegurados.cod_asegurado,nombre,login, carnet.created_at,motivo,comprobante,estado,fec_comp FROM carnet,usuarios,asegurados where asegurados.cod_asegurado = '${response.cod_asegurado}'
                                                 and asegurados.cod_asegurado = carnet.cod_asegurado and id_usuario = usuarios.id`)
             console.log(carnet.recordset)
 
