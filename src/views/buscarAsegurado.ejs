@@ -143,7 +143,7 @@
                         <% for(var i=0; i<historial.length; i++) {%>
                             <div class="card blue-grey">
                                 <div class="card-content white-text">
-                                    <h5>Carnet: <%= historial[i].id_carnet %></h5>
+                                    <h5>Carnet: <%= historial[i].id_carnet %>(<%= historial[i].estado %>)</h5>
                                     <form action="/verificarCarnetA" method="POST">
                                         <ul>
                                             <input type="text" name="id_carnet" value="<%= historial[i].id_carnet %>"
@@ -152,9 +152,12 @@
                                                     value="<%= historial[i].login %>" hidden><%= historial[i].login %>
                                             </li>
                                             <li>Fecha: <%= historial[i].created_at %></li>
-                                            <li>Comprobante: <input type="text" name="nro_comprobante"
+                                            <li style="background-color: #ee6e73;">Comprobante:
+                                                <%= historial[i].comprobante %>
+                                                <input type="text"
+                                                    name="nro_comprobante"
                                                 value="<%= historial[i].comprobante %>"
-                                                hidden><%= historial[i].comprobante %>
+                                                hidden>
                                             </li>
                                             <li>Fecha Comprobante: <%= historial[i].fec_comp %></li>
                                             <input type="text" name="codigo" value="<%= historial[i].cod_asegurado %>"

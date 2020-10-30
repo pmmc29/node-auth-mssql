@@ -47,7 +47,7 @@ async function verificarComprobante(req,res) {
             await poolConnectdb;
             const result2 = await requestdb.query(`insert into carnet (cod_asegurado,id_usuario,created_at,motivo,comprobante,estado,fec_comp) 
                                                 values('${req.body.codigo}',${req.user.id}, SYSDATETIME(), '${req.body.motivo}', '${result.recordset[0].Numero}', 1, '${result.recordset[0].FechaHora}')`)
-            console.log(result2.recordset)
+            console.log(result2)
             // if (result) { //1 fila afectada, si existe el num de comprobante
             //     req.flash('loginMessage', `Comprobante ${result.recordset[0].Numero} con fecha: `, result.recordset[0].Fecha)
             //     req.flash('aux', req.body.codigo)

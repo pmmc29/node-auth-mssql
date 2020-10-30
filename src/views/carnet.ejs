@@ -8,15 +8,25 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
 
     <link rel="stylesheet" href="../public/css/card.css">
 
 </head>
 
-<body>
+<body >
 
     <div id="carnet_full">
-        <div class="card" id="carnet_front">
+        <div class="card" id="carnet_front" >
             <div class="card-body frente" style="padding: 15px;">
                 <div class="foto">
                     <figure>
@@ -106,7 +116,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
     </script>
+
 </body>
+
 <script type="module">
     import tinyPrint from '../public/tiny-print/src/index.js'
 
@@ -114,6 +126,9 @@
     const cardBack = document.getElementById('carnet_back');
 
     $("#btn_front").click(function () {
+        alertify.confirm("Esta seguro de imprimir? Solo tiene 1 intento.",
+        function(){
+        alertify.success('Ok');
         tinyPrint(cardFront, {
             scanStyles: false,
             scanHTML: false,
@@ -122,8 +137,15 @@
             cssStyle: '.card {margin-top: 55px; margin-left: -520px; border: none;}',
             hidePageRule: true
         });
+        },
+        function(){
+        alertify.error('Cancel');
+        });
     });
     $("#btn_back").click(function () {
+        alertify.confirm("Esta seguro de imprimir? Solo tiene 1 intento.",
+        function(){
+        alertify.success('Ok');
         tinyPrint(cardBack, {
             scanStyles: false,
             scanHTML: false,
@@ -132,7 +154,12 @@
             cssStyle: '.card {margin-top: 40px; margin-left: -520px; border: none;} .img{border: red;}',
             hidePageRule: true
         });
+        },
+        function(){
+        alertify.error('Cancel');
+        });
     });
+
     document.getElementById('edit').contentEditable = true;
     $("#list_firmas").change(function () {
         $('#foto_firma').attr('src', `../photos/Firmas/${$('#list_firmas').val()}`);
