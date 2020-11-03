@@ -21,12 +21,13 @@
 
     <link rel="stylesheet" href="../public/css/card.css">
 
+
 </head>
 
-<body >
+<body>
 
     <div id="carnet_full">
-        <div class="card" id="carnet_front" >
+        <div class="card" id="carnet_front">
             <div class="card-body frente" style="padding: 15px;">
                 <div class="foto">
                     <figure>
@@ -88,7 +89,8 @@
         </div>
     </div>
     <div>
-        <button class="btn btn-outline-secondary" type="button" name="btnImprimirFront" id="btn_front">Imprimir Frente
+        <button class="btn btn-outline-secondary" type="button" name="btnImprimirFront" id="btn_front">Imprimir
+            Frente
         </button>
         <br>
         <br>
@@ -116,6 +118,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
     </script>
+    <script src="../public/print.min.js"></script>
 
 </body>
 
@@ -124,36 +127,62 @@
 
     const cardFront = document.getElementById('carnet_front');
     const cardBack = document.getElementById('carnet_back');
-
+    
     $("#btn_front").click(function () {
+        let focuser = setInterval(() => window.dispatchEvent(new Event('focus')), 500);
+
         alertify.confirm("Esta seguro de imprimir? Solo tiene 1 intento.",
         function(){
         alertify.success('Ok');
-        tinyPrint(cardFront, {
-            scanStyles: false,
-            scanHTML: false,
-            importStyles:
-            ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
-            cssStyle: '.card {margin-top: 55px; margin-left: -520px; border: none;}',
-            hidePageRule: true
-        });
+        // tinyPrint(cardFront, {
+        //     scanStyles: false,
+        //     scanHTML: false,
+        //     importStyles:
+        //     ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
+        //     cssStyle: '.card {margin-top: 40px; margin-left: -520px; border: none;}',
+        //     hidePageRule: true
+        // });
+        printJS({ printable: 'carnet_front', type: 'html', css: ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
+                    style: '.card {margin-top: 40px; margin-left: -520px; border: none;} .img{border: red;} @page { size: Letter landscape; margin: 0px}',
+                scanStyles: false, onPrintDialogClose: () => {
+                clearInterval(focuser);
+                // do your thing..
+                alert('asdasdas')
+                },
+                onError: () => {
+                clearInterval(focuser);
+                // do your thing..
+                }})
         },
         function(){
         alertify.error('Cancel');
         });
     });
     $("#btn_back").click(function () {
+        let focuser = setInterval(() => window.dispatchEvent(new Event('focus')), 500);
+
         alertify.confirm("Esta seguro de imprimir? Solo tiene 1 intento.",
         function(){
         alertify.success('Ok');
-        tinyPrint(cardBack, {
-            scanStyles: false,
-            scanHTML: false,
-            importStyles:
-            ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
-            cssStyle: '.card {margin-top: 40px; margin-left: -520px; border: none;} .img{border: red;}',
-            hidePageRule: true
-        });
+        // tinyPrint(cardBack, {
+        //     scanStyles: false,
+        //     scanHTML: false,
+        //     importStyles:
+        //     ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
+        //     cssStyle: '.card {margin-top: 40px; margin-left: -520px; border: none;} .img{border: red;}',
+        //     hidePageRule: true
+        // });
+        printJS({ printable: 'carnet_back', type: 'html', css: ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
+                    style: '.card {margin-top: 40px; margin-left: -520px; border: none;} .img{border: red;} @page { size: Letter landscape; }',
+                scanStyles: false, onPrintDialogClose: () => {
+                clearInterval(focuser);
+                // do your thing..
+                alert('asdasdas')
+                },
+                onError: () => {
+                clearInterval(focuser);
+                // do your thing..
+                }})
         },
         function(){
         alertify.error('Cancel');

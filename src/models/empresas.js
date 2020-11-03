@@ -24,6 +24,7 @@ async function obtenerEmpresas(req, res, next) {
         console.error('SQL error', err);
     }
 }
+
 async function listaEmpresas(req, res) {
     try {
         if (req.isAuthenticated()) {
