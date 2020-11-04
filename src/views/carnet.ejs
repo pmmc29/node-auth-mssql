@@ -53,7 +53,7 @@
                     <p><b>Apellidos:</b> <%= apellido %></p>
                     <p><b>Empresa:</b> <%= res.nom_emp %></p>
                     <p><b>Fecha de ingreso:</b> <%= res.fec_ing %></p>
-                    <p><b>Nro. Matricula:</b><%= res.cod_asegurado %><%= res.cod_bnf %>
+                    <p><b>Nro. Matricula:</b> <%= res.cod_asegurado %><%= res.cod_bnf %>
                     </p>
                     <p><b>Fecha de nacimiento: </b><%= res.fec_nac %></p>
                     <p><b>Tipo de Sangre:</b> <%= res.tipo_sangre %></p>
@@ -112,6 +112,15 @@
         </button>
     </div>
 
+    <form action="/actualizarImp" method="POST" style="display: none;" id="form_carnet">
+        <input type="hidden" name="cara" value="" id="cara_carnet">
+        <input type="hidden" name="cod_ase" value="<%= res.cod_asegurado %>">
+        <input type="hidden" name="cod_bnf" value="<%= res.cod_bnf %>">
+        <input type="hidden" name="cod_carnet" value="<%= res.id_carnet %>">
+        <!-- <input type="hidden" name="cara" value="" id="cara_carnet">
+        <input type="hidden" name="cara" value="" id="cara_carnet"> -->
+    </form>
+
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
     </script>
@@ -143,15 +152,16 @@
         //     hidePageRule: true
         // });
         printJS({ printable: 'carnet_front', type: 'html', css: ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
-                    style: '.card {margin-top: 40px; margin-left: -520px; border: none;} .img{border: red;} @page { size: Letter landscape; margin: 0px}',
+                    style: '.card {margin-top: 40px; margin-left: -520px; border: none;} .img{border: 2px solid red;} @page { size: Letter landscape; margin: 0px}',
                 scanStyles: false, onPrintDialogClose: () => {
                 clearInterval(focuser);
-                // do your thing..
-                alert('asdasdas')
+
+                document.getElementById('cara_carnet').value = "front";
+                document.getElementById("form_carnet").submit();
+
                 },
                 onError: () => {
                 clearInterval(focuser);
-                // do your thing..
                 }})
         },
         function(){
@@ -173,11 +183,11 @@
         //     hidePageRule: true
         // });
         printJS({ printable: 'carnet_back', type: 'html', css: ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
-                    style: '.card {margin-top: 40px; margin-left: -520px; border: none;} .img{border: red;} @page { size: Letter landscape; }',
+                    style: '.card {margin-top: 40px; margin-left: -520px; border: none;} @page { size: Letter landscape; }',
                 scanStyles: false, onPrintDialogClose: () => {
                 clearInterval(focuser);
                 // do your thing..
-                alert('asdasdas')
+                alert('test')
                 },
                 onError: () => {
                 clearInterval(focuser);

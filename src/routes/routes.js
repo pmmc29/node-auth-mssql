@@ -296,30 +296,11 @@ router.post('/listaEmpresas', empresas.btnListaEmpresas)
 router.post('/verificarCarnetA', carnet.verificarCarnetA)
 router.post('/verificarCarnetB', carnet.verificarCarnetB)
 router.post('/numComprobante', comprobante.verificarComprobante)
+router.post('/actualizarImp', carnet.actualizarImp)
 
 router.get('/crear_usuario', cuentas.listaCuenta);
 
 // router.post('/crear_usuario', asegurados.obtenerInfoAsegurado)
-router.get('/carnet', async (req, res, next) => {
-    if (req.isAuthenticated()) {
-
-        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
-            // console.log(url)
-            res.render('carnet', {
-                user: req.user,
-                menu: 'test',
-                subm: 'test',
-                qr: `${url}`,
-                file: `../photos/Usuarios/${req.user.email}.jpg`
-            });
-        })
-        console.log(req.user.id)
-    } else {
-        res.redirect('/login');
-    }
-})
-
-
 
 //----------------API---------------------------
 

@@ -143,29 +143,34 @@
                         <% for(var i=0; i<historial.length; i++) {%>
                             <div class="card blue-grey">
                                 <div class="card-content white-text">
-                                    <h5>Carnet: <%= historial[i].id_carnet %>(<%= historial[i].estado %>)</h5>
+                                    <h5><b>Carnet: </b> <%= historial[i].id_carnet %> (<%= historial[i].estado %>)</h5>
                                     <form action="/verificarCarnetA" method="POST">
                                         <ul>
                                             <input type="text" name="id_carnet" value="<%= historial[i].id_carnet %>"
                                                 hidden>
-                                            <li>Usuario: <input type="text" name="usuario"
+                                            <li><b>Usuario: </b> <input type="text" name="usuario"
                                                     value="<%= historial[i].login %>" hidden><%= historial[i].login %>
                                             </li>
-                                            <li>Fecha: <%= historial[i].created_at %></li>
-                                            <li style="background-color: #ee6e73;">Comprobante:
-                                                <%= historial[i].comprobante %>
+                                            <li><b>Fecha: </b> <%= historial[i].created_at %></li>
+                                            <li style="background-color: #ee6e73;"><b>Comprobante:</b> <%= historial[i].comprobante %>
                                                 <input type="text"
                                                     name="nro_comprobante"
                                                 value="<%= historial[i].comprobante %>"
                                                 hidden>
                                             </li>
-                                            <li>Fecha Comprobante: <%= historial[i].fec_comp %></li>
+                                            <li><b>Fecha Comprobante: </b> <%= historial[i].fec_comp %></li>
                                             <input type="text" name="codigo" value="<%= historial[i].cod_asegurado %>"
                                                 hidden>
-                                            <li class="card teal">Motivo: <%= historial[i].motivo %></li>
-                                            <% if (historial[i].estado === 1) { %>
+                                            <li class="card teal"><b>Motivo: </b> <%= historial[i].motivo %></li>
+                                            <% if (historial[i].estado === 0) { %>
                                             <button class="btn waves-effect waves-light" type="submit"
                                                 name="btnImprimir" id="btnImprimir">Imprimir
+                                                <i class="material-icons right">print</i>
+                                            </button>
+                                            <% } %>
+                                            <% if (historial[i].estado === 0) { %>
+                                            <button class="btn waves-effect waves-light" type="submit"
+                                                name="btnRImprimir" id="btnRImprimir">ReImprimir
                                                 <i class="material-icons right">print</i>
                                             </button>
                                             <% } %>
