@@ -201,8 +201,8 @@ async function renderDatos(req, res, msg) {
             for (let index = 2; index < str.length; index++) {
                 nombre = nombre + " " + str[index]
             }
-            const carnet = await request.query(`SELECT id_carnet,beneficiarios.cod_bnf,nombre,login, carnet.created_at,motivo,comprobante,estado FROM carnet,usuarios,beneficiarios where beneficiarios.cod_bnf = '${response.cod_bnf}'
-                                                and beneficiarios.cod_bnf = carnet.cod_bnf and id_usuario = usuarios.id`)
+            const carnet = await request.query(`SELECT id_carnet,beneficiarios.cod_bnf,nombre, carnet.created_at,motivo,comprobante,estado FROM carnet,beneficiarios where beneficiarios.cod_bnf = '${response.cod_bnf}'
+                                                and beneficiarios.cod_bnf = carnet.cod_bnf`)
             console.log(carnet.recordset)
 
             let file_test = `./src/photos/Beneficiarios/${req.body.edtBuscar}.jpg`

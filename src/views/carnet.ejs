@@ -34,7 +34,7 @@
                         <img style="margin-top: 5px;" src="<%= typeof file_carnet != 'undefined' ? file_carnet : '' %>">
 
                     </figure>
-                    <p style="margin-bottom: 0px;"><b>Nro.</b><%= res.id_carnet %></p>
+                    <p style="margin-bottom: 0px;"><b>Nro.</b><%= res.cod_carnet %></p>
                     <img id="foto_firma" style="height: 40px; width: 120px; border-bottom: 1px solid;">
                     <p style="margin-bottom: -50px;"><b>Jefe de afiliacion</b></p>
                 </div>
@@ -89,9 +89,11 @@
         </div>
     </div>
     <div>
-        <button class="btn btn-outline-secondary" type="button" name="btnImprimirFront" id="btn_front">Imprimir
-            Frente
-        </button>
+        <% if (imp.front == 0) { %>
+            <button class="btn btn-outline-secondary" type="button" name="btnImprimirFront" id="btn_front">Imprimir
+                Frente
+            </button>
+        <% } %>
         <br>
         <br>
         <br>
@@ -108,8 +110,10 @@
         </div>
         <br>
         <br>
+        <% if (imp.back == 0) { %>
         <button class="btn btn-outline-secondary" type="button" name="btnImprimirBack" id="btn_back">Imprimir Atras
         </button>
+        <% } %>
     </div>
 
     <form action="/actualizarImp" method="POST" style="display: none;" id="form_carnet">
@@ -143,14 +147,6 @@
         alertify.confirm("Esta seguro de imprimir? Solo tiene 1 intento.",
         function(){
         alertify.success('Ok');
-        // tinyPrint(cardFront, {
-        //     scanStyles: false,
-        //     scanHTML: false,
-        //     importStyles:
-        //     ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
-        //     cssStyle: '.card {margin-top: 40px; margin-left: -520px; border: none;}',
-        //     hidePageRule: true
-        // });
         printJS({ printable: 'carnet_front', type: 'html', css: ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
                     style: '.card {margin-top: 40px; margin-left: -520px; border: none;} .img{border: 2px solid red;} @page { size: Letter landscape; margin: 0px}',
                 scanStyles: false, onPrintDialogClose: () => {
@@ -174,20 +170,13 @@
         alertify.confirm("Esta seguro de imprimir? Solo tiene 1 intento.",
         function(){
         alertify.success('Ok');
-        // tinyPrint(cardBack, {
-        //     scanStyles: false,
-        //     scanHTML: false,
-        //     importStyles:
-        //     ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
-        //     cssStyle: '.card {margin-top: 40px; margin-left: -520px; border: none;} .img{border: red;}',
-        //     hidePageRule: true
-        // });
         printJS({ printable: 'carnet_back', type: 'html', css: ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
                     style: '.card {margin-top: 40px; margin-left: -520px; border: none;} @page { size: Letter landscape; }',
                 scanStyles: false, onPrintDialogClose: () => {
                 clearInterval(focuser);
                 // do your thing..
-                alert('test')
+                document.getElementById('cara_carnet').value = "back";
+                document.getElementById("form_carnet").submit();
                 },
                 onError: () => {
                 clearInterval(focuser);

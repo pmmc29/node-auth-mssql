@@ -40,10 +40,11 @@ async function verificarCarnetA(req, res) { //ASEGURADOS
             await poolConnect;
             if (req.body.btnImprimir == '') { //click en imprimir (historial de carnet)
                 console.log(req.body)
-                const resultImp = await request.query(`SELECT nombre,nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,id_carnet
+                const resultImp = await request.query(`SELECT nombre,nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,id_carnet,cod_carnet
             from asegurados,carnet
             where asegurados.cod_asegurado = '${req.body.codigo}' and asegurados.cod_asegurado = carnet.cod_asegurado and id_carnet = ${req.body.id_carnet}`)
                 const resultFirmas = await request.query(`select * from firma`)
+                const detalleImp = await request.query(`select * from imp_carnet where id_carnet = ${req.body.id_carnet}`)
                 //nombre y apellido
                 console.log('AQUI', resultImp.recordset, resultFirmas.recordset)
                 let str = resultImp.recordset[0].nombre.split(" ")
@@ -64,6 +65,7 @@ async function verificarCarnetA(req, res) { //ASEGURADOS
                         file_carnet: `../photos/Asegurados/${req.body.codigo}.jpg`,
                         res: resultImp.recordset[0],
                         firmas: resultFirmas.recordset,
+                        imp: detalleImp.recordset[0],
                         nombre: nombre,
                         apellido: apellido
                     })
@@ -142,19 +144,27 @@ async function actualizarImp(req, res) { //actualizar impresion del frente y atr
             await poolConnect;
             if (req.body.cara === 'front') { //se imprimio el frente del carnet
                 console.log(req.body)
-                req.flash('aux', req.body.codigo)
-                req.flash('loginMessage', 'FRONT')
-                res.redirect('/buscarAsegurado')
+                const carnet = await request.query(`update imp_carnet set front = '1', id_usuario = ${req.user.id} where id_carnet = ${req.body.cod_carnet}`)
+                console.log(carnet.rowsAffected)
+                if (carnet.rowsAffected[0] === 1) {//actualizacion correcta
+                    req.flash('aux', `${req.body.cod_ase}${req.body.cod_bnf}`)
+                    req.flash('loginMessage', 'Registro de la impresion correcta')
+                    res.redirect('/buscarAsegurado')
+                }
             }
             if (req.body.cara === 'back') { //se imprimio la parte trasera del carnet
                 console.log(req.body)
-                req.flash('aux', req.body.codigo)
-                req.flash('loginMessage', 'BACK')
-                res.redirect('/buscarAsegurado')
+                const carnet = await request.query(`update imp_carnet set back = '1', id_usuario = ${req.user.id} where id_carnet = ${req.body.cod_carnet}`)
+                console.log(carnet.rowsAffected)
+                if (carnet.rowsAffected[0] === 1) { //actualizacion correcta
+                    req.flash('aux', `${req.body.cod_ase}${req.body.cod_bnf}`)
+                    req.flash('loginMessage', 'Registro de la impresion correcta')
+                    res.redirect('/buscarAsegurado')
+                }
             }
         } catch (err) {
             console.error('SQL error', err);
-            req.flash('aux', req.body.codigo)
+            req.flash('aux', `${req.body.cod_ase}${req.body.cod_bnf}`)
             req.flash('loginMessage', 'Error al registrar la impresion')
             res.redirect('/buscarAsegurado')
         }
