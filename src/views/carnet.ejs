@@ -89,7 +89,7 @@
         </div>
     </div>
     <div>
-        <% if (imp.front == 0) { %>
+        <% if (imp.front == 0 || imp.estado == 1) { %>
             <button class="btn btn-outline-secondary" type="button" name="btnImprimirFront" id="btn_front">Imprimir
                 Frente
             </button>
@@ -110,7 +110,7 @@
         </div>
         <br>
         <br>
-        <% if (imp.back == 0) { %>
+        <% if (imp.back == 0 || imp.estado == 1) { %>
         <button class="btn btn-outline-secondary" type="button" name="btnImprimirBack" id="btn_back">Imprimir Atras
         </button>
         <% } %>

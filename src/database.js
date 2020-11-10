@@ -1,5 +1,38 @@
 const sql = require('mssql');
 
+//////////////////////////////////////////////////////////////
+// var Client = require('ftp');
+// const fs = require('fs')
+// var c = new Client();
+// c.on('ready', function () {
+//     // c.list(function (err, list) {
+//     //     if (err) throw err;
+//     //     console.dir(list);
+//     //     c.end();
+//     // });
+//     c.get('aseg10112020.txt', function (err, stream) {
+//         if (err) throw err;
+//         stream.once('close', function () {
+//             c.end();
+//         });
+//         stream.pipe(fs.createWriteStream('./src/dbfiles/new-asegurados.txt'));
+//     });
+//     c.get('bnf10112020.txt', function (err, stream) {
+//         if (err) throw err;
+//         stream.once('close', function () {
+//             c.end();
+//         });
+//         stream.pipe(fs.createWriteStream('./src/dbfiles/new-beneficiarios.txt'));
+//     });
+// });
+// var options = {
+//     host: '192.168.100.174',
+//     user: 'pedrom',
+//     password: 'pedro2020'
+// }
+// // connect to localhost:21 as anonymous
+// c.connect(options);
+//////////////////////////////////////////////////////////////
 
 const config = {
     user: 'testuser',

@@ -44,16 +44,22 @@ async function verificarComprobante(req, res) {
                     res.redirect('/buscarAsegurado')
                 }
             }
-            if (req.body.btnRegistrar == '' && req.body.tipo == 1 && result.recordset[0]) { //click en registrar ASEGURADO
-                await poolConnectdb;
-                const result2 = await requestdb.query(`insert into carnet (cod_asegurado,id_usuario,created_at,motivo,comprobante,estado,fec_comp) 
-                                                values('${req.body.codigo}',${req.user.id}, CONVERT(VARCHAR,GETDATE(), 103), '${req.body.motivo}', '${result.recordset[0].Numero}', 0, '${result.recordset[0].FechaHora}')`)
-                if (result2.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
-                    req.flash('loginMessage',`Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                    req.flash('aux', req.body.codigo)
-                    res.redirect('/buscarAsegurado')
+            if (req.body.btnRegistrar == '' && req.body.tipo == 1) { //click en registrar comprobante
+                if (result.recordset[0]) { //1 fila afectada, si existe el num de comprobante
+                    await poolConnectdb;
+                    const result2 = await requestdb.query(`insert into carnet (cod_asegurado,id_usuario,created_at,motivo,comprobante,estado,fec_comp) 
+                                                    values('${req.body.codigo}',${req.user.id}, CONVERT(VARCHAR,GETDATE(), 103), '${req.body.motivo}', '${result.recordset[0].Numero}', 0, '${result.recordset[0].FechaHora}')`)
+                    if (result2.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
+                        req.flash('loginMessage',`Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
+                        req.flash('aux', req.body.codigo)
+                        res.redirect('/buscarAsegurado')
+                    } else {
+                        req.flash('loginMessage', 'Error en el registro del comprobante')
+                        req.flash('aux', req.body.codigo)
+                        res.redirect('/buscarAsegurado')
+                    }
                 } else {
-                    req.flash('loginMessage', 'Error en el registro del comprobante')
+                    req.flash('loginMessage', 'Numero de comprobante no existe')
                     req.flash('aux', req.body.codigo)
                     res.redirect('/buscarAsegurado')
                 }

@@ -38,23 +38,45 @@ async function verificarCarnetA(req, res) { //ASEGURADOS
     if (req.isAuthenticated()) {
         try {
             await poolConnect;
+            console.log(req.body)
+            const resultImp = await request.query(`SELECT nombre,nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,id_carnet,cod_carnet
+                                            from asegurados,carnet
+                                            where asegurados.cod_asegurado = '${req.body.codigo}' and asegurados.cod_asegurado = carnet.cod_asegurado 
+                                            and id_carnet = ${req.body.id_carnet}`)
+            const resultFirmas = await request.query(`select * from firma`)
+            const detalleImp = await request.query(`select * from imp_carnet where id_carnet = ${req.body.id_carnet}`)
+            //nombre y apellido
+            console.log('AQUI', resultImp.recordset, resultFirmas.recordset)
+            
+            let str = resultImp.recordset[0].nombre.split(" ")
+            let apellido = str[0] + " " + str[1]
+            let nombre = ''
+            for (let index = 2; index < str.length; index++) {
+                nombre = nombre + " " + str[index]
+            }
             if (req.body.btnImprimir == '') { //click en imprimir (historial de carnet)
-                console.log(req.body)
-                const resultImp = await request.query(`SELECT nombre,nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,id_carnet,cod_carnet
-            from asegurados,carnet
-            where asegurados.cod_asegurado = '${req.body.codigo}' and asegurados.cod_asegurado = carnet.cod_asegurado and id_carnet = ${req.body.id_carnet}`)
-                const resultFirmas = await request.query(`select * from firma`)
-                const detalleImp = await request.query(`select * from imp_carnet where id_carnet = ${req.body.id_carnet}`)
-                //nombre y apellido
-                console.log('AQUI', resultImp.recordset, resultFirmas.recordset)
-                let str = resultImp.recordset[0].nombre.split(" ")
-                let apellido = str[0] + " " + str[1]
-                let nombre = ''
-                for (let index = 2; index < str.length; index++) {
-                    nombre = nombre + " " + str[index]
-                }
-                // QRCode.toDataURL(JSON.stringify({Carnet:req.body.id_carnet,Nombre:resultImp.recordset[0].nombre}), function (err, url) {
-                QRCode.toDataURL(`http://192.168.1.119:3000/api/getasegurados/${req.body.codigo}`, function (err, url) {
+                QRCode.toDataURL(JSON.stringify({Carnet:req.body.id_carnet,Nombre:resultImp.recordset[0].nombre}), function (err, url) {
+                // QRCode.toDataURL(`http://192.168.1.119:3000/api/getasegurados/${req.body.codigo}`, function (err, url) {
+                    res.render('carnet', {
+                        menu: '',
+                        subm: '',
+                        id: req.body.edtBuscar,
+                        user: req.user,
+                        qr: `${url}`,
+                        file: `../photos/Usuarios/${req.user.email}.jpg`,
+                        file_carnet: `../photos/Asegurados/${req.body.codigo}.jpg`,
+                        res: resultImp.recordset[0],
+                        firmas: resultFirmas.recordset,
+                        imp: detalleImp.recordset[0],
+                        nombre: nombre,
+                        apellido: apellido
+                    })
+                })
+            }
+            if (req.body.btnRImprimir == '') { //click en REImprimir
+                
+                QRCode.toDataURL(JSON.stringify({Carnet:req.body.id_carnet,Nombre:resultImp.recordset[0].nombre}), function (err, url) {
+                // QRCode.toDataURL(`http://192.168.1.119:3000/api/getasegurados/${req.body.codigo}`, function (err, url) {
                     res.render('carnet', {
                         menu: '',
                         subm: '',
@@ -93,8 +115,8 @@ async function verificarCarnetB(req, res) { //BENEFICIARIOS
                 // req.flash('loginMessage', 'Printed')
                 // req.flash('aux', req.body.codigo)
                 const resultImp = await request.query(`SELECT nombre,nom_emp,fec_ing,beneficiarios.cod_bnf,fec_nac,tipo_sangre,id_carnet
-            from beneficiarios,carnet
-            where beneficiarios.cod_bnf = '${req.body.codigo}' and beneficiarios.cod_bnf = carnet.cod_bnf and id_carnet = ${req.body.id_carnet}`)
+                                    from beneficiarios,carnet
+                                    where beneficiarios.cod_bnf = '${req.body.codigo}' and beneficiarios.cod_bnf = carnet.cod_bnf and id_carnet = ${req.body.id_carnet}`)
                 const resultFirmas = await request.query(`select * from firma`)
                 //nombre y apellido
                 console.log('AQUI', resultImp.recordset, resultFirmas.recordset)
@@ -146,7 +168,7 @@ async function actualizarImp(req, res) { //actualizar impresion del frente y atr
                 console.log(req.body)
                 const carnet = await request.query(`update imp_carnet set front = '1', id_usuario = ${req.user.id} where id_carnet = ${req.body.cod_carnet}`)
                 console.log(carnet.rowsAffected)
-                if (carnet.rowsAffected[0] === 1) {//actualizacion correcta
+                if (carnet.rowsAffected[0] === 1) { //actualizacion correcta
                     req.flash('aux', `${req.body.cod_ase}${req.body.cod_bnf}`)
                     req.flash('loginMessage', 'Registro de la impresion correcta')
                     res.redirect('/buscarAsegurado')
@@ -161,6 +183,12 @@ async function actualizarImp(req, res) { //actualizar impresion del frente y atr
                     req.flash('loginMessage', 'Registro de la impresion correcta')
                     res.redirect('/buscarAsegurado')
                 }
+            }
+            //ESTADO CARNET
+            const detalleImp = await request.query(`select * from imp_carnet where id_carnet = ${req.body.cod_carnet}`)
+            if (detalleImp.recordset[0].front == 1 && detalleImp.recordset[0].back == 1) {
+                await request.query(`update carnet set estado = 1 where id_carnet = ${req.body.cod_carnet}`)
+                await request.query(`update imp_carnet set estado = 1 where id_carnet = ${req.body.id_carnet}`)
             }
         } catch (err) {
             console.error('SQL error', err);
