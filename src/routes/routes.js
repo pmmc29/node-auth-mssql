@@ -295,7 +295,8 @@ router.post('/listaAsegurados', asegurados.btnListaAsegurados)
 router.post('/listaEmpresas', empresas.btnListaEmpresas)
 router.post('/verificarCarnetA', carnet.verificarCarnetA)
 router.post('/verificarCarnetB', carnet.verificarCarnetB)
-router.post('/numComprobante', comprobante.verificarComprobante)
+router.post('/numComprobanteA', comprobante.verificarComprobanteA)
+router.post('/numComprobanteB', comprobante.verificarComprobanteB)
 router.post('/actualizarImp', carnet.actualizarImp)
 
 router.get('/crear_usuario', cuentas.listaCuenta);

@@ -124,7 +124,7 @@
                         <label>Tipo de Sangre</label>
                     </div>
                     <div class="input-field col s6">
-                        <% if (res.tipo_sangre === null || res.tipo_sangre == '') { %>
+                        <% if (res.tipo_sangre === null || res.tipo_sangre == '' || res.ci === null || res.ci_loc == '') { %>
                             <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar"
                                 id="btnRegistrar" disabled>Registrar
                                 <i class="material-icons right">person_add</i>
@@ -132,11 +132,11 @@
                             <%}%>
                     </div>
                 </form>
-                <div class="col s6" id="test" style="height: 800px; overflow-y: scroll;">
+                <div class="col s6" id="historialA" style="height: 800px; overflow-y: scroll;">
                         <h3>Historial de Carnet</h3>
                         <% if (nombre !== '' && res.tipo_sangre !== null) { %>
                         <button class="btn waves-effect waves-light" type="button" name="btnImprimir"
-                            id="btn1">Agregar Carnet
+                            id="btn_add_card_A">Agregar Carnet
                             <i class="material-icons right">add_box</i>
                         </button>
                         <%}%>
@@ -154,7 +154,8 @@
                                                     value="<%= historial[i].login %>" hidden><%= historial[i].login %>
                                             </li>
                                             <li><b>Fecha: </b> <%= historial[i].created_at %></li>
-                                            <li style="background-color: #ee6e73;"><b>Comprobante:</b> <%= historial[i].comprobante %>
+                                            <li style="background-color: #ee6e73;"><b>Comprobante:</b>
+                                                <%= historial[i].comprobante %>
                                                 <input type="text"
                                                     name="nro_comprobante"
                                                 value="<%= historial[i].comprobante %>"
@@ -198,32 +199,16 @@
                     </div>
                 </div>
     </main>
-    <script type="module">
-        import tinyPrint from '../public/tiny-print/src/index.js'
+    <script>
         
 //recuperar los datos del formulario
 const codigo = document.getElementById('search').value;
-const nombre = document.getElementById('name').value +' '+ document.getElementById('last_name').value;
-const fec_nac = document.getElementById('search').value;
-const sexo = document.getElementById('search').value;
-const ci = document.getElementById('search').value;
-const tipo_sangre = document.getElementById('search').value;
 
-    let datos = [{
-        cod: codigo,
-        name: nombre,
-        fec_nac: fec_nac,
-        sexo: sexo,
-        ci: ci,
-        tipo_sangre: tipo_sangre
-    }]
-const element = document.getElementById('form1');
-
-    $( "#btn1" ).click(function() {
-    $( "#test" ).append(`<div class="card blue-grey">
+    $( "#btn_add_card_A" ).click(function() {
+    $( "#historialA" ).append(`<div class="card blue-grey">
         <div class="card-content white-text">
             <h5>Nuevo Carnet</h5>
-            <form action="numComprobante" method="POST">
+            <form action="/numComprobanteA" method="POST">
                 <ul>
                     <li>Usuario: <%= user.email %></li>
                     <li>Codigo: ${codigo}</li>

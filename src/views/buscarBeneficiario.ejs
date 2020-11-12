@@ -55,8 +55,11 @@
                     <input id="last_name" name="apellidos" type="text" class="validate"
                         value="<%= typeof apellido != 'undefined' ? apellido : '' %>" disabled>
                         <label for="last_name">Apellidos</label>
-                    </div>
-
+                </div>
+                <!-- <div class="input-field col s9" style="display: flex;">
+                    <h5><b>Apellidos:</b></h5>
+                    <h5><%= typeof apellido != 'undefined' ? apellido : '' %></h5>
+                </div> -->
                     <div class="input-field col s12">
                         <input id="company" name="empresa" type="text" class="validate"
                             value="<%= typeof res.nom_emp != 'undefined' ? res.nom_emp : '' %>" disabled>
@@ -133,13 +136,13 @@
                         
                     </div>
                 </form>
-                <div class="col s6" id="test" style="height: 800px; overflow-y: scroll;">
+                <!-- <div class="col s6" id="test" style="height: 800px; overflow-y: scroll;">
                         <h3>Historial de Carnet</h3>
-                        <button class="btn waves-effect waves-light" type="button" name="btnImprimir"
-                            id="btn1">Solicitar Carnet
-                            <i class="material-icons right">person_add</i>
-                        </button>
-                        <% if (nombre !== '' && res.tipo_sangre !== null && res.fec_ing) { %>
+                        <% if (nombre !== '' && res.tipo_sangre !== null && res.fec_ing !== null) { %>
+                            <button class="btn waves-effect waves-light" type="button" name="btnImprimir"
+                                id="btn1">Solicitar Carnet
+                                <i class="material-icons right">person_add</i>
+                            </button>
                         <%}%>
                         <% for(var i=0; i<historial.length; i++) {%>
                             <div class="card blue-grey">
@@ -184,37 +187,97 @@
                                 </div>
                             </div>
                             <% } %>
+                    </div> -->
+                    <div class="col s6" id="historialB" style="height: 800px; overflow-y: scroll;">
+                        <h3>Historial de Carnet</h3>
+                        <% if (nombre !== '' && res.tipo_sangre !== null) { %>
+                        <button class="btn waves-effect waves-light" type="button" name="btnImprimir"
+                            id="btn_add_card_B">Agregar Carnet
+                            <i class="material-icons right">add_box</i>
+                        </button>
+                        <%}%>
+                        <% for(var i=0; i<historial.length; i++) {%>
+                        <div class="card blue-grey">
+                            <div class="card-content white-text">
+                                <h5><b>Carnet: </b> <%= historial[i].id_carnet %> (<%= historial[i].estado %>)
+                                    front:<%= historial[i].front %> back:<%= historial[i].back %>
+                                </h5>
+                                <form action="/verificarCarnetB" method="POST">
+                                    <ul>
+                                        <input type="text" name="id_carnet" value="<%= historial[i].id_carnet %>"
+                                            hidden>
+                                        <li><b>Usuario: </b> <input type="text" name="usuario"
+                                                value="<%= historial[i].login %>" hidden><%= historial[i].login %>
+                                        </li>
+                                        <li><b>Fecha: </b> <%= historial[i].created_at %></li>
+                                        <li style="background-color: #ee6e73;"><b>Comprobante:</b>
+                                            <%= historial[i].comprobante %>
+                                            <input type="text" name="nro_comprobante"
+                                                value="<%= historial[i].comprobante %>" hidden>
+                                        </li>
+                                        <li><b>Fecha Comprobante: </b> <%= historial[i].fec_comp %></li>
+                                        <input type="text" name="codigo" value="<%= historial[i].cod_bnf %>"
+                                            hidden>
+                                        <li class="card teal"><b>Motivo: </b> <%= historial[i].motivo %></li>
+                                        <% if (historial[i].estado === 0) { %>
+                                        <button class="btn waves-effect waves-light" type="submit" name="btnImprimir"
+                                            id="btnImprimir">Imprimir
+                                            <i class="material-icons right">print</i>
+                                        </button>
+                                        <% } %>
+                                        <% if (historial[i].estado === 1 && historial[i].created_at === historial[i].fec_servidor) { %>
+                                        <button class="btn waves-effect waves-light" type="submit" name="btnRImprimir"
+                                            id="btnRImprimir">ReImprimir
+                                            <i class="material-icons right">print</i>
+                                        </button>
+                                        <% } %>
+                                        <% if (historial[i].comprobante === null) { %>
+                                        <div class="input-field">
+                                            <input
+                                                id="<%= typeof historial[i].id_carnet != 'undefined' ? historial[i].id_carnet : '' %>"
+                                                name="comprobante" type="text" class="validate" value="">
+                                            <label
+                                                for="<%= typeof historial[i].id_carnet != 'undefined' ? historial[i].id_carnet : '' %>">Nro.
+                                                Comprobante</label>
+                                            <button class="btn waves-effect waves-light" type="submit"
+                                                name="btnComprobar" id="btnComprobar">Comprobar
+                                                <i class="material-icons right">search</i>
+                                            </button>
+                                        </div>
+                                    </ul>
+                                    <% } %>
+                                </form>
+                            </div>
+                        </div>
+                        <% } %>
                     </div>
                 </div>
     </main>
 </body>
-<script type="module">
-    import tinyPrint from '../public/tiny-print/src/index.js'
+<script>
         
 const codigo = document.getElementById('search').value;
 
-    $( "#btn1" ).click(function() {
-    // tinyPrint(element, {
-    // scanStyles: false, 
-    // scanHTML: false, 
-    // importStyles: ["https://fonts.googleapis.com/icon?family=Material+Icons","https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css"],
-    // cssStyle: '', 
-    // hidePageRule: true
-    // });
-    $( "#test" ).append(`<div class="card blue-grey">
+    $( "#btn_add_card_B" ).click(function() {
+    $( "#historialB" ).append(`<div class="card blue-grey">
         <div class="card-content white-text">
             <h5>Nuevo Carnet</h5>
-            <form action="/comprobarPago" method="POST">
+            <form action="/numComprobanteB" method="POST">
                 <ul>
                     <li>Usuario: <%= user.email %></li>
                     <li>Codigo: ${codigo}</li>
                     <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
-                    <input name="id_carnet" type="text" class="validate" value="2" hidden>
-                    <input name="comprobante" type="text" class="validate" value="" placeholder="Comprobante" required>
+                    <input name="tipo" type="text" class="validate" value="1" hidden>
+                    <input name="comprobante" type="text" class="validate" value="" placeholder="Numero de Comprobante"
+                        required>
                     <input name="motivo" type="text" class="validate" value="" placeholder="Motivo" required>
-                    <button class="btn waves-effect waves-light" type="submit" name="btnComprobar"
-                        id="btnComprobar">Comprobar
+                    <button class="btn waves-effect waves-light" type="submit" name="btnConsultar"
+                        id="btnConsultar">Consultar
                         <i class="material-icons right">search</i>
+                    </button>
+                    <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar"
+                        id="btnRegistrar">Registrar
+                        <i class="material-icons right">add_box</i>
                     </button>
                 </ul>
             </form>

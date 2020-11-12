@@ -68,7 +68,7 @@ async function listAsegurados(req, res) {
 
             await poolConnect;
             const result = await request.query(`select * from asegurados
-            order by nombre 
+            order by agenda 
             OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY`)
             // console.log(result.recordset)
             QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
@@ -157,13 +157,14 @@ async function agregarFoto(req, res) {//click en agregar foto
 async function registrarSangre(req, res) {
     try {
         await poolConnect;
-        if (req.body.select_sangre === undefined) {
+        if (req.body.select_sangre === undefined || req.body.ci === undefined || req.body.ci_loc === undefined) {
             console.log(req.body)
                 req.flash('loginMessage', 'LLene los campos correspondientes')
                 req.flash('aux', req.body.edtBuscar)
                 res.redirect('/buscarAsegurado')
         } else {
-            const result = await request.query(`update asegurados set tipo_sangre = '${req.body.select_sangre}' where cod_asegurado = '${req.body.edtBuscar}'`)
+            const result = await request.query(`update asegurados set tipo_sangre = '${req.body.select_sangre}', ci = '${req.body.ci}', ci_loc ='${req.body.ci_loc}'
+                                                where cod_asegurado = '${req.body.edtBuscar}'`)
             const response = result.rowsAffected[0]
     
             if (response > 0) { // 1 fila afectada = actualizacion exitosa
@@ -199,10 +200,12 @@ async function renderDatos(req, res, msg) {
             for (let index = 2; index < str.length; index++) {
                 nombre = nombre + " " + str[index]
             }
-            const carnet = await request.query(`SELECT id_carnet,asegurados.cod_asegurado,nombre,login, carnet.created_at,motivo,comprobante,estado,fec_comp,CONVERT(VARCHAR,GETDATE(), 103) as fec_servidor
-                                                FROM carnet,asegurados,usuarios 
-                                                where asegurados.cod_asegurado = '${response.cod_asegurado}' and asegurados.cod_asegurado = carnet.cod_asegurado 
-                                                and id_usuario = usuarios.id `)
+            const carnet = await request.query(`SELECT carnet.id_carnet, asegurados.cod_asegurado, nombre, login, carnet.created_at, motivo, comprobante, carnet.estado,
+                                                fec_comp, front, back, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
+                                                FROM carnet, asegurados, usuarios, imp_carnet
+                                                where asegurados.cod_asegurado = '${response.cod_asegurado}'
+                                                and asegurados.cod_asegurado = carnet.cod_asegurado
+                                                and carnet.id_usuario = usuarios.id and carnet.id_carnet = imp_carnet.id_carnet `)
             console.log(carnet.recordset)
 
             let file_test = `./src/photos/Asegurados/${req.body.edtBuscar}.jpg`

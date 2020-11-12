@@ -194,15 +194,21 @@ async function renderDatos(req, res, msg) {
             req.flash('loginMessage', 'Beneficiario no encontrado')
             res.redirect('/buscarBeneficiario')
         }
-        if (response !== undefined) { // asegurado encontrado
+        if (response !== undefined) { // beneficiario encontrado
             const str = response.nombre.split(" ")
             const apellido = str[0] + " " + str[1]
             let nombre = ''
             for (let index = 2; index < str.length; index++) {
                 nombre = nombre + " " + str[index]
             }
-            const carnet = await request.query(`SELECT id_carnet,beneficiarios.cod_bnf,nombre, carnet.created_at,motivo,comprobante,estado FROM carnet,beneficiarios where beneficiarios.cod_bnf = '${response.cod_bnf}'
-                                                and beneficiarios.cod_bnf = carnet.cod_bnf`)
+            // const carnet = await request.query(`SELECT id_carnet,beneficiarios.cod_bnf,nombre, carnet.created_at,motivo,comprobante,estado FROM carnet,beneficiarios where beneficiarios.cod_bnf = '${response.cod_bnf}'
+            //                                     and beneficiarios.cod_bnf = carnet.cod_bnf`)
+            const carnet = await request.query(`SELECT carnet.id_carnet, beneficiarios.cod_bnf, nombre, login, carnet.created_at, motivo, comprobante, carnet.estado,
+                                                fec_comp, front, back, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
+                                                FROM carnet, beneficiarios, usuarios, imp_carnet
+                                                where beneficiarios.cod_bnf = '${response.cod_bnf}'
+                                                and beneficiarios.cod_bnf = carnet.cod_bnf
+                                                and carnet.id_usuario = usuarios.id and carnet.id_carnet = imp_carnet.id_carnet `)
             console.log(carnet.recordset)
 
             let file_test = `./src/photos/Beneficiarios/${req.body.edtBuscar}.jpg`

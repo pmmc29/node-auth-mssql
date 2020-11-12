@@ -26,13 +26,13 @@ const requestdb = pooldb.request();
 ///////////////////////////////////////////////////////
 
 
-async function verificarComprobante(req, res) {
+async function verificarComprobanteA(req, res) {
     if (req.isAuthenticated()) {
         try {
             console.log(req.body)
             await poolConnect;
             const result = await request.query(`select * from DocumentoFinanciero where TipoDocumentoFinanciero = 207 and numero = '${req.body.comprobante}'`)
-            if (req.body.btnConsultar == '') { //click en verificar
+            if (req.body.btnConsultar == '') { //click en consultar
                 if (result.recordset[0]) { //1 fila afectada, si existe el num de comprobante
                     console.log(result.recordset[0].FechaHora.toString())
                     req.flash('loginMessage', `Comprobante: ${result.recordset[0].Numero} con fecha: `, result.recordset[0].FechaHora, ' Concepto: ', result.recordset[0].Concepto)
@@ -77,7 +77,59 @@ async function verificarComprobante(req, res) {
         });
     }
 }
+async function verificarComprobanteB(req, res) {
+    if (req.isAuthenticated()) {
+        try {
+            console.log(req.body)
+            await poolConnect;
+            const result = await request.query(`select * from DocumentoFinanciero where TipoDocumentoFinanciero = 207 and numero = '${req.body.comprobante}'`)
+            if (req.body.btnConsultar == '') { //click en consultar
+                if (result.recordset[0]) { //1 fila afectada, si existe el num de comprobante
+                    console.log(result.recordset[0].FechaHora.toString())
+                    req.flash('loginMessage', `Comprobante: ${result.recordset[0].Numero} con fecha: `, result.recordset[0].FechaHora, ' Concepto: ', result.recordset[0].Concepto)
+                    req.flash('aux', req.body.codigo)
+                    res.redirect('/buscarBeneficiario')
+                } else {
+                    req.flash('loginMessage', 'Numero de comprobante no existe')
+                    req.flash('aux', req.body.codigo)
+                    res.redirect('/buscarBeneficiario')
+                }
+            }
+            if (req.body.btnRegistrar == '' && req.body.tipo == 1) { //click en registrar comprobante
+                if (result.recordset[0]) { //1 fila afectada, si existe el num de comprobante
+                    await poolConnectdb;
+                    const result2 = await requestdb.query(`insert into carnet (cod_bnf,id_usuario,created_at,motivo,comprobante,estado,fec_comp) 
+                                                    values('${req.body.codigo}',${req.user.id}, CONVERT(VARCHAR,GETDATE(), 103), '${req.body.motivo}', '${result.recordset[0].Numero}', 0, '${result.recordset[0].FechaHora}')`)
+                    if (result2.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
+                        req.flash('loginMessage',`Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
+                        req.flash('aux', req.body.codigo)
+                        res.redirect('/buscarBeneficiario')
+                    } else {
+                        req.flash('loginMessage', 'Error en el registro del comprobante')
+                        req.flash('aux', req.body.codigo)
+                        res.redirect('/buscarBeneficiario')
+                    }
+                } else {
+                    req.flash('loginMessage', 'Numero de comprobante no existe')
+                    req.flash('aux', req.body.codigo)
+                    res.redirect('/buscarBeneficiario')
+                }
+            }
+        } catch (error) {
+            console.log('SQL ERROR: ', error)
+            req.flash('loginMessage', 'Error en el comprobante')
+            req.flash('aux', req.body.codigo)
+            res.redirect('/buscarBeneficiario')
+        }
+
+    } else {
+        res.render('login', {
+            title: "Iniciar Sesion"
+        });
+    }
+}
 
 module.exports = {
-    verificarComprobante
+    verificarComprobanteA,
+    verificarComprobanteB
 }
