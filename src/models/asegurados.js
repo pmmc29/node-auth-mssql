@@ -4,7 +4,6 @@ const QRCode = require('qrcode');
 const fs = require('fs')
 const multer = require('multer')
 const path = require('path');
-const comprobante = require('./comprobante');
 
 const request = pool.request(); 
 

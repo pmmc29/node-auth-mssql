@@ -95,7 +95,7 @@ async function verificarComprobanteB(req, res) {
                     res.redirect('/buscarBeneficiario')
                 }
             }
-            if (req.body.btnRegistrar == '' && req.body.tipo == 1) { //click en registrar comprobante
+            if (req.body.btnRegistrar == '') { //click en registrar comprobante
                 if (result.recordset[0]) { //1 fila afectada, si existe el num de comprobante
                     await poolConnectdb;
                     const result2 = await requestdb.query(`insert into carnet (cod_bnf,id_usuario,created_at,motivo,comprobante,estado,fec_comp) 

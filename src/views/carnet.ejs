@@ -31,10 +31,11 @@
             <div class="card-body frente" style="padding: 15px;">
                 <div class="foto">
                     <figure>
-                        <img style="margin-top: 5px;" src="<%= typeof file_carnet != 'undefined' ? file_carnet : '' %>">
+                        <img id="foto_perfil" style="margin-top: 5px;"
+                            src="<%= typeof file_carnet != 'undefined' ? file_carnet : '' %>">
 
                     </figure>
-                    <p style="margin-bottom: 0px;"><b>Nro.</b><%= res.cod_carnet %></p>
+                    <p style="margin-bottom: 0px;"><b>Nro.</b> <%= res.id_carnet %></p>
                     <img id="foto_firma" style="height: 40px; width: 120px; border-bottom: 1px solid;">
                     <p style="margin-bottom: -50px;"><b>Jefe de afiliacion</b></p>
                 </div>
@@ -49,8 +50,14 @@
                     <p><i><b>
                                 <center>ENTE GESTOR DE LA SEGURIDAD SOCIAL</center>
                             </b></i></p>
-                    <p><b>Nombres:</b> <%= nombre %></p>
-                    <p><b>Apellidos:</b> <%= apellido %></p>
+                    <div style="display: flex;">
+                        <b>Nombres:</b>
+                        <p id="edit_name"> <%= nombre %></p>
+                    </div>
+                    <div style="display: flex;">
+                        <b>Apellidos: </b>
+                        <p id="edit_lastN"> <%= apellido %></p>
+                    </div>
                     <p><b>Empresa:</b> <%= res.nom_emp %></p>
                     <p><b>Fecha de ingreso:</b> <%= res.fec_ing %></p>
                     <p><b>Nro. Matricula:</b> <%= res.cod_asegurado %><%= res.cod_bnf %>
@@ -77,22 +84,23 @@
                 </div>
                 <div class="fecha">
                     <!-- <p><b>Valido Desde:</b> <%#= res %></p> -->
-                    <p><b>Valido Desde:</b> 19/10/2020</p>
+                    <p><b>Valido Desde:</b> <%= res.created_at %></p>
+                    <input type="hidden" value="<%= res.created_at %>" id="fec_desde">
 
                 </div>
                 <div class="fecha-hasta">
                     <!-- <p><b>Hasta:</b> <%#= res %></p> -->
-                    <p><b>Hasta:</b> 19/10/2021</p>
+                    <p id="fec_hasta"><b>Hasta:</b> dd/mm/yyyy</p>
 
                 </div>
             </div>
         </div>
     </div>
-    <div>
+    <div style="margin-left: 20px;">
         <% if (imp.front == 0 || imp.estado == 1) { %>
-            <button class="btn btn-outline-secondary" type="button" name="btnImprimirFront" id="btn_front">Imprimir
-                Frente
-            </button>
+        <button class="btn btn-outline-secondary" type="button" name="btnImprimirFront" id="btn_front">Imprimir
+            Frente
+        </button>
         <% } %>
         <br>
         <br>
@@ -106,6 +114,19 @@
                 <% for(var i=0; i<firmas.length; i++) {%>
                 <option value="<%= firmas[i].ruta %>"><%= firmas[i].nombre %></option>
                 <% } %>
+            </select>
+        </div>
+        <br>
+        <br>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Borde Foto</label>
+            </div>
+            <select class="custom-select" id="list_bordes">
+                <option selected disabled>Seleccione</option>
+                <option value="white">Blanco</option>
+                <option value="red">Rojo</option>
+                <option value="yellow">Amarillo</option>
             </select>
         </div>
         <br>
@@ -188,9 +209,22 @@
         });
     });
 
+    const fec_desde = document.getElementById('fec_desde').value;
+    var d = new Date();
+    // let fec_hasta = d.setFullYear(d.getFullYear(), d.getMonth() + 12);
+    let fec_hasta = d.getDate() + "/" + (d.getMonth() + 1) + "/" +
+    (d.getFullYear() +1);
+    document.getElementById("fec_hasta").innerHTML = `<b>Hasta:</b> ${fec_hasta}`;
+    
     document.getElementById('edit').contentEditable = true;
+    document.getElementById('edit_name').contentEditable = true;
+    document.getElementById('edit_lastN').contentEditable = true;
+
     $("#list_firmas").change(function () {
         $('#foto_firma').attr('src', `../photos/Firmas/${$('#list_firmas').val()}`);
+    });
+    $("#list_bordes").change(function () {
+        $('#foto_perfil').attr('style', `border:3px solid ${$('#list_bordes').val()}`);
     });
 </script>
 

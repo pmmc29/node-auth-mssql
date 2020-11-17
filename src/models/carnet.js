@@ -39,7 +39,7 @@ async function verificarCarnetA(req, res) { //ASEGURADOS
         try {
             await poolConnect;
             console.log(req.body)
-            const resultImp = await request.query(`SELECT nombre,nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,id_carnet,cod_carnet
+            const resultImp = await request.query(`SELECT nombre,nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,id_carnet,carnet.created_at
                                             from asegurados,carnet
                                             where asegurados.cod_asegurado = '${req.body.codigo}' and asegurados.cod_asegurado = carnet.cod_asegurado 
                                             and id_carnet = ${req.body.id_carnet}`)
@@ -113,7 +113,7 @@ async function verificarCarnetB(req, res) { //BENEFICIARIOS
             console.log(req.body)
             // req.flash('loginMessage', 'Printed')
             // req.flash('aux', req.body.codigo)
-            const resultImp = await request.query(`SELECT nombre,nom_emp,fec_ing,beneficiarios.cod_bnf,fec_nac,tipo_sangre,id_carnet,cod_carnet
+            const resultImp = await request.query(`SELECT nombre,nom_emp,fec_ing,beneficiarios.cod_bnf,fec_nac,tipo_sangre,id_carnet
                                                     from beneficiarios,carnet
                                                     where beneficiarios.cod_bnf = '${req.body.codigo}' and beneficiarios.cod_bnf = carnet.cod_bnf 
                                                     and id_carnet = ${req.body.id_carnet}`)
@@ -212,7 +212,11 @@ async function actualizarImp(req, res) { //actualizar impresion del frente y atr
                 if (carnet.rowsAffected[0] === 1) { //actualizacion correcta
                     req.flash('aux', `${req.body.cod_ase}${req.body.cod_bnf}`)
                     req.flash('loginMessage', 'Registro de la impresion correcta')
-                    res.redirect('/buscarAsegurado')
+                    if (req.body.cod_bnf) {
+                        res.redirect('/buscarBeneficiario')
+                    }else{
+                        res.redirect('/buscarAsegurado')
+                    }
                 }
             }
             //ESTADO CARNET
@@ -225,7 +229,11 @@ async function actualizarImp(req, res) { //actualizar impresion del frente y atr
             console.error('SQL error', err);
             req.flash('aux', `${req.body.cod_ase}${req.body.cod_bnf}`)
             req.flash('loginMessage', 'Error al registrar la impresion')
-            res.redirect('/buscarAsegurado')
+            if (req.body.cod_bnf) {
+                res.redirect('/buscarBeneficiario')
+            } else {
+                res.redirect('/buscarAsegurado')
+            }
         }
     } else {
         res.render('login', {

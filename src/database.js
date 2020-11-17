@@ -10,19 +10,26 @@ const sql = require('mssql');
 //     //     console.dir(list);
 //     //     c.end();
 //     // });
-//     c.get('aseg10112020.txt', function (err, stream) {
+//     c.get('aseg13112020.txt', function (err, stream) {
 //         if (err) throw err;
 //         stream.once('close', function () {
 //             c.end();
 //         });
-//         stream.pipe(fs.createWriteStream('./src/dbfiles/new-asegurados.txt'));
+//         stream.pipe(fs.createWriteStream('./src/dbfiles/new-asegurados2.txt'));
 //     });
-//     c.get('bnf10112020.txt', function (err, stream) {
+//     c.get('bnf13112020.txt', function (err, stream) {
 //         if (err) throw err;
 //         stream.once('close', function () {
 //             c.end();
 //         });
-//         stream.pipe(fs.createWriteStream('./src/dbfiles/new-beneficiarios.txt'));
+//         stream.pipe(fs.createWriteStream('./src/dbfiles/new-beneficiarios2.txt'));
+//     });
+//     c.get('empresas112020.txt', function (err, stream) {
+//         if (err) throw err;
+//         stream.once('close', function () {
+//             c.end();
+//         });
+//         stream.pipe(fs.createWriteStream('./src/dbfiles/new-empresas.txt'));
 //     });
 // });
 // var options = {
@@ -68,6 +75,7 @@ pool2.on('error', err => {
     // ... error handler
     console.log(err)
 })
+
 
 async function testConnection() {
     await poolConnect; // ensures that the pool has been created
