@@ -89,40 +89,41 @@
                 </div>
                 <div class="input-field col s6">
                     <input id="ci" name="ci" type="text" class="validate"
-                        value="<%= typeof res.ci != 'undefined' ? res.ci : '' %>" <% if(res.ci !== null){ %> readonly <% } else {%><%= res.ci %><%}%>>
+                        value="<%= typeof res.ci != 'undefined' ? res.ci : '' %>" <% if(res.ci != ''){ %> readonly <% } else {%><%= res.ci %><%}%>>
                     <label for="ci">CI.</label>
                 </div> 
                 <div class="input-field col s3">
                          <select name="ci_loc" id="ci_loc">
-                             <option value="<%= res.ci_loc %>" selected><% if(res.ci_loc !== null){%><%= res.ci_loc %>
+                             <option value="<%= res.ci_loc %>" selected><% if(res.ci_loc != ''){%><%= res.ci_loc %>
                     <% } else {%>Elige un Lugar<%}%></option>
-                        <option value="CH" <% if(res.ci_loc !== null){ %> disabled<% }%>>Chuquisaca</option>
-                    <option value="LP" <% if(res.ci_loc !== null){ %> disabled<% }%>>La Paz</option>
-                    <option value="CB" <% if(res.ci_loc !== null){ %> disabled<% }%>>Cochabamba</option>
-                    <option value="OR" <% if(res.ci_loc !== null){ %> disabled<% }%>>Oruro</option>
-                    <option value="PT" <% if(res.ci_loc !== null){ %> disabled<% }%>>Potosí</option>
-                    <option value="TJ" <% if(res.ci_loc !== null){ %> disabled<% }%>>Tarija</option>
-                    <option value="SC" <% if(res.ci_loc !== null){ %> disabled<% }%>>Santa Cruz</option>
-                    <option value="BE" <% if(res.ci_loc !== null){ %> disabled<% }%>>Beni</option>
-                    <option value="PD" <% if(res.ci_loc !== null){ %> disabled<% }%>>Pando</option>
+                        <option value="CH" <% if(res.ci_loc != ''){ %> disabled<% }%>>Chuquisaca</option>
+                    <option value="LP" <% if(res.ci_loc != ''){ %> disabled<% }%>>La Paz</option>
+                    <option value="CB" <% if(res.ci_loc != ''){ %> disabled<% }%>>Cochabamba</option>
+                    <option value="OR" <% if(res.ci_loc != ''){ %> disabled<% }%>>Oruro</option>
+                    <option value="PT" <% if(res.ci_loc != ''){ %> disabled<% }%>>Potosí</option>
+                    <option value="TJ" <% if(res.ci_loc != ''){ %> disabled<% }%>>Tarija</option>
+                    <option value="SC" <% if(res.ci_loc != ''){ %> disabled<% }%>>Santa Cruz</option>
+                    <option value="BE" <% if(res.ci_loc != ''){ %> disabled<% }%>>Beni</option>
+                    <option value="PD" <% if(res.ci_loc != ''){ %> disabled<% }%>>Pando</option>
                     </select>
                     <label>Lugar</label>
                 </div>
                 <div class="input-field col s6">
                     <select name="select_sangre" id="select_sangre">
-                        <option value="<%= res.tipo_sangre %>" selected><% if(res.tipo_sangre !== null){ %><%= res.tipo_sangre %>
+                        <option value="<%= res.tipo_sangre %>" selected><% if(res.tipo_sangre != ''){ %><%= res.tipo_sangre %>
                             <% } else {%>Elige un Tipo<%}%></option>
-                            <option value="A+" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>A+</option>
-                        <option value="A-" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>A-</option>
-                        <option value="B+" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>B+</option>
-                        <option value="B-" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>B-</option>
-                        <option value="AB+" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>AB+</option>
-                        <option value="AB-" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>AB-</option>
-                        <option value="O+" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>O+</option>
-                        <option value="O-" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>O-</option>
+                            <option value="A+" <% if(res.tipo_sangre != ''){ %> disabled<% }%>>A+</option>
+                        <option value="A-" <% if(res.tipo_sangre != ''){ %> disabled<% }%>>A-</option>
+                        <option value="B+" <% if(res.tipo_sangre != ''){ %> disabled<% }%>>B+</option>
+                        <option value="B-" <% if(res.tipo_sangre != ''){ %> disabled<% }%>>B-</option>
+                        <option value="AB+" <% if(res.tipo_sangre != ''){ %> disabled<% }%>>AB+</option>
+                        <option value="AB-" <% if(res.tipo_sangre != ''){ %> disabled<% }%>>AB-</option>
+                        <option value="O+" <% if(res.tipo_sangre != ''){ %> disabled<% }%>>O+</option>
+                        <option value="O-" <% if(res.tipo_sangre != ''){ %> disabled<% }%>>O-</option>
                     </select>
                     <label>Tipo de Sangre</label>
                 </div>
+                
                 <div class="input-field col s6">
                     <% if (res.tipo_sangre === null || res.tipo_sangre == '' || res.ci === null || res.ci_loc == '') { %>
                     <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar" id="btnRegistrar"
@@ -152,77 +153,78 @@
                                     <li><b>Usuario: </b> <input type="text" name="usuario"
                                             value="<%= historial[i].login %>" hidden><%= historial[i].login %>
                                     </li>
-                                    <li><b>Fecha: </b> <%= historial[i].created_at %></li>
+                                    <li><b>Fecha Emision: </b> <%= historial[i].fec_emision %></li>
                                     <li style="background-color: #ee6e73;"><b>Comprobante:</b>
                                         <%= historial[i].comprobante %>
                                         <input type="text" name="nro_comprobante"
                                             value="<%= historial[i].comprobante %>" hidden>
                                     </li>
-                                    <li><b>Fecha Comprobante: </b> <%= historial[i].fec_comp %></li>
                                     <input type="text" name="codigo" value="<%= historial[i].cod_asegurado %>" hidden>
                                     <li class="card teal"><b>Motivo: </b> <%= historial[i].motivo %></li>
-                                    <% if (historial[i].estado === 0) { %>
+                                    <% if (historial[i].estado === '0') { %>
                                     <button class="btn waves-effect waves-light" type="submit" name="btnImprimir"
                                         id="btnImprimir">Imprimir
                                         <i class="material-icons right">print</i>
                                     </button>
                                     <% } %>
-                                    <% if (historial[i].estado === 1 && historial[i].created_at === historial[i].fec_servidor) { %>
+                                    <% if (historial[i].estado === '1' && historial[i].fec_emision === historial[i].fec_servidor) { %>
                                     <button class="btn waves-effect waves-light" type="submit" name="btnRImprimir"
                                         id="btnRImprimir">ReImprimir
                                         <i class="material-icons right">print</i>
                                     </button>
                                     <% } %>
-                                    <% if (historial[i].comprobante === null) { %>
-                                    <div class="input-field">
-                                        <input
-                                            id="<%= typeof historial[i].id_carnet != 'undefined' ? historial[i].id_carnet : '' %>"
-                                            name="comprobante" type="text" class="validate" value="">
-                                        <label
-                                            for="<%= typeof historial[i].id_carnet != 'undefined' ? historial[i].id_carnet : '' %>">Nro.
-                                            Comprobante</label>
-                                        <button class="btn waves-effect waves-light" type="submit" name="btnComprobar"
-                                            id="btnComprobar">Comprobar
-                                            <i class="material-icons right">search</i>
-                                        </button>
-                                    </div>
                                 </ul>
-                                <% } %>
                             </form>
                         </div>
                     </div>
+                    
                     <% } %>
                 </div>
+                
         </div>
     </main>
     <script>
         //recuperar los datos del formulario
         const codigo = document.getElementById('search').value;
-
+        
         $("#btn_add_card_A").click(function () {
             $("#historialA").append(`<div class="card blue-grey">
-        <div class="card-content white-text">
-            <h5>Nuevo Carnet</h5>
-            <form action="/numComprobanteA" method="POST">
-                <ul>
-                    <li>Usuario: <%= user.email %></li>
-                    <li>Codigo: ${codigo}</li>
-                    <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
-                    <input name="tipo" type="text" class="validate" value="1" hidden>
-                    <input name="comprobante" type="text" class="validate" value="" placeholder="Numero de Comprobante" required>
-                    <input name="motivo" type="text" class="validate" value="" placeholder="Motivo" required>
-                    <button class="btn waves-effect waves-light" type="submit" name="btnConsultar"
-                        id="btnConsultar">Consultar
-                        <i class="material-icons right">search</i>
-                    </button>
-                    <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar"
-                        id="btnRegistrar">Registrar
-                        <i class="material-icons right">add_box</i>
-                    </button>
-                </ul>
-            </form>
-        </div>
-    </div>`);
+                <div class="card-content white-text row">
+                    <h5><b>Nuevo Carnet</b></h5>
+                    <form action="/numComprobanteA" method="POST">
+                        <ul>
+                            <div class="input-field">
+                                <li><b>Usuario: </b> <%= user.email %></li>
+                                <li><b>Codigo: </b> ${codigo}</li>
+                                <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
+                                <input name="tipo" type="text" class="validate" value="1" hidden>
+                                <input name="comprobante" type="text" class="validate" value=""
+                                    placeholder="Numero de Comprobante" required>
+                                <input name="motivo" type="text" class="validate" value="" placeholder="Motivo"
+                                    required>
+                            </div>
+                            <div class="input-field col s6">
+                                <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar"
+                                    id="btnRegistrar">Registrar
+                                    <i class="material-icons right">add_box</i>
+                                </button>
+                            </div>
+                            <p class="col s3">
+                                <label class="white-text">
+                                    <input name="validez" type="radio" value="CONTRATO" checked/>
+                                    <span>CONTRATO</span>
+                                </label>
+                            </p>
+                            <p class="col s3">
+                                <label class="white-text">
+                                    <input name="validez" type="radio" value="ITEM" />
+                                    <span>ITEM</span>
+                                </label>
+                            </p>
+                        </ul>
+                    </form>
+                </div>
+            </div>`);
         });
         $('#btnAgregarFoto').click(() => {
             $('#form1').attr('enctype', 'multipart/form-data');

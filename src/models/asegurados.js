@@ -199,12 +199,12 @@ async function renderDatos(req, res, msg) {
             for (let index = 2; index < str.length; index++) {
                 nombre = nombre + " " + str[index]
             }
-            const carnet = await request.query(`SELECT carnet.id_carnet, asegurados.cod_asegurado, nombre, login, carnet.created_at, motivo, comprobante, carnet.estado,
-                                                fec_comp, front, back, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
-                                                FROM carnet, asegurados, usuarios, imp_carnet
+            const carnet = await request.query(`SELECT imp_carnet.id_carnet, asegurados.cod_asegurado, nombre, login, imp_carnet.fec_emision, imp_carnet.motivo, comprobante, imp_carnet.estado,
+                                                fec_comp, front, back,imp_carnet.validez, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
+                                                FROM asegurados, usuarios, imp_carnet, carnet
                                                 where asegurados.cod_asegurado = '${response.cod_asegurado}'
                                                 and asegurados.cod_asegurado = carnet.cod_asegurado
-                                                and carnet.id_usuario = usuarios.id and carnet.id_carnet = imp_carnet.id_carnet `)
+                                                and imp_carnet.id_usuario = usuarios.id and imp_carnet.id_carnet = carnet.id_carnet `)
             console.log(carnet.recordset)
 
             let file_test = `./src/photos/Asegurados/${req.body.edtBuscar}.jpg`

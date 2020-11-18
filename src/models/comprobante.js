@@ -44,11 +44,12 @@ async function verificarComprobanteA(req, res) {
                     res.redirect('/buscarAsegurado')
                 }
             }
-            if (req.body.btnRegistrar == '' && req.body.tipo == 1) { //click en registrar comprobante
+            if (req.body.btnRegistrar == '') { //click en registrar comprobante
                 if (result.recordset[0]) { //1 fila afectada, si existe el num de comprobante
                     await poolConnectdb;
-                    const result2 = await requestdb.query(`insert into carnet (cod_asegurado,id_usuario,created_at,motivo,comprobante,estado,fec_comp) 
-                                                    values('${req.body.codigo}',${req.user.id}, CONVERT(VARCHAR,GETDATE(), 103), '${req.body.motivo}', '${result.recordset[0].Numero}', 0, '${result.recordset[0].FechaHora}')`)
+                    const result2 = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo) 
+                                            values((select id_carnet from carnet where cod_asegurado = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
+                                            ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}')`)
                     if (result2.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                         req.flash('loginMessage',`Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                         req.flash('aux', req.body.codigo)

@@ -203,12 +203,12 @@ async function renderDatos(req, res, msg) {
             }
             // const carnet = await request.query(`SELECT id_carnet,beneficiarios.cod_bnf,nombre, carnet.created_at,motivo,comprobante,estado FROM carnet,beneficiarios where beneficiarios.cod_bnf = '${response.cod_bnf}'
             //                                     and beneficiarios.cod_bnf = carnet.cod_bnf`)
-            const carnet = await request.query(`SELECT carnet.id_carnet, beneficiarios.cod_bnf, nombre, login, carnet.created_at, motivo, comprobante, carnet.estado,
-                                                fec_comp, front, back, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
-                                                FROM carnet, beneficiarios, usuarios, imp_carnet
+            const carnet = await request.query(`SELECT imp_carnet.id_carnet, beneficiarios.cod_bnf, nombre, login, imp_carnet.fec_emision, imp_carnet.motivo, comprobante, carnet.estado,
+                                                fec_comp, front, back,imp_carnet.validez, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
+                                                FROM beneficiarios, usuarios, imp_carnet, carnet
                                                 where beneficiarios.cod_bnf = '${response.cod_bnf}'
                                                 and beneficiarios.cod_bnf = carnet.cod_bnf
-                                                and carnet.id_usuario = usuarios.id and carnet.id_carnet = imp_carnet.id_carnet `)
+                                                and imp_carnet.id_usuario = usuarios.id and imp_carnet.id_carnet = carnet.id_carnet `)
             console.log(carnet.recordset)
 
             let file_test = `./src/photos/Beneficiarios/${req.body.edtBuscar}.jpg`
