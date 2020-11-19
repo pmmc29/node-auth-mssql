@@ -8,20 +8,12 @@
     <%- include home.ejs %>
     <main>
         <div class="row col s12">
-            <form method="POST" class="col s6" id="form1">
+            <form method="POST" class="col s6" id="form_aseg">
                 <h3>Buscar Asegurado</h3>
-                <div class="input-field col s12">
-                    <select name="tipo_asegurado" id="tipo_asegurado">
-                        <option value="0" disabled selected>Elige un Tipo</option>
-                        <option value="1">Asegurado</option>
-                        <option value="2">Beneficiario</option>
-                    </select>
-                    <label>Tipo de Asegurado</label>
-                    <blockquote>
-                        <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
-                        <%= typeof message != 'undefined' ? message : '' %>
-                    </blockquote>
-                </div>
+                <blockquote>
+                    <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
+                    <%= typeof message != 'undefined' ? message : '' %>
+                </blockquote>
                 <div class="input-field col s9">
                     <input id="search" name="edtBuscar" type="text" class="validate"
                         value="<%= typeof id != 'undefined' ? id : '' %><%= typeof aux != 'undefined' ? aux : '' %>">
@@ -29,7 +21,7 @@
                 </div>
                 <div class="input-field col s3">
                     <button class="btn waves-effect waves-light" type="submit" name="btnBuscar" id="btnBuscar"
-                        disabled>Buscar
+                        >Buscar
                         <i class="material-icons right">search</i>
                     </button>
                 </div>
@@ -48,22 +40,21 @@
                 </div>
                 <div class="col s3">
                     <div class="file-field input-field">
-                        <%# if (file_ase === '' && nombre !== '') { %>
+                        <% if (nombre !== '') { %>
                         <div class="file-field input-field">
                             <div>
-                                <input type="file" name="myPhoto" id="myPhoto" disabled>
+                                <input type="file" name="photo_aseg" id="photo_aseg" >
                             </div>
                             <div class="input-field">
-                                <input class="file-path validate" type="text" disabled>
-                                <label for="myPhoto">Seleccione una Foto</label>
+                                <input class="file-path validate" type="text">
+                                <label for="photo_aseg">Seleccione una Foto</label>
                             </div>
                         </div>
                         <button class="btn waves-effect waves-light" type="submit" name="btnAgregarFoto"
-                            id="btnAgregarFoto" disabled>Agregar
-                            Foto
+                            id="btnAgregarFoto" > <% if (file_ase !== '') { %>Actualizar Foto <%} else {%> Agregar Foto <%}%>
                             <i class="material-icons right">add_a_photo</i>
                         </button>
-                        <%#}%>
+                        <%}%>
                     </div>
                 </div>
 
@@ -149,11 +140,12 @@
                             </h5>
                             <form action="/verificarCarnetA" method="POST">
                                 <ul>
-                                    <input type="text" name="id_carnet" value="<%= historial[i].id_carnet %>" hidden>
+                                    <input type="text" name="id_imp" value="<%= historial[i].id_imp %>" hidden>
                                     <li><b>Usuario: </b> <input type="text" name="usuario"
                                             value="<%= historial[i].login %>" hidden><%= historial[i].login %>
                                     </li>
                                     <li><b>Fecha Emision: </b> <%= historial[i].fec_emision %></li>
+                                    <li><b>Valido hasta: </b> <%= historial[i].fec_contrato %></li>
                                     <li style="background-color: #ee6e73;"><b>Comprobante:</b>
                                         <%= historial[i].comprobante %>
                                         <input type="text" name="nro_comprobante"
@@ -183,106 +175,7 @@
                 
         </div>
     </main>
-    <script>
-        //recuperar los datos del formulario
-        const codigo = document.getElementById('search').value;
-        
-        $("#btn_add_card_A").click(function () {
-            $("#historialA").append(`<div class="card blue-grey">
-                <div class="card-content white-text row">
-                    <h5><b>Nuevo Carnet</b></h5>
-                    <form action="/numComprobanteA" method="POST">
-                        <ul>
-                            <div class="input-field">
-                                <li><b>Usuario: </b> <%= user.email %></li>
-                                <li><b>Codigo: </b> ${codigo}</li>
-                                <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
-                                <input name="tipo" type="text" class="validate" value="1" hidden>
-                                <input name="comprobante" type="text" class="validate" value=""
-                                    placeholder="Numero de Comprobante" required>
-                                <input name="motivo" type="text" class="validate" value="" placeholder="Motivo"
-                                    required>
-                            </div>
-                            <div class="input-field col s6">
-                                <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar"
-                                    id="btnRegistrar">Registrar
-                                    <i class="material-icons right">add_box</i>
-                                </button>
-                            </div>
-                            <p class="col s3">
-                                <label class="white-text">
-                                    <input name="validez" type="radio" value="CONTRATO" checked/>
-                                    <span>CONTRATO</span>
-                                </label>
-                            </p>
-                            <p class="col s3">
-                                <label class="white-text">
-                                    <input name="validez" type="radio" value="ITEM" />
-                                    <span>ITEM</span>
-                                </label>
-                            </p>
-                        </ul>
-                    </form>
-                </div>
-            </div>`);
-        });
-        $('#btnAgregarFoto').click(() => {
-            $('#form1').attr('enctype', 'multipart/form-data');
-            if ($('#tipo_asegurado').val() == '1') {
-                $('#form1').attr('action', '/agregarFotoAsegurado');
-            }
-            if ($('#tipo_asegurado').val() == '2') {
-                $('#form1').attr('action', '/agregarFotoBeneficiario');
-            }
-        })
-        $('#myPhoto').click(() => {
-            $('#form1').attr('enctype', 'multipart/form-data');
-            $('#form1').attr('action', '/agregarFotoAsegurado');
-
-        })
-        $('#btnBuscar').click(() => {
-            $('#form1').attr('enctype', '');
-            if ($('#tipo_asegurado').val() == '1') {
-                $('#btnBuscar').prop('disabled', false);
-                $('#btnRegistrar').prop('disabled', false);
-                $('#btnAgregarFoto').prop('disabled', false);
-                $('#myPhoto').prop('disabled', false);
-                $('#form1').attr('action', '/buscarAsegurado');
-                $('#form_foto').attr('action', '/buscarAsegurado');
-            }
-            if ($('#tipo_asegurado').val() == '2') {
-                $('#form1').attr('action', '/buscarBeneficiario');
-                $('#form_foto').attr('action', '/buscarBeneficiario');
-                $('#btnBuscar').prop('disabled', false);
-                $('#btnRegistrar').prop('disabled', false);
-                $('#btnAgregarFoto').prop('disabled', false);
-                $('#myPhoto').prop('disabled', false);
-
-            }
-        })
-
-        $("#tipo_asegurado").change(function () {
-            if ($('#tipo_asegurado').val() == '1') {
-                $('#btnBuscar').prop('disabled', false);
-                $('#btnRegistrar').prop('disabled', false);
-                $('#btnAgregarFoto').prop('disabled', false);
-                $('#myPhoto').prop('disabled', false);
-                $('#form1').attr('action', '/buscarAsegurado');
-                $('#form_foto').attr('action', '/buscarAsegurado');
-            }
-            if ($('#tipo_asegurado').val() == '2') {
-                $('#form1').attr('action', '/buscarBeneficiario');
-                $('#form_foto').attr('action', '/buscarBeneficiario');
-                $('#btnBuscar').prop('disabled', false);
-                $('#btnRegistrar').prop('disabled', false);
-                $('#btnAgregarFoto').prop('disabled', false);
-                $('#myPhoto').prop('disabled', false);
-
-            }
-        });
-    </script>
-
-
+    <script src="../public/js/Asegurados/formAseg.js"></script>
 </body>
 
 </html>

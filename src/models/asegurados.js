@@ -29,7 +29,7 @@ const uploadPhoto = multer({
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb)
     }
-}).single('myPhoto')
+}).single('photo_aseg')
 
 function checkFileType(file, cb) {
     //extenciones permitidas
@@ -128,7 +128,7 @@ async function agregarFoto(req, res) {//click en agregar foto
     if (req.isAuthenticated()) {
             uploadPhoto(req, res, (err) => {
                     if (err) {
-                        req.flash('loginMessage', err)
+                        req.flash('loginMessage', 'error')
                         req.flash('aux', req.body.edtBuscar)
                         res.redirect('/buscarAsegurado')
                     } else {
@@ -199,8 +199,8 @@ async function renderDatos(req, res, msg) {
             for (let index = 2; index < str.length; index++) {
                 nombre = nombre + " " + str[index]
             }
-            const carnet = await request.query(`SELECT imp_carnet.id_carnet, asegurados.cod_asegurado, nombre, login, imp_carnet.fec_emision, imp_carnet.motivo, comprobante, imp_carnet.estado,
-                                                fec_comp, front, back,imp_carnet.validez, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
+            const carnet = await request.query(`SELECT imp_carnet.id_carnet,id_imp, asegurados.cod_asegurado, nombre, login, imp_carnet.fec_emision, imp_carnet.motivo, comprobante, imp_carnet.estado,
+                                                fec_contrato, front, back,imp_carnet.validez, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
                                                 FROM asegurados, usuarios, imp_carnet, carnet
                                                 where asegurados.cod_asegurado = '${response.cod_asegurado}'
                                                 and asegurados.cod_asegurado = carnet.cod_asegurado

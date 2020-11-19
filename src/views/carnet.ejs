@@ -84,13 +84,13 @@
                 </div>
                 <div class="fecha">
                     <!-- <p><b>Valido Desde:</b> <%#= res %></p> -->
-                    <p><b>Valido Desde:</b> <%= res.created_at %></p>
+                    <p><b>Valido Desde:</b> <%= res.fec_emision %></p>
                     <input type="hidden" value="<%= res.created_at %>" id="fec_desde">
 
                 </div>
                 <div class="fecha-hasta">
                     <!-- <p><b>Hasta:</b> <%#= res %></p> -->
-                    <p id="fec_hasta"><b>Hasta:</b> dd/mm/yyyy</p>
+                    <p id="fec_hasta"><b>Hasta:</b> <%= res.fec_contrato %> </p>
 
                 </div>
             </div>
@@ -209,12 +209,12 @@
         });
     });
 
-    const fec_desde = document.getElementById('fec_desde').value;
-    var d = new Date();
-    // let fec_hasta = d.setFullYear(d.getFullYear(), d.getMonth() + 12);
-    let fec_hasta = d.getDate() + "/" + (d.getMonth() + 1) + "/" +
-    (d.getFullYear() +1);
-    document.getElementById("fec_hasta").innerHTML = `<b>Hasta:</b> ${fec_hasta}`;
+    // const fec_desde = document.getElementById('fec_desde').value;
+    // var d = new Date();
+    // // let fec_hasta = d.setFullYear(d.getFullYear(), d.getMonth() + 12);
+    // let fec_hasta = d.getDate() + "/" + (d.getMonth() + 1) + "/" +
+    // (d.getFullYear() +1);
+    // document.getElementById("fec_hasta").innerHTML = `<b>Hasta:</b> ${fec_hasta}`;
     
     document.getElementById('edit').contentEditable = true;
     document.getElementById('edit_name').contentEditable = true;

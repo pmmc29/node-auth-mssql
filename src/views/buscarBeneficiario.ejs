@@ -39,22 +39,21 @@
                 </div>
                 <div class="col s3">
                     <div class="file-field input-field">
-                        <%# if (file_ase === '' && nombre !== '') { %>
+                        <% if (nombre !== '') { %>
                         <div class="file-field input-field">
                             <div>
-                                <input type="file" name="photo_bnf" id="photo_bnf" disabled>
+                                <input type="file" name="photo_bnf" id="photo_bnf">
                             </div>
                             <div class="input-field">
-                                <input class="file-path validate" type="text" disabled>
+                                <input class="file-path validate" type="text">
                                 <label for="photo_bnf">Seleccione una Foto</label>
                             </div>
                         </div>
                         <button class="btn waves-effect waves-light" type="submit" name="btnAgregarFoto"
-                            id="btnAgregarFoto" disabled>Agregar
-                            Foto
+                            id="btnAgregarFoto"> <% if (file_ase !== '') { %>Actualizar Foto <%} else {%> Agregar Foto <%}%>
                             <i class="material-icons right">add_a_photo</i>
                         </button>
-                        <%#}%>
+                        <%}%>
                     </div>
                 </div>
                 <div class="input-field col s12">
@@ -78,13 +77,13 @@
                         <%= typeof msgRD != 'undefined' ? msgRD : '' %>
                     </blockquote>
                 </div>
-                <div class="input-field col s6">
+                <div class="input-field col s3">
                     <input id="join_date" name="fec_ing" type="text" class="datepicker"
                         value="<%= typeof res.fec_ing != 'undefined' ? res.fec_ing : '' %>"
                         <% if(res.fec_ing !== null){ %>disabled <% } else {%><%= res.fec_ing %><%}%>>
                         <label for="join_date">Fecha de Ingreso</label>
                 </div>
-                <div class="input-field col s6">
+                <div class="input-field col s3">
                     <input id="ci" name="ci" type="text" class="validate"
                         value="<%= typeof res.ci != 'undefined' ? res.ci : '' %>" <% if(res.ci !== null){ %>disabled <% } else {%><%= res.ci %><%}%>>
                         <label for="ci">CI.</label>
@@ -105,7 +104,7 @@
                     </select>
                     <label>Lugar</label>
                 </div>
-                <div class="input-field col s6">
+                <div class="input-field col s3">
                     <select name="select_sangre" id="select_sangre">
                         <option value="<%= res.tipo_sangre %>" selected><% if(res.tipo_sangre !== null){ %><%= res.tipo_sangre %>
                             <% } else {%>Elige un Tipo<%}%></option>
@@ -120,7 +119,7 @@
                     </select>
                     <label>Tipo de Sangre</label>
                 </div>
-                <div class="input-field col s6">
+                <div class="input-field col s3">
                     <% if (res.tipo_sangre === null || res.tipo_sangre == '' || res.fec_ing === null || res.fec_ing =='') { %>
                     <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar"
                         id="btnRegistrar">Registrar
@@ -193,104 +192,6 @@
                 </div>
         </div>
     </main>
+    <script src="../public/js/Beneficiarios/formBnf.js"></script>
 </body>
-<script>
-    const codigo = document.getElementById('search').value;
-
-    $("#btn_add_card_B").click(function () {
-        $("#historialB").append(`<div class="card blue-grey">
-            <div class="card-content white-text row">
-                <h5><b>Nuevo Carnet</b></h5>
-                <form action="/numComprobanteA" method="POST">
-                    <ul>
-                        <div class="input-field">
-                            <li><b>Usuario: </b> <%= user.email %></li>
-                            <li><b>Codigo: </b> ${codigo}</li>
-                            <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
-                            <input name="tipo" type="text" class="validate" value="1" hidden>
-                            <input name="comprobante" type="text" class="validate" value=""
-                                placeholder="Numero de Comprobante" required>
-                            <input name="motivo" type="text" class="validate" value="" placeholder="Motivo" required>
-                        </div>
-                        <div class="input-field col s6">
-                            <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar"
-                                id="btnRegistrar">Registrar
-                                <i class="material-icons right">add_box</i>
-                            </button>
-                        </div>
-                        <p class="col s3">
-                            <label class="white-text">
-                                <input name="validez" type="radio" value="MODULAR" checked />
-                                <span>MODULAR</span>
-                            </label>
-                        </p>
-                        <p class="col s3">
-                            <label class="white-text">
-                                <input name="validez" type="radio" />
-                                <span>TRIMESTRAL</span>
-                            </label>
-                        </p>
-                        <p class="col s3">
-                            <label class="white-text">
-                                <input name="validez" type="radio" />
-                                <span>SEMESTRAL</span>
-                            </label>
-                        </p>
-                        <p class="col s3">
-                            <label class="white-text">
-                                <input name="validez" type="radio" />
-                                <span>ANUAL</span>
-                            </label>
-                        </p>
-                    </ul>
-                </form>
-            </div>
-        </div>`);
-    });
-
-    $('#btnAgregarFoto').click(() => {
-        $('#form_bnf').attr('enctype', 'multipart/form-data');
-        $('#form_bnf').attr('action', '/agregarFotoBeneficiario');
-    })
-    $('#photo_bnf').click(() => {
-        $('#form_bnf').attr('enctype', 'multipart/form-data');
-        $('#form_bnf').attr('action', '/agregarFotoAsegurado');
-    })
-    $('#btnBuscar').click(() => {
-        $('#form_bnf').attr('enctype', '');
-        $('#form_bnf').attr('action', '/buscarBeneficiario');
-    })
-    $('#btnRegistrar').click(() => {
-        $('#form_bnf').attr('enctype', '');
-        $('#form_bnf').attr('action', '/buscarBeneficiario');
-    })
-
-    // $("#tipo_asegurado").change(function () {
-    //            if ($('#tipo_asegurado').val() == '1') {
-    //                 $('#btnBuscar').prop('disabled', false); 
-    //                 $('#btnRegistrar').prop('disabled', false); 
-    //                 $('#btnAgregarFoto').prop('disabled', false);
-    //                 $('#myPhoto').prop('disabled', false);
-    //                $('#form1').attr('action', '/buscarAsegurado');
-    //                $('#form_foto').attr('action', '/buscarAsegurado');
-    //             }if($('#tipo_asegurado').val() == '2'){
-    //                 $('#form1').attr('action', '/buscarBeneficiario');
-    //                 $('#form_foto').attr('action', '/buscarBeneficiario');
-    //                 $('#btnBuscar').prop('disabled', false); 
-    //                 $('#btnRegistrar').prop('disabled', false); 
-    //                 $('#btnAgregarFoto').prop('disabled', false); 
-    //                 $('#myPhoto').prop('disabled', false);
-
-    //            }
-    //         });
-
-    // window.addEventListener("load", event => {
-    //     var x = document.getElementById("imgtest").complete;
-    //     var y = document.getElementById("imgtest").naturalHeight;
-    //     if (y === 0) {
-    //         console.log(x,y);
-    //     }
-    // });
-</script>
-
 </html>

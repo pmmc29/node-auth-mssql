@@ -39,12 +39,12 @@ async function verificarCarnetA(req, res) { //ASEGURADOS
         try {
             await poolConnect;
             console.log(req.body)
-            const resultImp = await request.query(`SELECT nombre,nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,id_carnet,carnet.created_at
-                                            from asegurados,carnet
+            const resultImp = await request.query(`SELECT id_imp,nombre,nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,imp_carnet.id_carnet,fec_emision,fec_contrato
+                                            from asegurados,carnet,imp_carnet
                                             where asegurados.cod_asegurado = '${req.body.codigo}' and asegurados.cod_asegurado = carnet.cod_asegurado 
-                                            and id_carnet = ${req.body.id_carnet}`)
+                                            and id_imp = ${req.body.id_imp}`)
             const resultFirmas = await request.query(`select * from firma`)
-            const detalleImp = await request.query(`select * from imp_carnet where id_carnet = ${req.body.id_carnet}`)
+            const detalleImp = await request.query(`select * from imp_carnet where id_imp = ${req.body.id_imp}`)
             //nombre y apellido
             console.log('AQUI', resultImp.recordset, resultFirmas.recordset)
             
