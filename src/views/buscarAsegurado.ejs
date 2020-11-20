@@ -42,12 +42,12 @@
                     <div class="file-field input-field">
                         <% if (nombre !== '') { %>
                         <div class="file-field input-field">
-                            <div>
-                                <input type="file" name="photo_aseg" id="photo_aseg" >
+                            <div class="btn">
+                                <span>Foto</span>
+                                <input type="file" name="photo_aseg" id="photo_aseg">
                             </div>
-                            <div class="input-field">
-                                <input class="file-path validate" type="text">
-                                <label for="photo_aseg">Seleccione una Foto</label>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text" placeholder="Seleccionar Foto">
                             </div>
                         </div>
                         <button class="btn waves-effect waves-light" type="submit" name="btnAgregarFoto"
@@ -116,9 +116,9 @@
                 </div>
                 
                 <div class="input-field col s6">
-                    <% if (res.tipo_sangre === null || res.tipo_sangre == '' || res.ci === null || res.ci_loc == '') { %>
+                    <% if (res.tipo_sangre == '' || res.ci === null || res.ci_loc == '') { %>
                     <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar" id="btnRegistrar"
-                        disabled>Registrar
+                        >Registrar
                         <i class="material-icons right">person_add</i>
                     </button>
                     <%}%>
@@ -126,7 +126,7 @@
                 </form>
                 <div class="col s6" id="historialA" style="height: 800px; overflow-y: scroll;">
                         <h3>Historial de Carnet</h3>
-                        <% if (nombre !== '' && res.tipo_sangre !== null) { %>
+                    <% if (nombre !== '' && res.tipo_sangre !== '') { %>
                     <button class="btn waves-effect waves-light" type="button" name="btnImprimir"
                         id="btn_add_card_A">Agregar Carnet
                         <i class="material-icons right">add_box</i>
@@ -152,7 +152,9 @@
                                             value="<%= historial[i].comprobante %>" hidden>
                                     </li>
                                     <input type="text" name="codigo" value="<%= historial[i].cod_asegurado %>" hidden>
-                                    <li class="card teal"><b>Motivo: </b> <%= historial[i].motivo %></li>
+                                    <li style="background-color: #009688;"><b>Motivo: </b>
+                                        <%= historial[i].motivo %></li>
+                                    <li><b>Tipo Validez: </b> <%= historial[i].validez %></li>
                                     <% if (historial[i].estado === '0') { %>
                                     <button class="btn waves-effect waves-light" type="submit" name="btnImprimir"
                                         id="btnImprimir">Imprimir

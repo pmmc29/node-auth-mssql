@@ -47,17 +47,33 @@ async function verificarComprobanteA(req, res) {
             if (req.body.btnRegistrar == '') { //click en registrar comprobante
                 if (result.recordset[0]) { //1 fila afectada, si existe el num de comprobante
                     await poolConnectdb;
-                    const result2 = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_contrato) 
-                                            values((select id_carnet from carnet where cod_asegurado = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
-                                            ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}','${req.body.fec_contrato}')`)
-                    if (result2.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
-                        req.flash('loginMessage',`Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                        req.flash('aux', req.body.codigo)
-                        res.redirect('/buscarAsegurado')
-                    } else {
-                        req.flash('loginMessage', 'Error en el registro del comprobante')
-                        req.flash('aux', req.body.codigo)
-                        res.redirect('/buscarAsegurado')
+                    if (req.body.validez == 'CONTRATO') {
+                        const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_contrato) 
+                                                values((select id_carnet from carnet where cod_asegurado = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
+                                                ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}','${req.body.fec_contrato}')`)
+                        if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
+                            req.flash('loginMessage',`Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
+                            req.flash('aux', req.body.codigo)
+                            res.redirect('/buscarAsegurado')
+                        } else {
+                            req.flash('loginMessage', 'Error en el registro del comprobante')
+                            req.flash('aux', req.body.codigo)
+                            res.redirect('/buscarAsegurado')
+                        }
+                    }
+                    if (req.body.validez == 'ITEM') {
+                        const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_contrato) 
+                                                values((select id_carnet from carnet where cod_asegurado = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
+                                                ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}',CONVERT(VARCHAR, (select DATEADD(yyyy, 3, GETDATE())), 103))`)
+                        if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
+                            req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
+                            req.flash('aux', req.body.codigo)
+                            res.redirect('/buscarAsegurado')
+                        } else {
+                            req.flash('loginMessage', 'Error en el registro del comprobante')
+                            req.flash('aux', req.body.codigo)
+                            res.redirect('/buscarAsegurado')
+                        }
                     }
                 } else {
                     req.flash('loginMessage', 'Numero de comprobante no existe')
