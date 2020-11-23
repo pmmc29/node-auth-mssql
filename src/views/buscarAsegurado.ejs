@@ -78,6 +78,12 @@
                         value="<%= typeof res.fec_nac != 'undefined' ? res.fec_nac : '' %>" disabled>
                     <label for="birth_date">Fecha de Nacimiento</label>
                 </div>
+                <div class="input-field col s12">
+                    <h5>Registrar Datos</h5>
+                    <blockquote id="msgRD">
+                        <%= typeof msgRD != 'undefined' ? msgRD : '' %>
+                    </blockquote>
+                </div>
                 <div class="input-field col s6">
                     <input id="ci" name="ci" type="text" class="validate"
                         value="<%= typeof res.ci != 'undefined' ? res.ci : '' %>" <% if(res.ci != ''){ %> readonly <% } else {%><%= res.ci %><%}%>>

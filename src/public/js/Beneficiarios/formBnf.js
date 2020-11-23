@@ -1,4 +1,5 @@
     const codigo = document.getElementById('search').value;
+    const edad = document.getElementById('edad_bnf').value;
 
     $("#btn_add_card_B").click(function () {
         $("#historialB").append(`<div class="card blue-grey">

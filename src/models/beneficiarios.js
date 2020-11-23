@@ -187,7 +187,16 @@ async function renderDatos(req, res, msg) {
 
     try {
         await poolConnect;
-        const result = await request.query(`select * from beneficiarios where beneficiarios.cod_bnf = '${req.body.edtBuscar}'`)
+        const edad_bnf = `select DATEDIFF(yy, (select CONVERT(date, (select fec_nac from beneficiarios 
+                                where cod_bnf = '${req.body.edtBuscar}'), 103)), GETDATE()) -
+                                CASE
+                                    WHEN DATEADD(yy, (DATEDIFF(yy, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.edtBuscar}'), 103)), GETDATE())),
+                                    (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = ''), 103))) > GETDATE()
+                                    THEN 1
+                                    ELSE 0
+                                END
+                                from beneficiarios where cod_bnf = '${req.body.edtBuscar}'`
+        const result = await request.query(`select *, (${edad_bnf}) as edad from beneficiarios where beneficiarios.cod_bnf = '${req.body.edtBuscar}'`)
         const response = result.recordset[0]
         console.log(response)
         if (response == undefined) { // no existe el codigo del asegurado
@@ -203,6 +212,9 @@ async function renderDatos(req, res, msg) {
             }
             // const carnet = await request.query(`SELECT id_carnet,beneficiarios.cod_bnf,nombre, carnet.created_at,motivo,comprobante,estado FROM carnet,beneficiarios where beneficiarios.cod_bnf = '${response.cod_bnf}'
             //                                     and beneficiarios.cod_bnf = carnet.cod_bnf`)
+
+            
+
             const carnet = await request.query(`SELECT imp_carnet.id_carnet, beneficiarios.cod_bnf, nombre, login, imp_carnet.fec_emision, imp_carnet.motivo, comprobante, carnet.estado,
                                                 fec_contrato, front, back,imp_carnet.validez, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
                                                 FROM beneficiarios, usuarios, imp_carnet, carnet

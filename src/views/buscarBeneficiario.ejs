@@ -14,6 +14,7 @@
                     <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
                     <%= typeof message != 'undefined' ? message : '' %>
                 </blockquote>
+                <input type="text" class="validate" value="<%= typeof res.edad != 'undefined' ? res.edad : '' %>" id="edad_bnf" hidden>
                 <div class="input-field col s9">
                     <input id="search" name="edtBuscar" type="text" class="validate"
                         value="<%= typeof id != 'undefined' ? id : '' %><%= typeof aux != 'undefined' ? aux : '' %>">
