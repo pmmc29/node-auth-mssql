@@ -31,7 +31,7 @@
             <div class="card-body frente" style="padding: 15px;">
                 <div class="foto">
                     <figure>
-                        <img id="foto_perfil" style="margin-top: 5px;"
+                    <img id="foto_perfil" style="margin-top: 5px; <% if (res.validez == 'MENOR') { %> border: 3px solid red; <%} else {%> border: 3px solid yellow; <%}%>"
                             src="<%= typeof file_carnet != 'undefined' ? file_carnet : '' %>">
 
                     </figure>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="fecha-hasta">
                     <!-- <p><b>Hasta:</b> <%#= res %></p> -->
-                    <p id="fec_hasta"><b>Hasta:</b> <%= res.fec_contrato %> </p>
+                    <p id="fec_hasta"><b>Hasta:</b> <%= res.fec_fin %> </p>
 
                 </div>
             </div>
@@ -114,19 +114,6 @@
                 <% for(var i=0; i<firmas.length; i++) {%>
                 <option value="<%= firmas[i].ruta %>"><%= firmas[i].nombre %></option>
                 <% } %>
-            </select>
-        </div>
-        <br>
-        <br>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">Borde Foto</label>
-            </div>
-            <select class="custom-select" id="list_bordes">
-                <option selected disabled>Seleccione</option>
-                <option value="white">Blanco</option>
-                <option value="red">Rojo</option>
-                <option value="yellow">Amarillo</option>
             </select>
         </div>
         <br>
@@ -169,7 +156,7 @@
         function(){
         alertify.success('Ok');
         printJS({ printable: 'carnet_front', type: 'html', css: ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
-                    style: '.card {margin-top: 40px; margin-left: -520px; border: none;} .img{border: 2px solid red;} @page { size: Letter landscape; margin: 0px}',
+                    style: '.card {margin-top: 40px; margin-left: -520px; border: none;} @page { size: Letter landscape; margin: 0px}',
                 scanStyles: false, onPrintDialogClose: () => {
                 clearInterval(focuser);
 
@@ -208,13 +195,6 @@
         alertify.error('Cancel');
         });
     });
-
-    // const fec_desde = document.getElementById('fec_desde').value;
-    // var d = new Date();
-    // // let fec_hasta = d.setFullYear(d.getFullYear(), d.getMonth() + 12);
-    // let fec_hasta = d.getDate() + "/" + (d.getMonth() + 1) + "/" +
-    // (d.getFullYear() +1);
-    // document.getElementById("fec_hasta").innerHTML = `<b>Hasta:</b> ${fec_hasta}`;
     
     document.getElementById('edit').contentEditable = true;
     document.getElementById('edit_name').contentEditable = true;
@@ -222,9 +202,6 @@
 
     $("#list_firmas").change(function () {
         $('#foto_firma').attr('src', `../photos/Firmas/${$('#list_firmas').val()}`);
-    });
-    $("#list_bordes").change(function () {
-        $('#foto_perfil').attr('style', `border:3px solid ${$('#list_bordes').val()}`);
     });
 </script>
 

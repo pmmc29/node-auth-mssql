@@ -10,7 +10,7 @@
         <div class="row col s12">
             <form method="POST" class="col s6" id="form_bnf">
                 <h3>Buscar Beneficiario</h3>
-                <blockquote>
+                <blockquote style="background-color: bisque;">
                     <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
                     <%= typeof message != 'undefined' ? message : '' %>
                 </blockquote>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="input-field col s12">
                     <h5>Registrar Datos</h5>
-                    <blockquote id="msgRD">
+                    <blockquote id="msgRD" style="background-color: bisque;">
                         <%= typeof msgRD != 'undefined' ? msgRD : '' %>
                     </blockquote>
                 </div>
@@ -146,46 +146,34 @@
                             </h5>
                             <form action="/verificarCarnetB" method="POST">
                                 <ul>
-                                    <input type="text" name="id_carnet" value="<%= historial[i].id_carnet %>" hidden>
+                                    <input type="text" name="id_imp" value="<%= historial[i].id_imp %>" hidden>
                                     <li><b>Usuario: </b> <input type="text" name="usuario"
                                             value="<%= historial[i].login %>" hidden><%= historial[i].login %>
                                     </li>
-                                    <li><b>Fecha: </b> <%= historial[i].created_at %></li>
+                                    <li><b>Fecha Emision: </b> <%= historial[i].fec_emision %></li>
+                                    <li><b>Valido hasta: </b> <%= historial[i].fec_fin %></li>
                                     <li style="background-color: #ee6e73;"><b>Comprobante:</b>
                                         <%= historial[i].comprobante %>
                                         <input type="text" name="nro_comprobante"
                                             value="<%= historial[i].comprobante %>" hidden>
                                     </li>
-                                    <li><b>Fecha Comprobante: </b> <%= historial[i].fec_comp %></li>
                                     <input type="text" name="codigo" value="<%= historial[i].cod_bnf %>" hidden>
-                                    <li class="card teal"><b>Motivo: </b> <%= historial[i].motivo %></li>
-                                    <% if (historial[i].estado === 0) { %>
+                                    <li style="background-color: #009688;"><b>Motivo: </b>
+                                        <%= historial[i].motivo %></li>
+                                    <li><b>Tipo Validez: </b> <%= historial[i].validez %></li>
+                                    <% if (historial[i].estado === '0') { %>
                                     <button class="btn waves-effect waves-light" type="submit" name="btnImprimir"
                                         id="btnImprimir">Imprimir
                                         <i class="material-icons right">print</i>
                                     </button>
                                     <% } %>
-                                    <% if (historial[i].estado === 1 && historial[i].created_at === historial[i].fec_servidor) { %>
+                                    <% if (historial[i].estado === '1' && historial[i].fec_emision === historial[i].fec_servidor) { %>
                                     <button class="btn waves-effect waves-light" type="submit" name="btnRImprimir"
                                         id="btnRImprimir">ReImprimir
                                         <i class="material-icons right">print</i>
                                     </button>
                                     <% } %>
-                                    <% if (historial[i].comprobante === null) { %>
-                                    <div class="input-field">
-                                        <input
-                                            id="<%= typeof historial[i].id_carnet != 'undefined' ? historial[i].id_carnet : '' %>"
-                                            name="comprobante" type="text" class="validate" value="">
-                                        <label
-                                            for="<%= typeof historial[i].id_carnet != 'undefined' ? historial[i].id_carnet : '' %>">Nro.
-                                            Comprobante</label>
-                                        <button class="btn waves-effect waves-light" type="submit" name="btnComprobar"
-                                            id="btnComprobar">Comprobar
-                                            <i class="material-icons right">search</i>
-                                        </button>
-                                    </div>
                                 </ul>
-                                <% } %>
                             </form>
                         </div>
                     </div>

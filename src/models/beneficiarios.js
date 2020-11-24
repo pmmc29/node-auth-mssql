@@ -156,14 +156,13 @@ async function agregarFotoB(req, res) {//click en agregar foto
 async function registrarDatos(req, res) {
     try {
         await poolConnect;
-        if (req.body.fec_ing === '' ||req.body.ci === '' || req.body.ci_loc === '' || req.body.select_sangre === '') {
+        if (req.body.fec_ing === '') {
                 req.flash('msgRD', 'LLene los campos correspondientes')
                 req.flash('aux', req.body.edtBuscar)
                 res.redirect('/buscarBeneficiario')
         } else {
             const result = await request.query(`update beneficiarios set fec_ing = '${req.body.fec_ing}', tipo_sangre = '${req.body.select_sangre}', ci = '${req.body.ci}', ci_loc = '${req.body.ci_loc}' where cod_bnf = '${req.body.edtBuscar}'`)
             const response = result.rowsAffected[0]
-    
             if (response > 0) { // 1 fila afectada = actualizacion exitosa
                 req.flash('msgRD', 'Registro Exitoso')
                 req.flash('aux', req.body.edtBuscar)
@@ -215,8 +214,8 @@ async function renderDatos(req, res, msg) {
 
             
 
-            const carnet = await request.query(`SELECT imp_carnet.id_carnet, beneficiarios.cod_bnf, nombre, login, imp_carnet.fec_emision, imp_carnet.motivo, comprobante, carnet.estado,
-                                                fec_contrato, front, back,imp_carnet.validez, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
+            const carnet = await request.query(`SELECT imp_carnet.id_carnet,id_imp, beneficiarios.cod_bnf, nombre, login, imp_carnet.fec_emision, imp_carnet.motivo, comprobante, imp_carnet.estado,
+                                                fec_fin, front, back,imp_carnet.validez, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
                                                 FROM beneficiarios, usuarios, imp_carnet, carnet
                                                 where beneficiarios.cod_bnf = '${response.cod_bnf}'
                                                 and beneficiarios.cod_bnf = carnet.cod_bnf

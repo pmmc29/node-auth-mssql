@@ -10,7 +10,7 @@
         <div class="row col s12">
             <form method="POST" class="col s6" id="form_aseg">
                 <h3>Buscar Asegurado</h3>
-                <blockquote>
+                <blockquote style="background-color: bisque;">
                     <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
                     <%= typeof message != 'undefined' ? message : '' %>
                 </blockquote>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="input-field col s12">
                     <h5>Registrar Datos</h5>
-                    <blockquote id="msgRD">
+                    <blockquote id="msgRD" style="background-color: bisque;">
                         <%= typeof msgRD != 'undefined' ? msgRD : '' %>
                     </blockquote>
                 </div>
@@ -151,7 +151,7 @@
                                             value="<%= historial[i].login %>" hidden><%= historial[i].login %>
                                     </li>
                                     <li><b>Fecha Emision: </b> <%= historial[i].fec_emision %></li>
-                                    <li><b>Valido hasta: </b> <%= historial[i].fec_contrato %></li>
+                                    <li><b>Valido hasta: </b> <%= historial[i].fec_fin %></li>
                                     <li style="background-color: #ee6e73;"><b>Comprobante:</b>
                                         <%= historial[i].comprobante %>
                                         <input type="text" name="nro_comprobante"

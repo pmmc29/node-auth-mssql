@@ -200,7 +200,7 @@ async function renderDatos(req, res, msg) {
                 nombre = nombre + " " + str[index]
             }
             const carnet = await request.query(`SELECT imp_carnet.id_carnet,id_imp, asegurados.cod_asegurado, nombre, login, imp_carnet.fec_emision, imp_carnet.motivo, comprobante, imp_carnet.estado,
-                                                fec_contrato, front, back,imp_carnet.validez, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
+                                                fec_fin, front, back,imp_carnet.validez, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor
                                                 FROM asegurados, usuarios, imp_carnet, carnet
                                                 where asegurados.cod_asegurado = '${response.cod_asegurado}'
                                                 and asegurados.cod_asegurado = carnet.cod_asegurado

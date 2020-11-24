@@ -39,7 +39,7 @@ async function verificarCarnetA(req, res) { //ASEGURADOS
         try {
             await poolConnect;
             console.log(req.body)
-            const resultImp = await request.query(`SELECT id_imp,nombre,nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,imp_carnet.id_carnet,fec_emision,fec_contrato
+            const resultImp = await request.query(`SELECT id_imp,nombre,nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,imp_carnet.id_carnet,fec_emision,fec_fin
                                             from asegurados,carnet,imp_carnet
                                             where asegurados.cod_asegurado = '${req.body.codigo}' and asegurados.cod_asegurado = carnet.cod_asegurado 
                                             and id_imp = ${req.body.id_imp}`)
@@ -105,37 +105,29 @@ async function verificarCarnetA(req, res) { //ASEGURADOS
         });
     }
 }
-
 async function verificarCarnetB(req, res) { //BENEFICIARIOS
     if (req.isAuthenticated()) {
         try {
             await poolConnect;
             console.log(req.body)
-            // req.flash('loginMessage', 'Printed')
-            // req.flash('aux', req.body.codigo)
-            const resultImp = await request.query(`SELECT nombre,nom_emp,fec_ing,beneficiarios.cod_bnf,fec_nac,tipo_sangre,id_carnet
-                                                    from beneficiarios,carnet
-                                                    where beneficiarios.cod_bnf = '${req.body.codigo}' and beneficiarios.cod_bnf = carnet.cod_bnf 
-                                                    and id_carnet = ${req.body.id_carnet}`)
-            
+            const resultImp = await request.query(`SELECT id_imp,nombre,nom_emp,fec_ing,beneficiarios.cod_bnf,fec_nac,tipo_sangre,imp_carnet.id_carnet,fec_emision,fec_fin,validez
+                                            from beneficiarios,carnet,imp_carnet
+                                            where beneficiarios.cod_bnf = '${req.body.codigo}' and beneficiarios.cod_bnf = carnet.cod_bnf 
+                                            and id_imp = ${req.body.id_imp}`)
             const resultFirmas = await request.query(`select * from firma`)
-            const detalleImp = await request.query(`select * from imp_carnet where id_carnet = ${req.body.id_carnet}`)
-            
+            const detalleImp = await request.query(`select * from imp_carnet where id_imp = ${req.body.id_imp}`)
             //nombre y apellido
             console.log('AQUI', resultImp.recordset, resultFirmas.recordset)
+            
             let str = resultImp.recordset[0].nombre.split(" ")
             let apellido = str[0] + " " + str[1]
             let nombre = ''
             for (let index = 2; index < str.length; index++) {
                 nombre = nombre + " " + str[index]
             }
-            
             if (req.body.btnImprimir == '') { //click en imprimir (historial de carnet)
-                QRCode.toDataURL(JSON.stringify({
-                    Carnet: req.body.id_carnet,
-                    Nombre: resultImp.recordset[0].nombre
-                }), function (err, url) {
-                    // QRCode.toDataURL(`http://192.168.1.119:3000/api/getasegurados/${req.body.codigo}`, function (err, url) {
+                QRCode.toDataURL(JSON.stringify({Carnet:req.body.id_carnet,Nombre:resultImp.recordset[0].nombre}), function (err, url) {
+                // QRCode.toDataURL(`http://192.168.1.119:3000/api/getasegurados/${req.body.codigo}`, function (err, url) {
                     res.render('carnet', {
                         menu: '',
                         subm: '',
@@ -152,12 +144,10 @@ async function verificarCarnetB(req, res) { //BENEFICIARIOS
                     })
                 })
             }
-            if (req.body.btnRImprimir == '') { //click en REImprimir (historial de carnet)
-                QRCode.toDataURL(JSON.stringify({
-                    Carnet: req.body.id_carnet,
-                    Nombre: resultImp.recordset[0].nombre
-                }), function (err, url) {
-                    // QRCode.toDataURL(`http://192.168.1.119:3000/api/getasegurados/${req.body.codigo}`, function (err, url) {
+            if (req.body.btnRImprimir == '') { //click en REImprimir
+                
+                QRCode.toDataURL(JSON.stringify({Carnet:req.body.id_carnet,Nombre:resultImp.recordset[0].nombre}), function (err, url) {
+                // QRCode.toDataURL(`http://192.168.1.119:3000/api/getasegurados/${req.body.codigo}`, function (err, url) {
                     res.render('carnet', {
                         menu: '',
                         subm: '',
@@ -178,7 +168,7 @@ async function verificarCarnetB(req, res) { //BENEFICIARIOS
             console.error('SQL error', err);
             req.flash('aux', req.body.codigo)
             req.flash('loginMessage', 'Error en el Nro. de Comprobante')
-            res.redirect('/buscarBeneficiario')
+            res.redirect('/buscarAsegurado')
         }
     } else {
         res.render('login', {
@@ -186,6 +176,8 @@ async function verificarCarnetB(req, res) { //BENEFICIARIOS
         });
     }
 }
+
+
 
 async function actualizarImp(req, res) { //actualizar impresion del frente y atras
     if (req.isAuthenticated()) {
