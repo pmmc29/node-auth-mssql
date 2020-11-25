@@ -43,7 +43,6 @@
                             <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
                             <input name="edad" type="text" class="validate" value="${edad}" hidden>
                             <input name="validez" type="text" class="validate" value="MAYOR" hidden>
-                            <input name="tipo" type="text" class="validate" value="1" hidden>
                             <input name="comprobante" type="text" class="validate" value=""
                                 placeholder="Numero de Comprobante" required>
                             <input name="motivo" type="text" class="validate" value="" placeholder="Motivo" required>
@@ -56,25 +55,25 @@
                         </div>
                         <p class="col s3">
                             <label class="white-text">
-                                <input name="validez" type="radio" value="MODULAR" checked />
+                                <input name="tiempo" type="radio" value="1" checked />
                                 <span>MODULAR</span>
                             </label>
                         </p>
                         <p class="col s3">
                             <label class="white-text">
-                                <input name="validez" type="radio" />
+                                <input name="tiempo" type="radio" value="3"/>
                                 <span>TRIMESTRAL</span>
                             </label>
                         </p>
                         <p class="col s3">
                             <label class="white-text">
-                                <input name="validez" type="radio" />
+                                <input name="tiempo" type="radio" value="6"/>
                                 <span>SEMESTRAL</span>
                             </label>
                         </p>
                         <p class="col s3">
                             <label class="white-text">
-                                <input name="validez" type="radio" />
+                                <input name="tiempo" type="radio" value="12"/>
                                 <span>ANUAL</span>
                             </label>
                         </p>

@@ -186,15 +186,13 @@ async function renderDatos(req, res, msg) {
 
     try {
         await poolConnect;
-        const edad_bnf = `select DATEDIFF(yy, (select CONVERT(date, (select fec_nac from beneficiarios 
-                                where cod_bnf = '${req.body.edtBuscar}'), 103)), GETDATE()) -
-                                CASE
-                                    WHEN DATEADD(yy, (DATEDIFF(yy, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.edtBuscar}'), 103)), GETDATE())),
-                                    (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = ''), 103))) > GETDATE()
-                                    THEN 1
-                                    ELSE 0
-                                END
-                                from beneficiarios where cod_bnf = '${req.body.edtBuscar}'`
+        const edad_bnf = `select DATEDIFF(yy, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.edtBuscar}'), 103)), GETDATE()) - 
+                        CASE
+                            WHEN DATEADD(yy, (DATEDIFF(yy, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.edtBuscar}'), 103)), GETDATE())), (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.edtBuscar}'), 103))) > GETDATE()
+                            THEN 1
+                            ELSE 0
+                        END
+                        from beneficiarios where cod_bnf = '${req.body.edtBuscar}'`
         const result = await request.query(`select *, (${edad_bnf}) as edad from beneficiarios where beneficiarios.cod_bnf = '${req.body.edtBuscar}'`)
         const response = result.recordset[0]
         console.log(response)
