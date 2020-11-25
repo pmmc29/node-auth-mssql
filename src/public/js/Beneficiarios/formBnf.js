@@ -14,7 +14,7 @@
                                 <li id="fec_item"><b>Valido por: </b>Maximo 3 Años hasta cumplir los 19</li>
                                 <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
                                 <input name="edad" type="text" class="validate" value="${edad}" hidden>
-                                <input name="validez" type="text" class="validate" value="MENOR" hidden>
+                                <input name="tipo" type="text" class="validate" value="MENOR" hidden>
                                 <input name="comprobante" type="text" class="validate" value=""
                                     placeholder="Numero de Comprobante" required>
                                 <input name="motivo" type="text" class="validate" value="" placeholder="Motivo"
@@ -42,7 +42,7 @@
                             <li><b>Edad: </b> ${edad} años</li>
                             <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
                             <input name="edad" type="text" class="validate" value="${edad}" hidden>
-                            <input name="validez" type="text" class="validate" value="MAYOR" hidden>
+                            <input name="tipo" type="text" class="validate" value="MAYOR" hidden>
                             <input name="comprobante" type="text" class="validate" value=""
                                 placeholder="Numero de Comprobante" required>
                             <input name="motivo" type="text" class="validate" value="" placeholder="Motivo" required>
@@ -55,25 +55,25 @@
                         </div>
                         <p class="col s3">
                             <label class="white-text">
-                                <input name="tiempo" type="radio" value="1" checked />
+                                <input name="validez" type="radio" value="MODULAR" checked />
                                 <span>MODULAR</span>
                             </label>
                         </p>
                         <p class="col s3">
                             <label class="white-text">
-                                <input name="tiempo" type="radio" value="3"/>
+                                <input name="validez" type="radio" value="TRIMESTRAL"/>
                                 <span>TRIMESTRAL</span>
                             </label>
                         </p>
                         <p class="col s3">
                             <label class="white-text">
-                                <input name="tiempo" type="radio" value="6"/>
+                                <input name="validez" type="radio" value="SEMESTRAL"/>
                                 <span>SEMESTRAL</span>
                             </label>
                         </p>
                         <p class="col s3">
                             <label class="white-text">
-                                <input name="tiempo" type="radio" value="12"/>
+                                <input name="validez" type="radio" value="ANUAL"/>
                                 <span>ANUAL</span>
                             </label>
                         </p>
