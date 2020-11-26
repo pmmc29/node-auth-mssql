@@ -15,6 +15,7 @@
                     <%= typeof message != 'undefined' ? message : '' %>
                 </blockquote>
                 <input type="text" class="validate" value="<%= typeof res.edad != 'undefined' ? res.edad : '' %>" id="edad_bnf" hidden>
+                <input type="text" class="validate" value="<%= typeof res.last_card != 'undefined' ? res.last_card : '' %>" id="last_card_bnf" hidden>
                 <div class="input-field col s9">
                     <input id="search" name="edtBuscar" type="text" class="validate"
                         value="<%= typeof id != 'undefined' ? id : '' %><%= typeof aux != 'undefined' ? aux : '' %>">
@@ -57,7 +58,7 @@
                         <%}%>
                     </div>
                 </div>
-                <div class="input-field col s12">
+                <div class="input-field col s9">
                     <input id="company" name="empresa" type="text" class="validate"
                         value="<%= typeof res.nom_emp != 'undefined' ? res.nom_emp : '' %>" disabled>
                     <label for="company">Empresa</label>
@@ -133,11 +134,18 @@
                     <div class="col s6" id="historialB" style="height: 800px; overflow-y: scroll;">
                         <h3>Historial de Carnet</h3>
                         <% if (nombre !== '' && res.tipo_sangre !== null) { %>
-                    <button class="btn waves-effect waves-light" type="button" name="btnImprimir"
-                        id="btn_add_card_B">Agregar Carnet
+                    <button class="btn waves-effect waves-light" type="button"
+                        id="btn_add_card_B">Nuevo Carnet
                         <i class="material-icons right">add_box</i>
                     </button>
                     <%}%>
+                    <% if (nombre !== '' && res.tipo_sangre !== null && historial.length > 0) { %>
+                    <button class="btn waves-effect waves-light" type="button" 
+                        id="btn_recov_card_B">Recuperar Carnet
+                        <i class="material-icons right">autorenew</i>
+                    </button>
+                    <%}%>
+
                         <% for(var i=0; i<historial.length; i++) {%>
                     <div class="card blue-grey">
                         <div class="card-content white-text">
@@ -150,6 +158,7 @@
                                     <li><b>Usuario: </b> <input type="text" name="usuario"
                                             value="<%= historial[i].login %>" hidden><%= historial[i].login %>
                                     </li>
+                                    <li><b>Edad: </b> <%= historial[i].edad %> Años</li>
                                     <li><b>Fecha Emision: </b> <%= historial[i].fec_emision %></li>
                                     <li><b>Valido hasta: </b> <%= historial[i].fec_fin %></li>
                                     <li style="background-color: #ee6e73;"><b>Comprobante:</b>

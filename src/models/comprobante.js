@@ -92,7 +92,7 @@ async function verificarComprobanteB(req, res) {
             if (req.body.btnRegistrar == '') { //click en registrar comprobante
                 if (result.recordset[0]) { //1 fila afectada, si existe el num de comprobante
                     if (req.body.tipo == 'MENOR') {
-                        if ((req.body.edad) + 3 >= 19) {
+                        if (parseInt(req.body.edad) + 3 >= 19) {
                             const new_fec_fin = `CONVERT(VARCHAR, (select DATEADD(yy, 19, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.codigo}'), 103)))), 103)`
                             const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                     values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
@@ -107,7 +107,7 @@ async function verificarComprobanteB(req, res) {
                                 res.redirect('/buscarBeneficiario')
                             }
                         }
-                        if ((req.body.edad) + 3 < 19) {
+                        if (parseInt(req.body.edad) + 3 < 19) {
                             const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                     values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
                                                     ${req.user.id}, '${req.body.tipo}','${result.recordset[0].Numero}','${req.body.motivo}',CONVERT(VARCHAR, (select DATEADD(yyyy, 3, GETDATE())), 103))`)
@@ -172,6 +172,40 @@ async function verificarComprobanteB(req, res) {
                                 res.redirect('/buscarBeneficiario')
                             }
                         }
+                    }
+                    if (req.body.tipo == 'RECUPERADO') {
+                        // const dias_rest = await requestdb.query(`SELECT DATEDIFF(day, DATEADD(mm, ${meses}, GETDATE()), 
+                        // DATEADD(yy, 25, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.codigo}'), 103)))) AS dias_rest`)
+                        // console.log(dias_rest.recordset[0].dias_rest)
+                        // if (dias_rest.recordset[0].dias_rest >= 0) {//tiene dias sobrantes -> se registra con los meses especificados
+                        //     const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
+                        //                             values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
+                        //                             ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}',CONVERT(VARCHAR, DATEADD(mm, ${meses}, GETDATE()), 103))`)
+                        //     if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
+                        //         req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
+                        //         req.flash('aux', req.body.codigo)
+                        //         res.redirect('/buscarBeneficiario')
+                        //     } else {
+                        //         req.flash('loginMessage', 'Error en el registro del comprobante')
+                        //         req.flash('aux', req.body.codigo)
+                        //         res.redirect('/buscarBeneficiario')
+                        //     }
+                        // }
+                        // if (dias_rest.recordset[0].dias_rest < 0) {//no tiene dias restantes -> se limita la fecha de validez a su cumpleaños 25
+                        //     const new_fec_fin = `CONVERT(VARCHAR, (select DATEADD(yy, 25, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.codigo}'), 103)))), 103)`
+                        //     const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
+                        //                             values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
+                        //                             ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}',${new_fec_fin})`)
+                        //     if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
+                        //         req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
+                        //         req.flash('aux', req.body.codigo)
+                        //         res.redirect('/buscarBeneficiario')
+                        //     } else {
+                        //         req.flash('loginMessage', 'Error en el registro del comprobante')
+                        //         req.flash('aux', req.body.codigo)
+                        //         res.redirect('/buscarBeneficiario')
+                        //     }
+                        // }
                     }
                 } else {
                     req.flash('loginMessage', 'Numero de comprobante no existe')

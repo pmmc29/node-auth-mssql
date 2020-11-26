@@ -31,7 +31,7 @@
             <div class="card-body frente" style="padding: 15px;">
                 <div class="foto">
                     <figure>
-                    <img id="foto_perfil" style="margin-top: 5px; <% if (res.validez == 'MENOR') { %> border: 3px solid red; <%} else {%> border: 3px solid yellow; <%}%>"
+                    <img id="foto_perfil" style="margin-top: 5px; <% if (res.validez == 'MENOR') { %> border: 3px solid red; <%} if (res.validez == 'MAYOR') {%> border: 3px solid yellow; <%}%>"
                             src="<%= typeof file_carnet != 'undefined' ? file_carnet : '' %>">
 
                     </figure>
