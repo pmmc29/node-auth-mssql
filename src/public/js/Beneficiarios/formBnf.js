@@ -103,7 +103,6 @@
                                 <li id="fec_item"><b>Valido por: </b>Maximo 3 Años hasta cumplir los 19</li>
                                 <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
                                 <input name="edad" type="text" class="validate" value="${edad}" hidden>
-                                <input name="last_card" type="text" class="validate" value="${last_card}" hidden>
                                 <input name="tipo" type="text" class="validate" value="RECUPERADO" hidden>
                                 <input name="comprobante" type="text" class="validate" value=""
                                     placeholder="Numero de Comprobante" required>
