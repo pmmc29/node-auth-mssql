@@ -28,7 +28,7 @@ async function obtenerCuentas(req, res, next) {
 }
 async function listaCuenta(req, res, next) {
     try {
-        if (req.isAuthenticated()) {
+        if (req.isAuthenticated() && req.user.tipo == '1') {
             await poolConnect;
             const result = await request.query(`SELECT * FROM usuarios`)
             let cuentas = []
@@ -56,7 +56,7 @@ async function listaCuenta(req, res, next) {
                     cuentas: cuentas
                 });
             })
-            console.log(req.user.id)
+            console.log(req.user.id, req.user)
             console.log(cuentas)
         } else {
             res.redirect('/login');
@@ -72,6 +72,18 @@ async function btnListaCuentas(req, res) {
             console.log(req.body)
             req.flash('aux', `Accion para el usuario ${req.body.id_cuenta}`)
             res.redirect('/crear_usuario')
+        } else {
+            res.redirect('/login');
+        }
+    } catch (err) {
+        console.error('SQL error', err);
+
+    }
+}
+async function actualizarFoto(req, res) {
+    try {
+        if (req.isAuthenticated()) {
+            console.log(req.file)
         } else {
             res.redirect('/login');
         }
@@ -100,5 +112,6 @@ module.exports = {
     obtenerCuentas,
     datosCuenta,
     listaCuenta,
-    btnListaCuentas
+    btnListaCuentas,
+    actualizarFoto
 }

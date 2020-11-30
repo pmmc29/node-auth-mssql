@@ -43,7 +43,7 @@ router.get('/', function (req, res, next) {
 //-------------UPLOAD PHOTOS------------------
 //Set Storage Engine
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, '../photos'),
+    destination: path.join(__dirname, '../photos/Usuarios'),
     filename: function (req, file, cb) {
         const user = req.body
         // console.log(user.email)
@@ -89,48 +89,55 @@ router.get('/signup', function (req, res, next) {
 router.post('/signup', async function (req, res) {
 
     try {
-        console.log('1:', req.body, req.body.password) //sin valor en el body
-        await poolConnect;
-        // await request.query('BEGIN')
-        JSON.stringify(request.query(`SELECT id FROM usuarios WHERE login='${req.body.email}'`, function (err, result) {
-            console.log('2:', req.body.email, req.body.password) //sin valor en el body
-            if (result.recordset[0]) {
-                console.log('warning', "This user login is already registered. <a href='/login'>Log in!</a>")
-                res.redirect('/login')
-            } else {
-                uploadPhoto(req, res, (err) => {
-                    if (err) {
-                        res.render('signup', {
-                            msg: err
-                        })
-                    } else {
-                        if (req.file == undefined) {
-                            res.render('signup', {
-                                msg: 'No File Selected!!!'
-                            })
-                        } else {
-                            console.log('3:', req.body.email, req.body.password)
-                            var pwd = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
-                            request.query(`INSERT INTO usuarios (login, pass,tipo,created_at) VALUES ('${req.body.email}', '${pwd}','2',SYSDATETIME())`, function (err, result) {
-                                if (err) {
-                                    console.log('ERROR: ', err)
-                                } else {
-                                    // request.query('COMMIT')
-                                    console.log('AQUI ', result)
-                                    res.render('login', {
-                                        msg: 'Usuario Creado!!!'
-                                    })
-                                    // res.redirect('/login');
-                                    return
-                                }
-                            })
-                            // console.log('success', 'User created.')
-                        }
-                    }
-                })
-            }
-        }));
-        // request.release();
+        if (req.isAuthenticated() && req.user.tipo == '1') {
+            console.log('1:', req.body, req.body.password) //sin valor en el body
+            await poolConnect;
+            // await request.query('BEGIN')
+            request.query(`SELECT id FROM usuarios WHERE login='${req.body.email}'`, function (err, result) {
+                console.log('2:', req.body.email, req.body.password) //sin valor en el body
+                if (result.recordset[0]) {//usuario ya existe
+                    req.flash('aux', `Este usuario ya existe`)
+                    res.redirect('/crear_usuario')
+                } else {
+                    console.log('3:', req.body.email, req.body.password)
+                    // uploadPhoto(req, res, (err) => {
+                    //     if (err) {
+                    //         res.render('signup', {
+                    //             msg: err
+                    //         })
+                    //     } else {
+                    //         if (req.file == undefined) {
+                    //             res.render('signup', {
+                    //                 msg: 'No File Selected!!!'
+                    //             })
+                    //         } else {
+                    //             console.log('3:', req.body.email, req.body.password)
+                    //             var pwd = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
+                    //             request.query(`INSERT INTO usuarios (login, pass,tipo,created_at) VALUES ('${req.body.email}', '${pwd}','2',SYSDATETIME())`, function (err, result) {
+                    //                 if (err) {
+                    //                     console.log('ERROR: ', err)
+                    //                 } else {
+                    //                     // request.query('COMMIT')
+                    //                     console.log('AQUI ', result)
+                    //                     req.flash('aux', `Usuario Creado!`)
+                    //                     res.redirect('/crear_usuario')
+                    //                     return
+                    //                 }
+                    //             })
+                    //             // console.log('success', 'User created.')
+                    //         }
+                    //     }
+                    // })
+                }
+            });
+            // request.release();
+        } else {
+            res.render('signup', {
+                title: "Sign Up",
+                user: req.user
+            });
+        }
+
 
     } catch (e) {
         throw (e)
@@ -298,6 +305,7 @@ router.post('/verificarCarnetB', carnet.verificarCarnetB)
 router.post('/numComprobanteA', comprobante.verificarComprobanteA)
 router.post('/numComprobanteB', comprobante.verificarComprobanteB)
 router.post('/actualizarImp', carnet.actualizarImp)
+router.post('/fotoPerfil', cuentas.actualizarFoto)
 
 router.get('/crear_usuario', cuentas.listaCuenta);
 
