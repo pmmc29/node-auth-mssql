@@ -107,7 +107,7 @@
                                 <input name="comprobante" type="text" class="validate" value=""
                                     placeholder="Numero de Comprobante" required>
                                 <input name="motivo" type="text" class="validate" value="" placeholder="Motivo"
-                                    required>
+                                    >
                             </div>
                         <div class="input-field col s6">
                             <button class="btn waves-effect waves-light grey darken-4" style="border:1px solid;" type="submit" name="btnRegistrar"

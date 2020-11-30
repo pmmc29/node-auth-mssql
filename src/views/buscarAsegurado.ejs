@@ -130,7 +130,7 @@
                     <%}%>
                     </div>
                 </form>
-                <div class="col s6" id="historialA" style="height: 800px; overflow-y: scroll;">
+                <div class="col s6" style="margin-bottom: 10px;">
                         <h3>Historial de Carnet</h3>
                     <% if (nombre !== '' && res.tipo_sangre !== '') { %>
                     <button class="btn waves-effect waves-light" type="button" name="btnImprimir"
@@ -139,10 +139,13 @@
                     </button>
                     <%}%>
                     <% if (nombre !== '' && res.tipo_sangre !== null && historial.length > 0) { %>
-                    <button class="btn waves-effect waves-light" type="button" id="btn_recov_card_B">Recuperar Carnet
+                    <button class="btn waves-effect waves-light" type="button" id="btn_recov_card_A">Recuperar Carnet
                         <i class="material-icons right">autorenew</i>
                     </button>
                     <%}%>
+                </div>
+                    <div class="col s6" id="historialA" style="height: 750px; overflow-y: scroll;">
+
                         <% for(var i=0; i<historial.length; i++) {%>
                     <div class="card blue-grey">
                         <div class="card-content white-text">

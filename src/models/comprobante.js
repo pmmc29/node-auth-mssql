@@ -38,7 +38,7 @@ async function verificarComprobanteA(req, res) {
                     if (req.body.validez == 'CONTRATO') {
                         const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                 values((select id_carnet from carnet where cod_asegurado = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
-                                                ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}','${req.body.fec_contrato}')`)
+                                                ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO','${req.body.fec_contrato}')`)
                         if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                             req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                             req.flash('aux', req.body.codigo)
@@ -52,7 +52,7 @@ async function verificarComprobanteA(req, res) {
                     if (req.body.validez == 'ITEM') {
                         const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                 values((select id_carnet from carnet where cod_asegurado = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
-                                                ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}',CONVERT(VARCHAR, (select DATEADD(yyyy, 3, GETDATE())), 103))`)
+                                                ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',CONVERT(VARCHAR, (select DATEADD(yyyy, 3, GETDATE())), 103))`)
                         if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                             req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                             req.flash('aux', req.body.codigo)
@@ -61,6 +61,26 @@ async function verificarComprobanteA(req, res) {
                             req.flash('loginMessage', 'Error en el registro del comprobante')
                             req.flash('aux', req.body.codigo)
                             res.redirect('/buscarAsegurado')
+                        }
+                    }
+                    if (req.body.tipo == 'RECUPERADO') {
+                        const last_card = await requestdb.query(`SELECT TOP 1 carnet.id_carnet,fec_emision,id_firma,validez,motivo,comprobante,fec_fin FROM imp_carnet,carnet
+                                                                where imp_carnet.id_carnet = carnet.id_carnet and carnet.cod_asegurado = '${req.body.codigo}'
+                                                                ORDER BY id_imp DESC`)
+                        console.log(last_card.recordset[0])
+                        if (last_card.rowsAffected[0] === 1) { //ultimo carnet recuperado
+                            const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
+                                                    values(${last_card.recordset[0].id_carnet},'0','0', '${last_card.recordset[0].fec_emision}', '0',
+                                                    ${req.user.id}, '${last_card.recordset[0].validez}','${result.recordset[0].Numero}','RECUPERADO','${last_card.recordset[0].fec_fin}')`)
+                            if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
+                                req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
+                                req.flash('aux', req.body.codigo)
+                                res.redirect('/buscarAsegurado')
+                            } else {
+                                req.flash('loginMessage', 'Error en el registro del comprobante')
+                                req.flash('aux', req.body.codigo)
+                                res.redirect('/buscarAsegurado')
+                            }
                         }
                     }
                 } else {

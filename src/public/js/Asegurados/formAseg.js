@@ -68,7 +68,7 @@ $("#btn_add_card_A").click(function () {
                                 <input name="comprobante" type="text" class="validate" value=""
                                     placeholder="Numero de Comprobante" required>
                                 <input name="motivo" type="text" class="validate" value="" placeholder="Motivo"
-                                    required>
+                                    >
                                 <li id="fec_item" hidden><b>Valido por: </b> 3 Años</li>
                             </div>
                             <div class="input-field" id="fec_contrato">
@@ -114,6 +114,34 @@ $("#btn_add_card_A").click(function () {
     });
     M.Datepicker.init(document.querySelectorAll('.fec_contrato'), options);
 
+});
+
+$("#btn_recov_card_A").click(function () {
+    $("#historialA").append(`<div class="card grey darken-2">
+                <div class="card-content row">
+                    <form action="/numComprobanteA" method="POST">
+                        <ul>
+                            <div class="input-field white-text">
+                                <h5><b>Recuperar Carnet</b></h5>
+                                <li><b>Codigo: </b> ${codigo}</li>
+                                <li id="fec_item"><b>Valido por: </b>Maximo 3 Años hasta cumplir los 19</li>
+                                <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
+                                <input name="tipo" type="text" class="validate" value="RECUPERADO" hidden>
+                                <input name="comprobante" type="text" class="validate" value=""
+                                    placeholder="Numero de Comprobante" required>
+                                <input name="motivo" type="text" class="validate" value="" placeholder="Motivo"
+                                    >
+                            </div>
+                        <div class="input-field col s6">
+                            <button class="btn waves-effect waves-light grey darken-4" style="border:1px solid;" type="submit" name="btnRegistrar"
+                                id="btnRegistrar">Registrar
+                                <i class="material-icons right">add_box</i>
+                            </button>
+                        </div>
+                    </ul>
+                </form>
+            </div>
+        </div>`);
 });
 
 $('#btnAgregarFoto').click(() => {

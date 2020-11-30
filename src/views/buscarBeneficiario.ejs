@@ -87,37 +87,37 @@
                 </div>
                 <div class="input-field col s3">
                     <input id="ci" name="ci" type="text" class="validate"
-                        value="<%= typeof res.ci != 'undefined' ? res.ci : '' %>" <% if(res.ci !== null){ %>disabled <% } else {%><%= res.ci %><%}%>>
+                        value="<%= typeof res.ci != 'undefined' ? res.ci : '' %>" <% if(res.ci !== null){ %>readonly <% } else {%><%= res.ci %><%}%>>
                         <label for="ci">CI.</label>
                 </div> 
                 <div class="input-field col s3">
-                    <select name="ci_loc" id="ci_loc" <% if(res.ci_loc !== null){ %> disabled<% }%>>
+                    <select name="ci_loc" id="ci_loc">
                     <option value="" selected><% if(res.ci_loc !== null){%><%= res.ci_loc %>
                         <% } else {%>Elige un Lugar<%}%></option>
-                        <option value="CH">Chuquisaca</option>
-                        <option value="LP">La Paz</option>
-                        <option value="CB">Cochabamba</option>
-                        <option value="OR">Oruro</option>
-                        <option value="PT">Potosí</option>
-                        <option value="TJ">Tarija</option>
-                        <option value="SC">Santa Cruz</option>
-                        <option value="BE">Beni</option>
-                        <option value="PD">Pando</option>
+                        <option value="CH" <% if(res.ci_loc !== null){ %> disabled<% }%>>Chuquisaca</option>
+                        <option value="LP" <% if(res.ci_loc !== null){ %> disabled<% }%>>La Paz</option>
+                        <option value="CB" <% if(res.ci_loc !== null){ %> disabled<% }%>>Cochabamba</option>
+                        <option value="OR" <% if(res.ci_loc !== null){ %> disabled<% }%>>Oruro</option>
+                        <option value="PT" <% if(res.ci_loc !== null){ %> disabled<% }%>>Potosí</option>
+                        <option value="TJ" <% if(res.ci_loc !== null){ %> disabled<% }%>>Tarija</option>
+                        <option value="SC" <% if(res.ci_loc !== null){ %> disabled<% }%>>Santa Cruz</option>
+                        <option value="BE" <% if(res.ci_loc !== null){ %> disabled<% }%>>Beni</option>
+                        <option value="PD" <% if(res.ci_loc !== null){ %> disabled<% }%>>Pando</option>
                     </select>
                     <label>Lugar</label>
                 </div>
                 <div class="input-field col s3">
                     <select name="select_sangre" id="select_sangre">
-                        <option value="<%= res.tipo_sangre %>" selected><% if(res.tipo_sangre !== null){ %><%= res.tipo_sangre %>
+                        <option value="<%= res.tipo_sangre %>" selected><% if(res.tipo_sangre !== ''){ %><%= res.tipo_sangre %>
                             <% } else {%>Elige un Tipo<%}%></option>
-                            <option value="A+" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>A+</option>
-                        <option value="A-" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>A-</option>
-                        <option value="B+" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>B+</option>
-                        <option value="B-" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>B-</option>
-                        <option value="AB+" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>AB+</option>
-                        <option value="AB-" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>AB-</option>
-                        <option value="O+" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>O+</option>
-                        <option value="O-" <% if(res.tipo_sangre !== null){ %> disabled<% }%>>O-</option>
+                            <option value="A+" <% if(res.tipo_sangre !== ''){ %> disabled<% }%>>A+</option>
+                        <option value="A-" <% if(res.tipo_sangre !== ''){ %> disabled<% }%>>A-</option>
+                        <option value="B+" <% if(res.tipo_sangre !== ''){ %> disabled<% }%>>B+</option>
+                        <option value="B-" <% if(res.tipo_sangre !== ''){ %> disabled<% }%>>B-</option>
+                        <option value="AB+" <% if(res.tipo_sangre !== ''){ %> disabled<% }%>>AB+</option>
+                        <option value="AB-" <% if(res.tipo_sangre !== ''){ %> disabled<% }%>>AB-</option>
+                        <option value="O+" <% if(res.tipo_sangre !== ''){ %> disabled<% }%>>O+</option>
+                        <option value="O-" <% if(res.tipo_sangre !== ''){ %> disabled<% }%>>O-</option>
                     </select>
                     <label>Tipo de Sangre</label>
                 </div>
@@ -146,15 +146,6 @@
                     </button>
                     <%}%>
                 </div>
-                    <!-- <div class="row">
-                        <div class="col s12">
-                            <ul class="tabs">
-                                <li class="tab col s3"><a href="#test1">Test 1</a></li>
-                                <li class="tab col s3"><a class="active" href="#test2">Test 2</a></li>
-                            </ul>
-                        </div>
-                    </div> -->
-
                     <div class="col s6" id="historialB" style="height: 750px; overflow-y: scroll;">
                         <% for(var i=0; i<historial.length; i++) {%>
                     <div class="card blue-grey">
