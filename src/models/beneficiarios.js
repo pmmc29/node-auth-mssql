@@ -193,9 +193,6 @@ async function renderDatos(req, res, msg) {
                             ELSE 0
                         END
                         from beneficiarios where cod_bnf = '${req.body.edtBuscar}'`
-        const last_card =`SELECT TOP 1 id_imp FROM imp_carnet,carnet
-                        where imp_carnet.id_carnet = carnet.id_carnet and carnet.cod_bnf = '${req.body.edtBuscar}'
-                        ORDER BY id_imp DESC`
         const result = await request.query(`select *, (${edad_bnf}) as edad from beneficiarios where beneficiarios.cod_bnf = '${req.body.edtBuscar}'`)
         const response = result.recordset[0]
         console.log(response)
@@ -216,7 +213,7 @@ async function renderDatos(req, res, msg) {
             
 
             const carnet = await request.query(`SELECT imp_carnet.id_carnet,id_imp, beneficiarios.cod_bnf, nombre, login, imp_carnet.fec_emision, imp_carnet.motivo, comprobante, imp_carnet.estado,
-                                                fec_fin, front, back,imp_carnet.validez, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor,(${edad_bnf}) as edad,(${last_card}) as last_card
+                                                fec_fin, front, back,imp_carnet.validez, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor,(${edad_bnf}) as edad
                                                 FROM beneficiarios, usuarios, imp_carnet, carnet
                                                 where beneficiarios.cod_bnf = '${response.cod_bnf}'
                                                 and beneficiarios.cod_bnf = carnet.cod_bnf
