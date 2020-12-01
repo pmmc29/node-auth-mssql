@@ -1,8 +1,9 @@
 const pool = require('../database');
 const poolConnect = pool.connect();
 const QRCode = require('qrcode')
-
-
+const bcrypt = require('bcrypt-nodejs')
+const multer = require('multer')
+const path = require('path');
 
 const request = pool.request(); // or: new sql.Request(pool1)
 
@@ -10,6 +11,42 @@ pool.on('error', err => {
     // ... error handler
     console.log(err)
 });
+
+//-------------UPLOAD PHOTOS------------------
+//Set Storage Engine
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, '../photos/Usuarios'),
+    filename: function (req, file, cb) {
+        const user = req.user
+        // console.log(user.email)
+        cb(null, user.email + '.jpg') //nombre de las fotos
+    }
+})
+
+const uploadPhoto = multer({
+    storage: storage,
+    limits: {
+        fileSize: 5000000 //bytes = 5mb
+    },
+    fileFilter: function (req, file, cb) {
+        checkFileType(file, cb)
+    }
+}).single('myPhoto')
+
+function checkFileType(file, cb) {
+    //extenciones permitidas
+    const filetypes = /jpeg|jpg|png|gif/
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
+    //check mime type
+    const mimetype = filetypes.test(file.mimetype)
+
+    if (mimetype && extname) {
+        return cb(null, true)
+    } else {
+        cb('Error: Images Only!')
+    }
+}
+//----------------------------------------------
 
 async function obtenerCuentas(req, res, next) {
     const tipo = req.params.tipo
@@ -83,15 +120,60 @@ async function btnListaCuentas(req, res) {
 async function actualizarFoto(req, res) {
     try {
         if (req.isAuthenticated()) {
-            console.log(req.file)
+            uploadPhoto(req,res, (error) => {
+                if (error) {
+                    req.flash('aux', error)
+                    res.redirect('/profile')
+                }else{
+                    if (req.file == undefined) {
+                        req.flash('aux', `Seleccione una Foto!`)
+                        res.redirect('/profile')
+                    }else{
+                        req.flash('aux', `Foto Actualizada.`)
+                        res.redirect('/profile')
+                    }
+                }
+
+            })
         } else {
             res.redirect('/login');
         }
     } catch (err) {
-        console.error('SQL error', err);
-
+        console.error(err);
     }
 }
+
+async function crearUsuario(req, res) {
+    try {
+        if (req.isAuthenticated() && req.user.tipo == '1') {
+            await poolConnect;
+            console.log(req.body)
+            const usuario = await request.query(`select id from usuarios where login = '${req.body.login}'`)
+            console.log(usuario.recordset[0])
+            if (usuario.recordset[0]) { //Usuario ya existe
+                req.flash('aux', `Este usuario ya existe`)
+                res.redirect('/crear_usuario')
+            } else {
+                var enc_pass = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
+                const new_user = await request.query(`insert into usuarios (login,pass,tipo,created_at) values('${req.body.login}','${enc_pass}','2',CONVERT(VARCHAR,GETDATE(), 103))`)
+                if (new_user.rowsAffected[0] === 1) {
+                    req.flash('aux', `Usuario creado correctamente`)
+                    res.redirect('/crear_usuario')
+                }else{
+                    req.flash('aux', `Error al crear el usuario`)
+                    res.redirect('/crear_usuario')
+                }
+            }
+        } else {
+            res.redirect('/login');
+        }
+    } catch (e) {
+        throw (e)
+    }
+}
+
+
+
 
 async function datosCuenta(req, res, next) {
     await QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
@@ -113,5 +195,6 @@ module.exports = {
     datosCuenta,
     listaCuenta,
     btnListaCuentas,
-    actualizarFoto
+    actualizarFoto,
+    crearUsuario
 }

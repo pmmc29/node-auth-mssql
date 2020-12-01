@@ -38,34 +38,46 @@
                 <a><span class="white-text name">Tipo: <%= user.tipo%></span></a><br>
             </div>
         </li>
-        <ul class="collapsible collapsible-accordion">
-            <li class="bold <% if (menu === 'profile') { %>
-        active
-        <%}%>">
+        <ul class=" collapsible collapsible-accordion">
+            <% if (user.tipo === '1') { %>
+            <li>
+                <div class="divider"></div>
+            </li>
+            <li class=" bold <% if (menu === 'Usuarios') { %> active <%}%>">
+                <div class="collapsible-header waves-effect waves-teal"><i class="material-icons">account_circle</i>Usuarios
+                </div>
+                <div class="collapsible-body">
+                    <ul>
+                        <li class="<% if (subm === 'crear_usuario') { %> active <%}%>"><a href="/crear_usuario"><i class="material-icons">person_add</i>Crear
+                                Usuario</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="bold <% if (menu === 'Base de Datos') { %> active <%}%>">
+                <div class="collapsible-header waves-effect waves-teal"><i
+                        class="material-icons">storage</i>Base de Datos
+                </div>
+                <div class="collapsible-body">
+                    <ul>
+                        <li class="<% if (subm === 'actualizarBD') { %> active <%}%>"><a href="/actualizarBD"><i class="material-icons">update</i>Actualizar BD</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <div class="divider"></div>
+            </li>
+            <%}%> 
+        <li class=" bold <% if (menu === 'profile') { %> active <%}%>">
                     <div class="collapsible-header waves-effect waves-teal"><i class="material-icons">person</i>Perfil
                     </div>
                     <div class="collapsible-body">
                         <ul>
-                            <li class="<% if (subm === 'profile') { %>
-        active
-        <%}%>"><a href="/profile"><i class="material-icons">person</i>Ver Perfil</a></li>
-
+                            <li class="<% if (subm === 'profile') { %> active <%}%>"><a href="/profile"><i class="material-icons">person</i>Ver Perfil</a></li>
                         </ul>
                     </div>
                 </li>
-                <% if (user.tipo === '1') { %>
-                <li class=" bold <% if (menu === 'Usuarios') { %> active <%}%>">
-                    <div class="collapsible-header waves-effect waves-teal"><i class="material-icons">account_circle</i>Usuarios
-                    </div>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li class="<% if (subm === 'crear_usuario') { %> active <%}%>"><a href="/crear_usuario"><i class="material-icons">person_add</i>Crear
-                                    Usuario</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <%}%> <li class="bold <% if (menu === 'Asegurados') { %> active <%}%>">
+                <li class="bold <% if (menu === 'Asegurados') { %> active <%}%>">
                     <div class="collapsible-header waves-effect waves-teal"><i
                             class="material-icons">people</i>Asegurados
                     </div>
@@ -98,6 +110,7 @@
                         </ul>
                     </div>
                 </li>
+                
             </ul>
             <li>
                 <div class="divider"></div>

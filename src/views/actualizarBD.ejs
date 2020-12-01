@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="../public/sidenav.js"></script>
+<link rel="stylesheet" href="../public/css/cuentas.css">
+<title>Base de Datos</title>
+
+<body>
+    <%- include home.ejs %>
+    <main>
+        <div class="container">
+            <div class="row">
+                <h1>Actualizar Base de Datos</h1>
+                <blockquote>
+                    <%= typeof msg != 'undefined' ? msg : '' %>
+                    <%= typeof aux != 'undefined' ? aux : '' %>
+                </blockquote>
+                <div class="input-field col s12">
+                    <form action="/actualizarBD" method="POST">
+                        <input type="text" name="bdname" placeholder="Nombre del archivo" class="input-field">
+                        <br>
+                        <select name="Cars" size="5">
+                            <option value="Merceders"> Merceders </option>
+                            <option value="BMW"> BMW </option>
+                            <option value="Jaguar"> Jaguar </option>
+                            <option value="Lamborghini"> Lamborghini </option>
+                            <option value="Ferrari"> Ferrari </option>
+                            <option value="Ford"> Ford </option>
+                        </select>
+                        <div class="center">
+                            <button type="submit" class="btn" name="btn_actualizarbd_ase">Actualizar Asegurados </button>
+                            <button type="submit" class="btn" name="btn_actualizarbd_bnf">Actualizar Beneficiarios </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
