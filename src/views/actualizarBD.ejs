@@ -17,19 +17,25 @@
                 </blockquote>
                 <div class="input-field col s12">
                     <form action="/actualizarBD" method="POST">
-                        <input type="text" name="bdname" placeholder="Nombre del archivo" class="input-field">
+                        <input type="text" placeholder="Nombre del archivo" class="input-field">
                         <br>
-                        <select name="Cars" size="5">
-                            <option value="Merceders"> Merceders </option>
-                            <option value="BMW"> BMW </option>
-                            <option value="Jaguar"> Jaguar </option>
-                            <option value="Lamborghini"> Lamborghini </option>
-                            <option value="Ferrari"> Ferrari </option>
-                            <option value="Ford"> Ford </option>
+                        <select name="bdname">
+                            <option selected disabled>Seleccione</option>
+                            <% for(var i=0; i<bds.length; i++) {%>
+                            <option value="<%= bds[i].bdname %>"><%= bds[i].bdname %></option>
+                            <% } %>
                         </select>
                         <div class="center">
-                            <button type="submit" class="btn" name="btn_actualizarbd_ase">Actualizar Asegurados </button>
-                            <button type="submit" class="btn" name="btn_actualizarbd_bnf">Actualizar Beneficiarios </button>
+                            <div class="input-field col s12">
+                                <button type="submit" class="btn" name="btn_descargarbd_ase">Descargar Asegurados </button>
+                                <button type="submit" class="btn" name="btn_descargarbd_bnf">Descargar Beneficiarios </button>
+                                <button type="submit" class="btn" name="btn_descargarbd_emp">Descargar Empresas </button>
+                            </div>
+                            <div class="input-field col s12">
+                                <button type="submit" class="btn" name="btn_actualizarbd_ase">Actualizar Asegurados </button>
+                                <button type="submit" class="btn" name="btn_actualizarbd_bnf">Actualizar Beneficiarios </button>
+                                <button type="submit" class="btn" name="btn_actualizarbd_emp">Actualizar Empresas </button>
+                            </div>
                         </div>
                     </form>
                 </div>

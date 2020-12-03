@@ -2,16 +2,49 @@ const pool = require('../database')
 const sql = require('mssql')
 const QRCode = require('qrcode')
 const path = require('path');
+var Client = require('ftp');
+const fs = require('fs')
 const csv = require('csvtojson');
+const e = require('express');
 
 const poolConnect = pool.connect();
 const transaction = pool.transaction();
 const request = pool.request(transaction); // or: new sql.Request(pool1)
 
+let txt_files = []
+
+
 pool.on('error', err => {
     // ... error handler
     console.log(err)
 });
+
+//////////////////////////////////////////////////////////////
+var options = {
+    host: '192.168.100.174',
+    user: 'pedrom',
+    password: 'pedro2020'
+}
+
+var c = new Client();
+c.connect(options);
+c.on('ready', function () {
+    c.list(function (err, list) {
+        if (err) throw err;
+        if (txt_files.length == 0) {
+            for (let i = 0; i < list.length; i++) {
+                if (path.extname(list[i].name) == '.txt') {
+                    txt_files.push({
+                        bdname: list[i].name
+                    })
+                }
+            }
+        }
+        console.log(txt_files)
+        // c.end();
+    });
+});
+//////////////////////////////////////////////////////////////
 
 
 async function updateAsegurados(req, res) {
@@ -60,26 +93,24 @@ async function updateAsegurados(req, res) {
             })
             .fromFile(file_asegurados)
             .then((jsonObj) => {
-                    // ... error checks
-                    jsonObj.forEach((e) => {
-                        table.rows.add(parseInt(e.agenda), e.cod_asegurado, e.nombre, e.fec_nac, e.sexo, e.ci, e.ci_loc,
-                         parseInt(e.cod_emp), e.nom_emp, e.fec_ing, e.tipo_sangre)
-                        // request.query(`if not exists (select 1 from test_ase where cod_asegurado = '${e.cod_asegurado}')
-                        //                     insert into test_ase values(${parseInt(e.agenda)},'${e.cod_asegurado}','${e.nombre}','${e.fec_nac}','${e.sexo}',
-                        //                     '${e.ci}','${e.ci_loc}',${parseInt(e.cod_emp)},'${e.nom_emp}','${e.fec_ing}','${e.tipo_sangre}')
-                        //                 else
-                        //                     update test_ase set agenda=${parseInt(e.agenda)},cod_asegurado='${e.cod_asegurado}',nombre='${e.nombre}',
-                        //                     fec_nac='${e.fec_nac}',sexo='${e.sexo}',ci='${e.ci}',ci_loc='${e.ci_loc}',cod_emp=${parseInt(e.cod_emp)},
-                        //                     nom_emp='${e.nom_emp}',fec_ing='${e.fec_ing}'
-                        //                     where cod_asegurado = '${e.cod_asegurado}'`)
-                    });
+                // ... error checks
+                jsonObj.forEach((e) => {
+                    table.rows.add(parseInt(e.agenda), e.cod_asegurado, e.nombre, e.fec_nac, e.sexo, e.ci, e.ci_loc,
+                        parseInt(e.cod_emp), e.nom_emp, e.fec_ing, e.tipo_sangre)
+                    // request.query(`if not exists (select 1 from test_ase where cod_asegurado = '${e.cod_asegurado}')
+                    //                     insert into test_ase values(${parseInt(e.agenda)},'${e.cod_asegurado}','${e.nombre}','${e.fec_nac}','${e.sexo}',
+                    //                     '${e.ci}','${e.ci_loc}',${parseInt(e.cod_emp)},'${e.nom_emp}','${e.fec_ing}','${e.tipo_sangre}')
+                    //                 else
+                    //                     update test_ase set agenda=${parseInt(e.agenda)},cod_asegurado='${e.cod_asegurado}',nombre='${e.nombre}',
+                    //                     fec_nac='${e.fec_nac}',sexo='${e.sexo}',ci='${e.ci}',ci_loc='${e.ci_loc}',cod_emp=${parseInt(e.cod_emp)},
+                    //                     nom_emp='${e.nom_emp}',fec_ing='${e.fec_ing}'
+                    //                     where cod_asegurado = '${e.cod_asegurado}'`)
+                });
             })
-            .then( async()=>{
-                await transaction.begin()
-                request.bulk(table,async (err, result) => {
+            .then(async () => {
+                request.bulk(table, async (err, result) => {
                     if (err) {
                         console.log(err);
-                        await transaction.rollback();
                         req.flash('aux', `${err}`);
                         res.redirect('/actualizarBD');
                     } else {
@@ -88,9 +119,7 @@ async function updateAsegurados(req, res) {
                         res.redirect('/actualizarBD');
                     }
                 })
-            // table.rows.add(123, '123', '123', '123', '1', '123', '123',
-            //     123, '123', '123', '123')
-        })
+            })
     } catch (err) {
         throw (err)
     }
@@ -129,24 +158,55 @@ async function updateBeneficiarios() {
     }
 }
 
-async function actualizarBD(req, res) {
+function descargarFTP(req,res,txtname){
+    var ftp = new Client();
+    ftp.connect(options);
+    ftp.on('ready', function () {
+        ftp.get(`${req.body.bdname}`, function (err, stream) {
+            if (err) {
+                req.flash('aux', `${err}`)
+                res.redirect('/actualizarBD')
+            } else {
+                // stream.once('close', function () {c.end();});
+                stream.pipe(fs.createWriteStream(`./src/dbfiles/${txtname}.txt`));
+                req.flash('aux', `Archivo descargado Correctamente.`)
+                res.redirect('/actualizarBD')
+            }
+        });
+    });
+}
+
+async function actualizarBD(req, res, next) {
     try {
         if (req.isAuthenticated() && req.user.tipo == '1') {
             await poolConnect;
             console.log(req.body)
-            if (req.body.btn_actualizarbd_ase == '') {
-                updateAsegurados(req, res)
+            if (req.body.btn_actualizarbd_ase == '') {//click en actualizar asegurados
+                // updateAsegurados(req, res)
+                
             }
-            if (req.body.btn_actualizarbd_bnf == '') {
+            if (req.body.btn_actualizarbd_bnf == '') {//click en actualizar beneficiarios
                 // updateBeneficiarios(req,res)                
+            }
+            if (req.body.btn_actualizarbd_emp == '') {//click en actualizar empresas
+                // updateBeneficiarios(req,res)                
+            }
+            if (req.body.btn_descargarbd_ase == '') {//click en DESCARGAR asegurados
+                descargarFTP(req,res,'test_ase')
+            }
+            if (req.body.btn_descargarbd_bnf == '') {//click en DESCARGAR beneficiarios
+                descargarFTP(req, res, 'test_bnf')
+            }
+            if (req.body.btn_descargarbd_emp == '') {//click en DESCARGAR empresas
+                descargarFTP(req, res, 'test_emp')
             }
         } else {
             res.redirect('/login');
         }
     } catch (e) {
-        req.flash('aux', e)
+        req.flash('aux', `${e}`)
         res.redirect('/actualizarBD')
-        throw (e)
+        // throw (e)
     }
 }
 
@@ -159,7 +219,8 @@ async function renderView(req, res) {
                 menu: 'Base de Datos',
                 subm: 'actualizarBD',
                 qr: `${url}`,
-                file: `../photos/Usuarios/${req.user.email}.jpg`
+                file: `../photos/Usuarios/${req.user.email}.jpg`,
+                bds: txt_files
             });
         })
         console.log(req.user.id)
