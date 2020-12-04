@@ -61,4 +61,4 @@ async function testConnection2() {
 testConnection()
 testConnection2()
 
-module.exports = pool
+module.exports = pool,config
