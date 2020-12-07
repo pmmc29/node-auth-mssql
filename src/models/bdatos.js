@@ -74,6 +74,9 @@ async function updateAsegurados(req, res) {
                                             nom_emp='${e.nom_emp}',fec_ing='${e.fec_ing}'
                                             where cod_asegurado = '${e.cod_asegurado}'`)
                 });
+            }).then(() => {
+                req.flash('aux', `Asegurados actualizados!`)
+                res.redirect('/actualizarBD')
             })
     } catch (err) {
         throw (err)
@@ -107,6 +110,9 @@ async function updateBeneficiarios() {
                         if (index === array.length - 1) resolve();
                     });
                 });
+            }).then(() => {
+                req.flash('aux', `Beneficiarios actualizados!`)
+                res.redirect('/actualizarBD')
             })
     } catch (err) {
         throw (err)
@@ -116,7 +122,7 @@ async function updateBeneficiarios() {
 async function updateEmpresas(req, res) {
     try {
         await poolConnect; // ensures that the pool has been created
-        const file_empresas = `./src/dbfiles/new-empresas.txt`;
+        const file_empresas = `./src/dbfiles/test_emp.txt`;
         csv({
                 delimiter: ["|"],
                 headers: ['id_emp', 'nom_emp', 'programa']
@@ -127,12 +133,15 @@ async function updateEmpresas(req, res) {
                 jsonObj.forEach(async (e) => {
                     // table.rows.add(parseInt(e.agenda), e.cod_asegurado, e.nombre, e.fec_nac, e.sexo, e.ci, e.ci_loc,
                     //     parseInt(e.cod_emp), e.nom_emp, e.fec_ing, e.tipo_sangre)
-                    await request.query(`if not exists (select 1 from empresas where id_emp = '${parseInt(e.id_emp)}')
-                                            insert into empresas values(${parseInt(e.id_emp)},'${e.nom_emp}','${e.programa}')
+                    await request.query(`if not exists (select 1 from test_emp where id_emp = '${parseInt(e.id_emp)}')
+                                            insert into test_emp(id_emp, nom_emp, programa) values(${parseInt(e.id_emp)},'${e.nom_emp}','${e.programa}')
                                         else
-                                            update empresas set id_emp=${parseInt(e.id_emp)},nom_emp='${e.nom_emp}',programa='${e.programa}'
+                                            update test_emp set id_emp=${parseInt(e.id_emp)},nom_emp='${e.nom_emp}',programa='${e.programa}'
                                             where id_emp = '${e.id_emp}'`)
                 });
+            }).then(()=>{
+                req.flash('aux', `Empresas actualizadas!`)
+                res.redirect('/actualizarBD')
             })
     } catch (err) {
         throw (err)

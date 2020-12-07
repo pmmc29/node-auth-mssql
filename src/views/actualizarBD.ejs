@@ -17,7 +17,7 @@
                 </blockquote>
                 <div class="input-field col s12">
                     <form action="/actualizarBD" method="POST">
-                        <input type="text" placeholder="Nombre del archivo" class="input-field">
+                        <!-- <input type="text" placeholder="Nombre del archivo" class="input-field"> -->
                         <br>
                         <select name="bdname">
                             <option selected disabled>Seleccione</option>
@@ -26,14 +26,14 @@
                             <% } %>
                         </select>
                         <div class="center">
-                            <div class="input-field col s12">
+                            <!-- <div class="input-field col s12">
                                 <button type="submit" class="btn" name="btn_descargarbd_ase">Descargar Asegurados </button>
                                 <button type="submit" class="btn" name="btn_descargarbd_bnf">Descargar Beneficiarios </button>
                                 <button type="submit" class="btn" name="btn_descargarbd_emp">Descargar Empresas </button>
-                            </div>
+                            </div> -->
                             <div class="input-field col s12">
-                                <button type="submit" class="btn" name="btn_actualizarbd_ase">Actualizar Asegurados </button>
-                                <button type="submit" class="btn" name="btn_actualizarbd_bnf">Actualizar Beneficiarios </button>
+                                <button type="submit" class="btn" name="btn_actualizarbd">Actualizar Asegurados y Beneficiarios </button>
+                                <!-- <button type="submit" class="btn" name="btn_actualizarbd_bnf">Actualizar Beneficiarios </button> -->
                                 <button type="submit" class="btn" name="btn_actualizarbd_emp">Actualizar Empresas </button>
                             </div>
                         </div>
@@ -43,5 +43,4 @@
         </div>
     </main>
 </body>
-
 </html>

@@ -220,5 +220,14 @@ router.get('/api/getBeneficiarios/:codigo?', beneficiarios.obtenerBeneficiarios)
 router.get('/api/getCarnet/:codigo/:tipo', carnet.obtenerCarnet)
 router.get('/api/getEmpresas', empresas.obtenerEmpresas)
 
+router.get('/sessions', (req, res) => {
+    // req.sessionStore.sessionModel.findAll()
+    //     .then(sessions => sessions.map(sess => JSON.parse(sess.dataValues.data)))
+    //     .then((sessions) => {
+    //         res.send(sessions)
+    //     })
+    res.json(req.sessionStore)
+})
+
 
 module.exports = router
