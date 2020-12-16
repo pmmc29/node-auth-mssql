@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="../public/sidenav.js"></script>
+<link rel="stylesheet" href="../public/css/cuentas.css">
+<title>Crear Firma</title>
+
+<body>
+    <%- include home.ejs %>
+    <main>
+        <div class="container">
+            <div class="row">
+                <h1>Crear Firma</h1>
+                <blockquote style="background-color: bisque;">
+                    <%= typeof msg != 'undefined' ? msg : '' %>
+                    <%= typeof aux != 'undefined' ? aux : '' %>
+                </blockquote>
+                <div class="input-field col s12">
+                    <form action="/crear_firma" method="POST" id="form1">
+                        <input type="text" name="nombre_firma" placeholder="Firma" required class="input-field">
+                        <br>
+                        <div class="center">
+                            <input type="submit" value="Registrar" class="btn">
+                        </div>
+                    </form>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <form method="POST" action="/listaFirmas">
+                            <table class="highlight centered">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>NOMBRE</th>
+                                        <th>FECHA</th>
+                                        <th>ESTADO</th>
+                                        <th>IMAGEN</th>
+                                        <th>ACCION</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <% for(var i=0; i<firmas.length; i++) {%>
+                                    <tr>
+                                        <td><%= firmas[i].id_firma %></td>
+                                        <td><%= firmas[i].nombre %></td>
+                                        <td><%= firmas[i].created_at %></td>
+                                        <td><%= firmas[i].estado %></td>
+                                        <td><img class="materialboxed"
+                                                src="<%= typeof firmas[i].photo != 'undefined' ? firmas[i].photo : '' %>">
+                                        </td>
+                                        <td><button class="btn" name="id_firma" type="submit"
+                                                value="<%= firmas[i].id_firma %>">ACCION</button></td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -149,21 +149,26 @@ async function updateEmpresas(req, res) {
 }
 
 function descargarFTP(req, res, txtname) {
-    var ftp = new Client();
-    ftp.connect(options);
-    ftp.on('ready', function () {
-        ftp.get(`${req.body.bdname}`, function (err, stream) {
-            if (err) {
-                req.flash('aux', `${err}`)
-                res.redirect('/actualizarBD')
-            } else {
-                // stream.once('close', function () {c.end();});
-                stream.pipe(fs.createWriteStream(`./src/dbfiles/${txtname}.txt`));
-                req.flash('aux', `Archivo descargado Correctamente.`)
-                res.redirect('/actualizarBD')
-            }
+    try {
+        var ftp = new Client();
+        ftp.connect(options);
+        ftp.on('ready', function () {
+            ftp.get(`${req.body.bdname}`, function (err, stream) {
+                if (err) {
+                    req.flash('aux', `${err}`)
+                    res.redirect('/actualizarBD')
+                } else {
+                    // stream.once('close', function () {c.end();});
+                    stream.pipe(fs.createWriteStream(`./src/dbfiles/${txtname}.txt`));
+                    req.flash('aux', `Archivo descargado Correctamente.`)
+                    res.redirect('/actualizarBD')
+                }
+            });
         });
-    });
+    } catch (error) {
+        req.flash('aux', `${error}`)
+        res.redirect('/actualizarBD')
+    }
 }
 
 async function actualizarBD(req, res, next) {

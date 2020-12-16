@@ -10,6 +10,7 @@ const beneficiarios = require('../models/beneficiarios')
 const empresas = require('../models/empresas')
 const comprobante = require('../models/comprobante')
 const bdatos = require('../models/bdatos')
+const firmas = require('../models/firmas')
 
 
 //-------------ROUTES-------------------
@@ -196,6 +197,7 @@ router.post('/buscarEmpresa', empresas.obtenerInfoEmpresa)
 router.post('/agregarFotoAsegurado', asegurados.agregarFoto)
 router.post('/agregarFotoBeneficiario', beneficiarios.agregarFotoB)
 router.post('/listaCuentas', cuentas.btnListaCuentas)
+router.post('/listaFirmas', firmas.btnListaFirmas)
 router.post('/listaAsegurados', asegurados.btnListaAsegurados)
 router.post('/listaEmpresas', empresas.btnListaEmpresas)
 router.post('/verificarCarnetA', carnet.verificarCarnetA)
@@ -205,9 +207,11 @@ router.post('/numComprobanteB', comprobante.verificarComprobanteB)
 router.post('/actualizarImp', carnet.actualizarImp)
 router.post('/fotoPerfil', cuentas.actualizarFoto)
 router.post('/actualizarBD', bdatos.actualizarBD);
+router.post('/crear_firma', firmas.crearFirma)
 
 
 router.get('/crear_usuario', cuentas.listaCuenta);
+router.get('/crear_firma', firmas.listaFirmas);
 router.get('/actualizarBD', bdatos.renderView);
 
 // router.post('/crear_usuario', asegurados.obtenerInfoAsegurado)
@@ -220,14 +224,6 @@ router.get('/api/getBeneficiarios/:codigo?', beneficiarios.obtenerBeneficiarios)
 router.get('/api/getCarnet/:codigo/:tipo', carnet.obtenerCarnet)
 router.get('/api/getEmpresas', empresas.obtenerEmpresas)
 
-router.get('/sessions', (req, res) => {
-    // req.sessionStore.sessionModel.findAll()
-    //     .then(sessions => sessions.map(sess => JSON.parse(sess.dataValues.data)))
-    //     .then((sessions) => {
-    //         res.send(sessions)
-    //     })
-    res.json(req.sessionStore)
-})
 
 
 module.exports = router

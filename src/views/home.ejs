@@ -1,7 +1,7 @@
 <%- include resources.ejs %>
 <script src="../public/sidenav.js"></script>
 <!-- <link rel="stylesheet" href="../public/css/sidenav.css"> -->
-<title>Home</title>
+<title>Inicio</title>
 
 <header>
     <nav class="top-nav">
@@ -28,7 +28,8 @@
                                 src="<%= typeof file != 'undefined' ? file : '' %>"></a>
                     </div>
                     <div class="col s6">
-                        <a href="/logout" class="btn">Log Out</a>
+                        <!-- <a href="/logout" class="btn">Cerrar Sesion</a> -->
+                        <button onclick="window.location.href='logout'" class="waves-effect waves-light btn-large"> Cerrar Sesion</button>
                     </div>
                 </div>
                 <a><span class="white-text name">Id: <%= user.id%> <% if (user.tipo === '1') { %>
@@ -61,6 +62,16 @@
                 <div class="collapsible-body">
                     <ul>
                         <li class="<% if (subm === 'actualizarBD') { %> active <%}%>"><a href="/actualizarBD"><i class="material-icons">update</i>Actualizar BD</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="bold <% if (menu === 'Firmas') { %> active <%}%>">
+                <div class="collapsible-header waves-effect waves-teal"><i
+                        class="material-icons">rate_review</i>Firmas
+                </div>
+                <div class="collapsible-body">
+                    <ul>
+                        <li class="<% if (subm === 'crear_firma') { %> active <%}%>"><a href="/crear_firma"><i class="material-icons">photo_size_select_small</i>Crear Firmas</a></li>
                     </ul>
                 </div>
             </li>
