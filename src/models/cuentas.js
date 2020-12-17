@@ -143,6 +143,32 @@ async function actualizarFoto(req, res) {
     }
 }
 
+async function actualizarPWD(req, res) {
+    try {
+            await poolConnect;
+            console.log(req.body)
+            const usuario = await request.query(`select * from usuarios where login = '${req.body.usuario}'`)
+            console.log(usuario.recordset[0])
+            if (usuario.recordset[0] && usuario.recordset[0].estado == '2') { //Usuario ya existe
+                var enc_pass = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
+                const new_pass = await request.query(`update usuarios set pass = '${enc_pass}', modified_at = CONVERT(VARCHAR,GETDATE(), 103), estado= '1'
+                                                    where login = '${req.body.usuario}'`)
+                if (new_pass.rowsAffected[0] === 1) {
+                    req.flash('loginMessage', `Usuario actualizado correctamente`)
+                    res.redirect('/update_pwd')
+                }else{
+                    req.flash('loginMessage', `Error al actualizar contraseña`)
+                    res.redirect('/update_pwd')
+                }
+            } else {
+                req.flash('loginMessage', `Este usuario no tiene permisos para actualizar su contraseña`)
+                res.redirect('/update_pwd')
+            }
+        
+    } catch (e) {
+        throw (e)
+    }
+}
 async function crearUsuario(req, res) {
     try {
         if (req.isAuthenticated() && req.user.tipo == '1') {
@@ -196,5 +222,6 @@ module.exports = {
     listaCuenta,
     btnListaCuentas,
     actualizarFoto,
-    crearUsuario
+    crearUsuario,
+    actualizarPWD
 }

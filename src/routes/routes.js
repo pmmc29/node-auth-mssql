@@ -18,14 +18,9 @@ router.get('/', function (req, res, next) {
     if (req.isAuthenticated()) {
         res.redirect('/home');
     } else {
-        res.render('index', {
+        res.render('login', {
             title: "Home",
-            userData: req.user,
-            messages: {
-                danger: req.flash('danger'),
-                warning: req.flash('warning'),
-                success: req.flash('success')
-            }
+            userData: req.user
         });
     }
 });
@@ -49,7 +44,16 @@ router.get('/login', function (req, res, next) {
         res.redirect('/home');
     } else {
         res.render('login', {
-            title: "Sign In",
+            user: req.user
+        });
+    }
+
+});
+router.get('/update_pwd', function (req, res, next) {
+    if (req.isAuthenticated()) {
+        res.redirect('/home');
+    } else {
+        res.render('update_pwd', {
             user: req.user
         });
     }
@@ -74,8 +78,8 @@ router.get('/logout', function (req, res) {
     console.log(req.isAuthenticated());
     req.logout();
     console.log(req.isAuthenticated());
-    req.flash('success', "Logged out. See you soon!");
-    res.redirect('/');
+    req.flash('loginMessage', "Cerró sesión con exito");
+    res.redirect('/login');
 });
 //----------------------------------------------
 
@@ -208,6 +212,7 @@ router.post('/actualizarImp', carnet.actualizarImp)
 router.post('/fotoPerfil', cuentas.actualizarFoto)
 router.post('/actualizarBD', bdatos.actualizarBD);
 router.post('/crear_firma', firmas.crearFirma)
+router.post('/update_pwd', cuentas.actualizarPWD)
 
 
 router.get('/crear_usuario', cuentas.listaCuenta);

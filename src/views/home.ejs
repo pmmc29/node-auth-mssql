@@ -29,7 +29,10 @@
                     </div>
                     <div class="col s6">
                         <!-- <a href="/logout" class="btn">Cerrar Sesion</a> -->
-                        <button onclick="window.location.href='logout'" class="waves-effect waves-light btn-large"> Cerrar Sesion</button>
+                        <!-- <button onclick="window.location.href='logout'" class="waves-effect waves-light btn-large">Cerrar Sesion</button> -->
+                        <button onclick="window.location.href='logout'" class="btn waves-effect waves-light">
+                            <i class="material-icons">login</i>
+                        </button>
                     </div>
                 </div>
                 <a><span class="white-text name">Id: <%= user.id%> <% if (user.tipo === '1') { %>

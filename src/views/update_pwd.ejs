@@ -7,15 +7,15 @@
         <div class="center">
             <div class="row">
                 <div class="col s12">
-                    <h3>Iniciar Sesión</h3>
-                    <%if (loginMessage) { %>
+                    <h3>Actualizar Contraseña</h3>
                     <blockquote style="background-color: bisque;">
+                        <%if (loginMessage) { %>
                         <%= loginMessage%>
+                        <% }%>
                     </blockquote>
-                    <% }%>
                 </div>
                 <div class="input-field col s12">
-                    <form action="/login" method="POST" id="login">
+                    <form action="/update_pwd" method="POST">
                         <div class="input-field col s12">
                             <input id="usuario" name="usuario" type="text" class="validate"
                                 onchange="this.setCustomValidity('')"
@@ -26,17 +26,11 @@
                             <input id="password" name="password" type="password" class="validate"
                                 onchange="this.setCustomValidity('')"
                                 oninvalid="this.setCustomValidity('Este campo es obligatorio.')" required>
-                            <label for="password">Contraseña</label>
+                            <label for="password">Nueva Contraseña</label>
                         </div>
-                        <div class="input-field col s6">
-                            <label>
-                                <input type="checkbox" name="remember" class="filled-in" checked/>
-                                <span>Recordar Sesión</span>
-                            </label>
-                        </div>
-                        <div class="input-field col s6">
-                            <button class="btn waves-effect waves-light" type="submit">Iniciar Sesión
-                                <i class="material-icons right">login</i>
+                        <div class="input-field right">
+                            <button class="btn waves-effect waves-light" type="submit">Actualizar Contraseña
+                                <i class="material-icons right">update</i>
                             </button>
                         </div>
                     </form>
@@ -45,17 +39,3 @@
         </div>
     </div>
 </main>
-<!-- <script>
-    $('#login input[type=text]').on('change invalid', function () {
-        var textfield = $(this).get(0);
-
-        // 'setCustomValidity not only sets the message, but also marks
-        // the field as invalid. In order to see whether the field really is
-        // invalid, we have to remove the message first
-        textfield.setCustomValidity('');
-
-        if (!textfield.validity.valid) {
-            textfield.setCustomValidity('Este campo es obligatorio.');
-        }
-    });
-</script> -->
