@@ -11,6 +11,9 @@
                     <%if (loginMessage) { %>
                     <blockquote style="background-color: bisque;">
                         <%= loginMessage%>
+                        <%if (btn_updatepwd) { %>
+                        <%- btn_updatepwd%>
+                        <% }%>
                     </blockquote>
                     <% }%>
                 </div>
@@ -30,7 +33,7 @@
                         </div>
                         <div class="input-field col s6">
                             <label>
-                                <input type="checkbox" name="remember" class="filled-in" checked/>
+                                <input type="checkbox" name="remember" class="filled-in" checked />
                                 <span>Recordar Sesión</span>
                             </label>
                         </div>

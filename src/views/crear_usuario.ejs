@@ -36,17 +36,18 @@
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <form method="POST" action="/listaCuentas">
+                        <form method="POST" action="/listaCuentas" id="form_cuentas">
                             <table class="highlight centered">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>LOGIN</th>
+                                        <th>USUARIO</th>
                                         <th>TIPO</th>
-                                        <th>CREATED_AT</th>
-                                        <th>MODIFIED_AT</th>
-                                        <th>PHOTO</th>
-                                        <th>ACCION</th>
+                                        <th>CREADO</th>
+                                        <th>ESTADO</th>
+                                        <th>FOTO</th>
+                                        <th>ACTIVO</th>
+                                        <th>ACTUALIZAR CONTRASEÑA</th>
                                     </tr>
                                 </thead>
 
@@ -57,12 +58,40 @@
                                         <td><%= cuentas[i].login %></td>
                                         <td><%= cuentas[i].tipo %></td>
                                         <td><%= cuentas[i].created_at %></td>
-                                        <td><%= cuentas[i].modified_at %></td>
+                                        <td><%= cuentas[i].estado %></td>
                                         <td><img class="materialboxed"
                                                 src="<%= typeof cuentas[i].photo != 'undefined' ? cuentas[i].photo : '' %>">
                                         </td>
-                                        <td><button class="btn" name="id_cuenta" type="submit"
-                                                value="<%= cuentas[i].id %>">ACCION</button></td>
+                                        <!-- <td><button class="btn" name="id_cuenta" type="submit"
+                                                value="<%= cuentas[i].id %>">ACCION</button></td> -->
+                                        <td>
+                                            <!-- Switch -->
+                                            <div class="switch">
+                                                <label>
+                                                    NO
+                                                    <input type="checkbox" name="cuenta_activo"
+                                                        value="<%= cuentas[i].id %>"
+                                                        onclick="document.getElementById('form_cuentas').submit()"
+                                                        <% if(cuentas[i].estado == '1'){ %> checked<% }%>>
+                                                    <span class="lever"></span>
+                                                    SI
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <!-- Switch -->
+                                            <div class="switch">
+                                                <label>
+                                                    NO
+                                                    <input type="checkbox" name="cuenta_update"
+                                                        value="<%= cuentas[i].id %>"
+                                                        onclick="document.getElementById('form_cuentas').submit()"
+                                                        <% if(cuentas[i].estado == '2'){ %> checked<% }%>>
+                                                    <span class="lever"></span>
+                                                    SI
+                                                </label>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <% } %>
                                 </tbody>

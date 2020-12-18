@@ -79,6 +79,7 @@ async function listaCuenta(req, res, next) {
                     tipo: result.recordset[index].tipo,
                     created_at: result.recordset[index].created_at,
                     modified_at: result.recordset[index].modified_at,
+                    estado: result.recordset[index].estado,
                     photo: photo
                 })
             }
@@ -94,7 +95,7 @@ async function listaCuenta(req, res, next) {
                 });
             })
             console.log(req.user.id, req.user)
-            console.log(cuentas)
+            // console.log(cuentas)
         } else {
             res.redirect('/login');
         }
@@ -105,7 +106,7 @@ async function listaCuenta(req, res, next) {
 }
 async function btnListaCuentas(req, res) {
     try {
-        if (req.isAuthenticated()) {
+        if (req.isAuthenticated() && req.user.tipo == 1) {
             console.log(req.body)
             req.flash('aux', `Accion para el usuario ${req.body.id_cuenta}`)
             res.redirect('/crear_usuario')
@@ -155,7 +156,7 @@ async function actualizarPWD(req, res) {
                                                     where login = '${req.body.usuario}'`)
                 if (new_pass.rowsAffected[0] === 1) {
                     req.flash('loginMessage', `Usuario actualizado correctamente`)
-                    res.redirect('/update_pwd')
+                    res.redirect('/login')
                 }else{
                     req.flash('loginMessage', `Error al actualizar contraseña`)
                     res.redirect('/update_pwd')
@@ -175,13 +176,13 @@ async function crearUsuario(req, res) {
             await poolConnect;
             console.log(req.body)
             const usuario = await request.query(`select id from usuarios where login = '${req.body.login}'`)
-            console.log(usuario.recordset[0])
+            // console.log(usuario.recordset[0])
             if (usuario.recordset[0]) { //Usuario ya existe
                 req.flash('aux', `Este usuario ya existe`)
                 res.redirect('/crear_usuario')
             } else {
                 var enc_pass = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
-                const new_user = await request.query(`insert into usuarios (login,pass,tipo,created_at) values('${req.body.login}','${enc_pass}','2',CONVERT(VARCHAR,GETDATE(), 103))`)
+                const new_user = await request.query(`insert into usuarios (login,pass,tipo,created_at,estado) values('${req.body.login}','${enc_pass}','2',CONVERT(VARCHAR,GETDATE(), 103),'1')`)
                 if (new_user.rowsAffected[0] === 1) {
                     req.flash('aux', `Usuario creado correctamente`)
                     res.redirect('/crear_usuario')

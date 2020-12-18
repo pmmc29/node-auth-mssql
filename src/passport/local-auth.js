@@ -52,7 +52,12 @@ passport.use('local', new LocalStrategy({
                                 return done(null, false);
                             } else if (estado == '2') {
                                 req.flash('loginMessage', 'Debe cambiar de contraseña antes de utilizar el sistema.')
-                                // res.redirect('/update_pwd')
+                                req.flash('btn_updatepwd', `<div class="input-field col s12">
+                                                                <button class="waves-effect waves-teal btn-flat" onclick="window.location.href='update_pwd'">
+                                                                    Actualizar Contraseña
+                                                                    <i class="material-icons left">update</i>
+                                                                </button>
+                                                            </div>`)
                                 return done(null, false);
                             } else {
                                 return done(null, { //DATOS DEL USUARIO QUE SE MANDA A LA SESSION 'req.user'
@@ -65,6 +70,12 @@ passport.use('local', new LocalStrategy({
                             }
                         } else {
                             req.flash('loginMessage', 'Datos Incorrectos')
+                            req.flash('btn_updatepwd', `<div class="input-field col s12">
+                                                                <button class="waves-effect waves-teal btn-flat" onclick="window.location.href='update_pwd'">
+                                                                    Actualizar Contraseña
+                                                                    <i class="material-icons left">update</i>
+                                                                </button>
+                                                            </div>`)
                             return done(null, false);
                         }
                     });

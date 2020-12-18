@@ -37,6 +37,7 @@ app.use((req, res, next) => {
     app.locals.aux = req.flash('aux')
     app.locals.aux2 = req.flash('aux2')
     app.locals.msgRD = req.flash('msgRD')
+    app.locals.btn_updatepwd = req.flash('btn_updatepwd')
     next()
 })
 
