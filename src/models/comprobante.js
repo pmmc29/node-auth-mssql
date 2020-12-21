@@ -116,7 +116,7 @@ async function verificarComprobanteB(req, res) {
                             const new_fec_fin = `CONVERT(VARCHAR, (select DATEADD(yy, 19, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.codigo}'), 103)))), 103)`
                             const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                     values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
-                                                    ${req.user.id}, '${req.body.tipo}','${result.recordset[0].Numero}','${req.body.motivo}',${new_fec_fin})`)
+                                                    ${req.user.id}, '${req.body.tipo}','${result.recordset[0].Numero}','NUEVO',${new_fec_fin})`)
                             if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                 req.flash('aux', req.body.codigo)
@@ -130,7 +130,7 @@ async function verificarComprobanteB(req, res) {
                         if (parseInt(req.body.edad) + 3 < 19) {
                             const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                     values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
-                                                    ${req.user.id}, '${req.body.tipo}','${result.recordset[0].Numero}','${req.body.motivo}',CONVERT(VARCHAR, (select DATEADD(yyyy, 3, GETDATE())), 103))`)
+                                                    ${req.user.id}, '${req.body.tipo}','${result.recordset[0].Numero}','NUEVO',CONVERT(VARCHAR, (select DATEADD(yyyy, 3, GETDATE())), 103))`)
                             if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                 req.flash('aux', req.body.codigo)
@@ -163,12 +163,12 @@ async function verificarComprobanteB(req, res) {
                         const dias_rest = await requestdb.query(`SELECT DATEDIFF(day, DATEADD(mm, ${meses}, GETDATE()), 
                         DATEADD(yy, 25, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.codigo}'), 103)))) AS dias_rest`)
                         const current_year = await requestdb.query(`SELECT DATEDIFF(day, DATEADD(mm, ${meses}, GETDATE()), CONCAT(YEAR(GETDATE()), '-12-31')) AS current_year`)
-                        console.log(dias_rest.recordset[0].dias_rest)
+                        console.log(dias_rest.recordset[0].dias_rest, current_year.recordset[0].current_year)
                         if (current_year.recordset[0].current_year >= 0) { //tiene dias sobrantes al año actual
-                            if (dias_rest.recordset[0].dias_rest >= 0) {//tiene dias sobrantes para sus 25 -> se registra con los meses especificados
+                            if (dias_rest.recordset[0].dias_rest >= 0) { //tiene dias sobrantes para sus 25 -> se registra con los meses especificados
                                 const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                         values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
-                                                        ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}',CONVERT(VARCHAR, DATEADD(mm, ${meses}, GETDATE()), 103))`)
+                                                        ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',CONVERT(VARCHAR, DATEADD(mm, ${meses}, GETDATE()), 103))`)
                                 if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                     req.flash('aux', req.body.codigo)
@@ -183,7 +183,7 @@ async function verificarComprobanteB(req, res) {
                                 const new_fec_fin = `CONVERT(VARCHAR, (select DATEADD(yy, 25, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.codigo}'), 103)))), 103)`
                                 const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                     values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
-                                                    ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}',${new_fec_fin})`)
+                                                    ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',${new_fec_fin})`)
                                 if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                     req.flash('aux', req.body.codigo)
@@ -196,11 +196,11 @@ async function verificarComprobanteB(req, res) {
                             }
                         }
                         if (current_year.recordset[0].current_year < 0) { //no tiene dias restantes en el año actual -> se limita la fecha de validez al 31/12
-                            if (dias_rest.recordset[0].dias_rest < 0 && current_year.recordset[0].current_year < 0) { //no tiene dias restantes para sus 25 -> se limita a la fecha de su cumpleaños 25
+                            if (dias_rest.recordset[0].dias_rest <= current_year.recordset[0].current_year) { //no tiene dias restantes para sus 25 -> se limita a la fecha de su cumpleaños 25
                                 const new_fec_fin = `CONVERT(VARCHAR, (select DATEADD(yy, 25, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.codigo}'), 103)))), 103)`
                                 const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                     values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
-                                                    ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}',${new_fec_fin})`)
+                                                    ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',${new_fec_fin})`)
                                 if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                     req.flash('aux', req.body.codigo)
@@ -210,11 +210,11 @@ async function verificarComprobanteB(req, res) {
                                     req.flash('aux', req.body.codigo)
                                     res.redirect('/buscarBeneficiario')
                                 }
-                            }else{
+                            } else {
                                 const new_fec_fin = `CONCAT('31/12/',YEAR(GETDATE()))`
                                 const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                         values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
-                                                        ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}',${new_fec_fin})`)
+                                                        ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',${new_fec_fin})`)
                                 if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                     req.flash('aux', req.body.codigo)
@@ -232,7 +232,7 @@ async function verificarComprobanteB(req, res) {
                                                                 where imp_carnet.id_carnet = carnet.id_carnet and carnet.cod_bnf = '${req.body.codigo}'
                                                                 ORDER BY id_imp DESC`)
                         console.log(last_card.recordset[0])
-                        if (last_card.rowsAffected[0] === 1) {//ultimo carnet recuperado
+                        if (last_card.rowsAffected[0] === 1) { //ultimo carnet recuperado
                             const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                     values(${last_card.recordset[0].id_carnet},'0','0', '${last_card.recordset[0].fec_emision}', '0',
                                                     ${req.user.id}, '${last_card.recordset[0].validez}','${result.recordset[0].Numero}','RECUPERADO','${last_card.recordset[0].fec_fin}')`)

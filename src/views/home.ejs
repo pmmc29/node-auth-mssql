@@ -30,16 +30,17 @@
                     <div class="col s6">
                         <!-- <a href="/logout" class="btn">Cerrar Sesion</a> -->
                         <!-- <button onclick="window.location.href='logout'" class="waves-effect waves-light btn-large">Cerrar Sesion</button> -->
-                        <button onclick="window.location.href='logout'" class="btn waves-effect waves-light">
-                            <i class="material-icons">login</i>
+                        <button onclick="window.location.href='logout'" class="btn waves-effect waves-light">Salir
                         </button>
                     </div>
                 </div>
-                <a><span class="white-text name">Id: <%= user.id%> <% if (user.tipo === '1') { %>
-                        (Administrador)
-                        <%}%></span></a>
+                <!-- <a><span class="white-text name">Id: <%= user.id%></span></a> -->
                     <a><span class="white-text name">Usuario: <%= user.email%></span></a>
-                <a><span class="white-text name">Tipo: <%= user.tipo%></span></a><br>
+                    <a><span class="white-text name">Cuenta: <% if (user.tipo === '2') { %>
+                        Normal
+                        <%}%> <% if (user.tipo === '1') { %>
+                        Administrador
+                        <%}%></span></a><br>
             </div>
         </li>
         <ul class=" collapsible collapsible-accordion">
@@ -55,16 +56,6 @@
                         <li class="<% if (subm === 'crear_usuario') { %> active <%}%>"><a href="/crear_usuario"><i class="material-icons">person_add</i>Crear
                                 Usuario</a>
                         </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="bold <% if (menu === 'Base de Datos') { %> active <%}%>">
-                <div class="collapsible-header waves-effect waves-teal"><i
-                        class="material-icons">storage</i>Base de Datos
-                </div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li class="<% if (subm === 'actualizarBD') { %> active <%}%>"><a href="/actualizarBD"><i class="material-icons">update</i>Actualizar BD</a></li>
                     </ul>
                 </div>
             </li>
@@ -98,7 +89,7 @@
                     <div class="collapsible-body">
                         <ul>
                             <li class="<% if (subm === 'buscarAsegurado') { %> active <%}%>"><a href="/buscarAsegurado"><i class="material-icons">search</i>Buscar Asegurado</a></li>
-                            <li class="<% if (subm === 'listaAsegurados') { %> active <%}%>"><a href="/listaAsegurados"><i class="material-icons">credit_card</i>Lista de Asegurados</a></li>
+                            <!-- <li class="<% if (subm === 'listaAsegurados') { %> active <%}%>"><a href="/listaAsegurados"><i class="material-icons">credit_card</i>Lista de Asegurados</a></li> -->
                         </ul>
                     </div>
                 </li>
@@ -109,7 +100,7 @@
                     <div class="collapsible-body">
                         <ul>
                             <li class="<% if (subm === 'buscarBeneficiario') { %> active <%}%>"><a href="/buscarBeneficiario"><i class="material-icons">search</i>Buscar Beneficiario</a></li>
-                            <li class="<% if (subm === 'listaBeneficiarios') { %> active <%}%>"><a href="/listaBeneficiarios"><i class="material-icons">credit_card</i>Lista de Beneficiarios</a></li>
+                            <!-- <li class="<% if (subm === 'listaBeneficiarios') { %> active <%}%>"><a href="/listaBeneficiarios"><i class="material-icons">credit_card</i>Lista de Beneficiarios</a></li> -->
                         </ul>
                     </div>
                 </li>
@@ -120,16 +111,24 @@
                     <div class="collapsible-body">
                         <ul>
                             <li class="<% if (subm === 'buscarEmpresa') { %> active <%}%>"><a href="/buscarEmpresa"><i class="material-icons">search</i>Buscar Empresa</a></li>
-                            <li class="<% if (subm === 'listaEmpresas') { %> active <%}%>"><a href="/listaEmpresas"><i class="material-icons">credit_card</i>Lista de Empresas</a></li>
+                            <!-- <li class="<% if (subm === 'listaEmpresas') { %> active <%}%>"><a href="/listaEmpresas"><i class="material-icons">credit_card</i>Lista de Empresas</a></li> -->
                         </ul>
                     </div>
                 </li>
-                
+                <li class="bold <% if (menu === 'Base de Datos') { %> active <%}%>">
+                    <div class="collapsible-header waves-effect waves-teal"><i
+                            class="material-icons">storage</i>Base de Datos
+                    </div>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li class="<% if (subm === 'actualizarBD') { %> active <%}%>"><a href="/actualizarBD"><i class="material-icons">update</i>Actualizar BD</a></li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
             <li>
                 <div class="divider"></div>
             </li>
-
         </ul>
         <!-- <button href="#" data-target="slide-out" class="sidenav-trigger show-on-large waves-effect waves-light btn"><i
             class="material-icons">menu</i></button> -->

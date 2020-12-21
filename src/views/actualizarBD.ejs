@@ -25,16 +25,27 @@
                             <option value="<%= bds[i].bdname %>"><%= bds[i].bdname %></option>
                             <% } %>
                         </select>
+                        <br>
+                        <hr>
                         <div class="center">
-                            <!-- <div class="input-field col s12">
-                                <button type="submit" class="btn" name="btn_descargarbd_ase">Descargar Asegurados </button>
-                                <button type="submit" class="btn" name="btn_descargarbd_bnf">Descargar Beneficiarios </button>
-                                <button type="submit" class="btn" name="btn_descargarbd_emp">Descargar Empresas </button>
-                            </div> -->
                             <div class="input-field col s12">
-                                <button type="submit" class="btn" name="btn_actualizarbd">Actualizar Asegurados y Beneficiarios </button>
+                                <button type="submit" class="btn col s6" name="btn_actualizar_emp">Acualizar Empresas </button>
+                               <p class="col s6"><b>Empresas: </b> <%= typeof count.emp != 'undefined' ? count.emp : '' %></p>
                                 <!-- <button type="submit" class="btn" name="btn_actualizarbd_bnf">Actualizar Beneficiarios </button> -->
-                                <button type="submit" class="btn" name="btn_actualizarbd_emp">Actualizar Empresas </button>
+                               <b>Asegurados: </b> <%= typeof count.ase != 'undefined' ? count.ase : '' %>
+                                <button type="submit" class="btn col s6" name="btn_actualizar_ase">Actualizar Asegurados </button>
+                               <b>Beneficiarios: </b> <%= typeof count.bnf != 'undefined' ? count.bnf : '' %>
+                            </div>
+                            <div class="input-field col s12">
+                                <p>
+                                    Ultima actualizacion de Empresas:
+                                </p>
+                                <p>
+                                    Ultima actualizacion de Asegurados:
+                                </p>
+                                <p>
+                                    Ultima actualizacion de Beneficiarios:
+                                </p>
                             </div>
                         </div>
                     </form>

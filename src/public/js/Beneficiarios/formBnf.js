@@ -18,8 +18,6 @@
                                 <input name="tipo" type="text" class="validate" value="MENOR" hidden>
                                 <input name="comprobante" type="text" class="validate" value=""
                                     placeholder="Numero de Comprobante" required>
-                                <input name="motivo" type="text" class="validate" value="" placeholder="Motivo"
-                                    required>
                             </div>
                         <div class="input-field col s6">
                             <button class="btn waves-effect waves-light teal darken-4" style="border:1px solid;" type="submit" name="btnRegistrar"
@@ -46,7 +44,6 @@
                             <input name="tipo" type="text" class="validate" value="MAYOR" hidden>
                             <input name="comprobante" type="text" class="validate" value=""
                                 placeholder="Numero de Comprobante" required>
-                            <input name="motivo" type="text" class="validate" value="" placeholder="Motivo" required>
                         </div>
                         <div class="input-field col s6">
                             <button class="btn waves-effect waves-light green darken-4" style="border:1px solid;" type="submit" name="btnRegistrar"
@@ -100,14 +97,11 @@
                                 <h5><b>Recuperar Carnet</b></h5>
                                 <li><b>Codigo: </b> ${codigo}</li>
                                 <li><b>Edad: </b> ${edad} años</li>
-                                <li id="fec_item"><b>Valido por: </b>Maximo 3 Años hasta cumplir los 19</li>
                                 <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
                                 <input name="edad" type="text" class="validate" value="${edad}" hidden>
                                 <input name="tipo" type="text" class="validate" value="RECUPERADO" hidden>
                                 <input name="comprobante" type="text" class="validate" value=""
                                     placeholder="Numero de Comprobante" required>
-                                <input name="motivo" type="text" class="validate" value="" placeholder="Motivo"
-                                    >
                             </div>
                         <div class="input-field col s6">
                             <button class="btn waves-effect waves-light grey darken-4" style="border:1px solid;" type="submit" name="btnRegistrar"
