@@ -1,4 +1,5 @@
 const sql = require('mssql');
+const bnf = require('./beneficiarios');
 
 ///////////////////////////////////////////////////////
 const configSinec = {
@@ -91,7 +92,7 @@ async function verificarComprobanteA(req, res) {
             }
         } catch (error) {
             console.log('SQL ERROR: ', error)
-            req.flash('loginMessage', 'Error en el comprobante')
+            req.flash('loginMessage', 'Error en el registro del comprobante')
             req.flash('aux', req.body.codigo)
             res.redirect('/buscarAsegurado')
         }
@@ -120,6 +121,7 @@ async function verificarComprobanteB(req, res) {
                             if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                 req.flash('aux', req.body.codigo)
+                        
                                 res.redirect('/buscarBeneficiario')
                             } else {
                                 req.flash('loginMessage', 'Error en el registro del comprobante')
@@ -134,6 +136,7 @@ async function verificarComprobanteB(req, res) {
                             if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                 req.flash('aux', req.body.codigo)
+                        
                                 res.redirect('/buscarBeneficiario')
                             } else {
                                 req.flash('loginMessage', 'Error en el registro del comprobante')
@@ -172,6 +175,7 @@ async function verificarComprobanteB(req, res) {
                                 if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                     req.flash('aux', req.body.codigo)
+                            
                                     res.redirect('/buscarBeneficiario')
                                 } else {
                                     req.flash('loginMessage', 'Error en el registro del comprobante')
@@ -179,7 +183,7 @@ async function verificarComprobanteB(req, res) {
                                     res.redirect('/buscarBeneficiario')
                                 }
                             }
-                            if (dias_rest.recordset[0].dias_rest < 0) {
+                            if (dias_rest.recordset[0].dias_rest < 0) { // la fecha se pasa de su cumpleaños 25
                                 const new_fec_fin = `CONVERT(VARCHAR, (select DATEADD(yy, 25, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.codigo}'), 103)))), 103)`
                                 const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                     values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
@@ -187,6 +191,7 @@ async function verificarComprobanteB(req, res) {
                                 if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                     req.flash('aux', req.body.codigo)
+                            
                                     res.redirect('/buscarBeneficiario')
                                 } else {
                                     req.flash('loginMessage', 'Error en el registro del comprobante')
@@ -204,6 +209,7 @@ async function verificarComprobanteB(req, res) {
                                 if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                     req.flash('aux', req.body.codigo)
+                            
                                     res.redirect('/buscarBeneficiario')
                                 } else {
                                     req.flash('loginMessage', 'Error en el registro del comprobante')
@@ -218,6 +224,7 @@ async function verificarComprobanteB(req, res) {
                                 if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                     req.flash('aux', req.body.codigo)
+                            
                                     res.redirect('/buscarBeneficiario')
                                 } else {
                                     req.flash('loginMessage', 'Error en el registro del comprobante')
@@ -239,6 +246,7 @@ async function verificarComprobanteB(req, res) {
                             if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                 req.flash('aux', req.body.codigo)
+                        
                                 res.redirect('/buscarBeneficiario')
                             } else {
                                 req.flash('loginMessage', 'Error en el registro del comprobante')
@@ -270,7 +278,7 @@ async function verificarComprobanteB(req, res) {
             }
         } catch (error) {
             console.log('SQL ERROR: ', error)
-            req.flash('loginMessage', 'Error en el comprobante')
+            req.flash('loginMessage', 'Error en el registro del comprobante')
             req.flash('aux', req.body.codigo)
             res.redirect('/buscarBeneficiario')
         }

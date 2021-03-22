@@ -206,7 +206,6 @@ async function renderDatos(req, res, msg) {
                                                 and asegurados.cod_asegurado = carnet.cod_asegurado
                                                 and imp_carnet.id_usuario = usuarios.id and imp_carnet.id_carnet = carnet.id_carnet `)
             console.log(carnet.recordset)
-
             let file_test = `./src/photos/Asegurados/${req.body.edtBuscar}.jpg`
             let file_ase = ''
             fs.access(file_test,fs.constants.F_OK, (err) => {

@@ -10,8 +10,8 @@
     <main>
         <div class="container">
             <div class="row">
-                <h1>Actualizar Base de Datos</h1>
-                <blockquote>
+                <h1>Base de Datos</h1>
+                <blockquote style="background-color: bisque;">
                     <%= typeof msg != 'undefined' ? msg : '' %>
                     <%= typeof aux != 'undefined' ? aux : '' %>
                 </blockquote>
@@ -19,33 +19,65 @@
                     <form action="/actualizarBD" method="POST">
                         <!-- <input type="text" placeholder="Nombre del archivo" class="input-field"> -->
                         <br>
-                        <select name="bdname">
-                            <option selected disabled>Seleccione</option>
-                            <% for(var i=0; i<bds.length; i++) {%>
-                            <option value="<%= bds[i].bdname %>"><%= bds[i].bdname %></option>
-                            <% } %>
-                        </select>
-                        <br>
-                        <hr>
-                        <div class="center">
+                        <div class="input-field col s12">
                             <div class="input-field col s12">
-                                <button type="submit" class="btn col s6" name="btn_actualizar_emp">Acualizar Empresas </button>
-                               <p class="col s6"><b>Empresas: </b> <%= typeof count.emp != 'undefined' ? count.emp : '' %></p>
-                                <!-- <button type="submit" class="btn" name="btn_actualizarbd_bnf">Actualizar Beneficiarios </button> -->
-                               <b>Asegurados: </b> <%= typeof count.ase != 'undefined' ? count.ase : '' %>
-                                <button type="submit" class="btn col s6" name="btn_actualizar_ase">Actualizar Asegurados </button>
-                               <b>Beneficiarios: </b> <%= typeof count.bnf != 'undefined' ? count.bnf : '' %>
+                                <h5><u><b>Servidor de Archivos</b></u></h5>
+                                <select name="bdname">
+                                    <option selected disabled>Seleccione un archivo</option>
+                                    <% for(var i=0; i<bds.length; i++) {%>
+                                    <option value="<%= bds[i].bdname %>"><%= bds[i].bdname %></option>
+                                    <% } %>
+                                </select>
+                                <div class="input-field col s12 center">
+                                    <button type="submit" class="btn" name="btn_descargar_emp">Descargar Empresas
+                                    </button>
+                                    <button type="submit" class="btn" name="btn_descargar_ase">Descargar Asegurados
+                                    </button>
+                                    <button type="submit" class="btn" name="btn_descargar_bnf">Descargar Beneficiarios
+                                    </button>
+                                </div>
                             </div>
+                        </div>
+                        <div class="input-field col s12">
                             <div class="input-field col s12">
-                                <p>
-                                    Ultima actualizacion de Empresas:
+                                <h5><u><b>Actualizar Tablas</b></u></h5>
+                                <div class="center">
+                                    <button type="submit" class="btn" name="btn_actualizar_emp">Actualizar Empresas
+                                    </button>
+                                    <button type="submit" class="btn" name="btn_actualizar_ase">Actualizar Asegurados
+                                    </button>
+                                    <button type="submit" class="btn" name="btn_actualizar_bnf">Actualizar Beneficiarios
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-field col s12">
+                            <div class="input-field col s6">
+                                <h5><u><b>Fecha de Actualizacion</b></u></h5>
+                                <p><b>
+                                        Ultima actualizacion de Empresas: 
+                                    </b>
+                                    <%= typeof fec_upd.emp != 'undefined' ? fec_upd.emp : '' %>
                                 </p>
-                                <p>
-                                    Ultima actualizacion de Asegurados:
+                                <p><b>
+                                        Ultima actualizacion de Asegurados: 
+                                    </b>
+                                    <%= typeof fec_upd.ase != 'undefined' ? fec_upd.ase : '' %>
                                 </p>
-                                <p>
-                                    Ultima actualizacion de Beneficiarios:
+                                <p><b>
+                                        Ultima actualizacion de Beneficiarios: 
+                                    </b>
+                                    <%= typeof fec_upd.bnf != 'undefined' ? fec_upd.bnf : '' %>
                                 </p>
+                            </div>
+                            <div class="input-field col s6">
+                                <h5><u><b>Cantidad de Registros</b></u></h5>
+                                <p><b>Empresas: </b>
+                                    <%= typeof count.emp != 'undefined' ? count.emp : '' %></p>
+                                <p> <b>Asegurados: </b>
+                                    <%= typeof count.ase != 'undefined' ? count.ase : '' %></p>
+                                <p> <b>Beneficiarios: </b>
+                                    <%= typeof count.bnf != 'undefined' ? count.bnf : '' %></p>
                             </div>
                         </div>
                     </form>
@@ -54,4 +86,5 @@
         </div>
     </main>
 </body>
+
 </html>

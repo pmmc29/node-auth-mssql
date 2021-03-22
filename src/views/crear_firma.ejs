@@ -16,8 +16,17 @@
                     <%= typeof aux != 'undefined' ? aux : '' %>
                 </blockquote>
                 <div class="input-field col s12">
-                    <form action="/crear_firma" method="POST" id="form1">
+                    <form action="/crear_firma" method="POST" id="form1" enctype="multipart/form-data">
                         <input type="text" name="nombre_firma" placeholder="Firma" required class="input-field">
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>Imagen</span>
+                                <input type="file" name="myFirma">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
+                        </div>
                         <br>
                         <div class="center">
                             <input type="submit" value="Registrar" class="btn">

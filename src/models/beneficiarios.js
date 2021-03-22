@@ -111,11 +111,15 @@ async function btnListaBeneficiarios(req, res) {
 async function obtenerInfoBeneficiario(req, res) {
     if (req.isAuthenticated()) {
         if (req.body.btnBuscar != undefined) { //click en buscar
+            
             await renderDatos(req, res, "Beneficiario encontrado")
         }
-        if (req.body.btnRegistrar != undefined) { //click en registrar
+        if (req.body.btnRegistrar == 'clic') { //click en registrar
             await registrarDatos(req, res)
         }
+        // if (mensaje) { //cargar la vista desde comprobante
+        //     await renderDatos(req, res, mensaje)
+        // }
     } else {
         res.render('login', {
             title: "Iniciar Sesion"
@@ -252,7 +256,7 @@ async function renderDatos(req, res, msg) {
     } catch (err) {
         console.error('SQL error', err);
         req.flash('loginMessage', 'ERROR')
-        res.redirect('/buscarBeneficiario')
+        // res.redirect('/buscarBeneficiario')
     }
 }
 

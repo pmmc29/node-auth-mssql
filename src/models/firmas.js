@@ -15,11 +15,11 @@ pool.on('error', err => {
 //-------------UPLOAD PHOTOS------------------
 //Set Storage Engine
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, '../photos/Usuarios'),
+    destination: path.join(__dirname, '../photos/Firmas'),
     filename: function (req, file, cb) {
-        const user = req.user
+        const firma = req.body.nombre_firma
         // console.log(user.email)
-        cb(null, user.email + '.jpg') //nombre de las fotos
+        cb(null, firma + '.jpg') //nombre de las fotos
     }
 })
 
@@ -31,7 +31,7 @@ const uploadPhoto = multer({
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb)
     }
-}).single('photo_firma')
+}).single('myFirma')
 
 function checkFileType(file, cb) {
     //extenciones permitidas
@@ -144,22 +144,23 @@ async function crearFirma(req, res) {
     try {
         if (req.isAuthenticated() && req.user.tipo == '1') {
             await poolConnect;
-            console.log(req.body)
-            const firma = await request.query(`select id_firma from firma where nombre = '${req.body.nombre_firma}'`)
-            console.log(firma.recordset[0])
-            if (firma.recordset[0]) { //Firma ya existe
-                req.flash('aux', `Esta firma ya existe`)
-                res.redirect('/crear_firma')
-            } else {
-                const new_firma = await request.query(`insert into firma (nombre,created_at,estado,ruta) values('${req.body.nombre_firma}',CONVERT(VARCHAR,GETDATE(), 103),'1','${req.body.nombre_firma}.jpg')`)
-                if (new_firma.rowsAffected[0] === 1) {
-                    req.flash('aux', `Firma registrada correctamente`)
+            uploadPhoto(req,res, async() =>{
+                const firma = await request.query(`select id_firma from firma where nombre = '${req.body.nombre_firma}'`)
+                console.log(firma.recordset[0])
+                if (firma.recordset[0]) { //Firma ya existe
+                    req.flash('aux', `Esta firma ya existe`)
                     res.redirect('/crear_firma')
-                }else{
-                    req.flash('aux', `Error al registrar la firma`)
-                    res.redirect('/crear_firma')
+                } else {
+                    const new_firma = await request.query(`insert into firma (nombre,created_at,estado,ruta) values('${req.body.nombre_firma}',CONVERT(VARCHAR,GETDATE(), 103),'1','${req.body.nombre_firma}.jpg')`)
+                    if (new_firma.rowsAffected[0] === 1) {
+                        req.flash('aux', `Firma registrada correctamente`)
+                        res.redirect('/crear_firma')
+                    }else{
+                        req.flash('aux', `Error al registrar la firma`)
+                        res.redirect('/crear_firma')
+                    }
                 }
-            }
+            })
         } else {
             res.redirect('/login');
         }

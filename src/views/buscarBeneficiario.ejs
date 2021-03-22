@@ -24,20 +24,22 @@
                         <label for="search">Codigo</label>
                     </div>
                     <div class="input-field col s3">
-                        <button class="btn waves-effect waves-light" type="submit" name="btnBuscar" id="btnBuscar">Buscar
+                        <button class="btn waves-effect waves-light" type="submit" name="btnBuscar" id="btnBuscar">
+                                <% if (loginMessage != '' || message != '') { %>Actualizar <%} else {%>
+                                Buscar <%}%>
                             <i class="material-icons right">search</i>
                         </button>
                     </div>
                     <div class="input-field col s12">
                         <input id="name" name="nombre" type="text" class="validate"
-                            value="<%= typeof nombre != 'undefined' ? nombre : '' %>" disabled>
-                        <label for="name">Nombres</label>
+                            value="<%= typeof res.nombre != 'undefined' ? res.nombre : '' %>" disabled>
+                        <label for="name">Nombre</label>
                     </div>
-                    <div class="input-field col s12">
+                    <!-- <div class="input-field col s12">
                         <input id="last_name" name="apellidos" type="text" class="validate"
                             value="<%= typeof apellido != 'undefined' ? apellido : '' %>" disabled>
                         <label for="last_name">Apellidos</label>
-                    </div>
+                    </div> -->
                     <div class="input-field col s12">
                         <input id="company" name="empresa" type="text" class="validate"
                             value="<%= typeof res.nom_emp != 'undefined' ? res.nom_emp : '' %>" disabled>
@@ -125,7 +127,7 @@
                 </div>
                 <div class="input-field col s3">
                     <% if (res.tipo_sangre === null || res.tipo_sangre == '' || res.fec_ing === null || res.fec_ing =='') { %>
-                    <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar"
+                    <button class="btn waves-effect waves-light" type="submit" name="btnRegistrar" value="clic"
                         id="btnRegistrar">Registrar
                         <i class="material-icons right">person_add</i>
                     </button>
@@ -138,7 +140,7 @@
                         <h3>Historial de Carnet</h3>
                         <% if (nombre !== '' && res.tipo_sangre !== null) { %>
                     <button class="btn waves-effect waves-light" type="button"
-                        id="btn_add_card_B">Nuevo Carnet
+                        id="btn_add_card_B">Agregar Carnet
                         <i class="material-icons right">add_box</i>
                     </button>
                     <%}%>

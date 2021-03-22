@@ -2,7 +2,7 @@
 <html lang="en">
 
 <script src="../public/sidenav.js"></script>
-<link rel="stylesheet" href="../public/css/cuentas.css">
+<!-- <link rel="stylesheet" href="../public/css/cuentas.css"> -->
 <title>Perfil</title>
 
 <body>
@@ -24,10 +24,14 @@
                     <!-- </p>
                         <img src=" <%= typeof file != 'undefined' ? file : '' %>" class="materialboxed responsive-img"
                     > -->
-                    <div class="file-field input-field">
-                        <form method="POST" action="/fotoPerfil" enctype="multipart/form-data">
-                            <img src="<%= typeof file != 'undefined' ? file : '' %>" class="materialboxed responsive-img">
-                            <img src="<%= typeof qr != 'undefined' ? qr : '' %>" class="materialboxed responsive-img">
+                    <form method="POST" action="/fotoPerfil" enctype="multipart/form-data">
+                    <div class="file-field input-field" style="align-items: center;">
+                        <div>
+                            <img src="<%= typeof file != 'undefined' ? file : '' %>" style="height: 250px;">
+                        </div>
+                        <div>
+                            <img src="<%= typeof qr != 'undefined' ? qr : '' %>">
+                        </div>
                             <div class="file-field input-field">
                                 <div class="btn">
                                     <input type="file" name="myPhoto" id="myPhoto">
@@ -41,8 +45,8 @@
                                 id="btnAgregarFoto"> <% if (file !== '') { %>Actualizar Foto <%} else {%> Agregar Foto <%}%>
                                     <i class="material-icons right">add_a_photo</i>
                             </button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
             </div>
         </div>
     </main>

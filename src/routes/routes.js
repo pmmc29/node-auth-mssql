@@ -138,7 +138,8 @@ router.get('/buscarAsegurado', async function (req, res, next) {
                 res: '',
                 apellido: '',
                 nombre: '',
-                historial: ''
+                historial: '',
+                message: ''
 
             });
         })
@@ -162,7 +163,8 @@ router.get('/buscarBeneficiario', async function (req, res, next) {
                 res: '',
                 apellido: '',
                 nombre: '',
-                historial: ''
+                historial: '',
+                message: ''
 
             });
         })
