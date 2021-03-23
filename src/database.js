@@ -1,23 +1,29 @@
 const sql = require('mssql');
 
 const config = {
-    user: 'testuser',
-    password: 'pedro123',
+    user: 'carnet_user',
+    password: 'carnet2021',
     server: 'localhost',
     database: 'test',
     options: {
         enableArithAbort: true,
-        encrypt: true
+        encrypt: true,
+        cryptoCredentialsDetails: {
+            minVersion: 'TLSv1'
+        }
     }
 }
 const configSinec = {
-    user: 'testuser',
-    password: 'pedro123',
+    user: 'carnet_user',
+    password: 'carnet2021',
     server: 'localhost',
-    database: 'sinec2020',
+    database: 'sinec2021',
     options: {
         enableArithAbort: true,
-        encrypt: true
+        encrypt: true,
+        cryptoCredentialsDetails: {
+            minVersion: 'TLSv1'
+        }
     }
 }
 
@@ -58,7 +64,7 @@ async function testConnection2() {
         console.error('SQL error', err);
     }
 }
-testConnection()
-testConnection2()
+// testConnection()
+// testConnection2()
 
 module.exports = pool,config

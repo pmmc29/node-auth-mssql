@@ -24,16 +24,16 @@ new_pool.on('error', err => {
 
 
 //////////////////////////////////////////////////////////////
-var options = {
-    host: 'localhost',
-    user: 'test',
-    password: '123'
-}
 // var options = {
-//     host: '192.168.100.174',
-//     user: 'pedrom',
-//     password: 'pedro2020'
+//     host: 'localhost',
+//     user: 'test',
+//     password: '123'
 // }
+var options = {
+    host: '192.168.100.174',
+    user: 'pedrom',
+    password: 'pedro2020'
+}
 
 var c = new Client();
 c.connect(options);
