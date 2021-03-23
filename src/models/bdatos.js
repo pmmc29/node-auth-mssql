@@ -199,7 +199,7 @@ async function actualizarBD(req, res, next) {
             if (req.body.btn_descargar_ase == '') { //click en DESCARGAR asegurados
                 descargarFTP(req, res, 'new_asegurados')
             }
-            if (req.body.btn_descargarbd_bnf == '') { //click en DESCARGAR beneficiarios
+            if (req.body.btn_descargar_bnf == '') { //click en DESCARGAR beneficiarios
                 descargarFTP(req, res, 'new_beneficiarios')
             }
             if (req.body.btn_descargar_emp == '') { //click en DESCARGAR empresas

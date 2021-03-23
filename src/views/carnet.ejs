@@ -73,7 +73,7 @@
             <div class="card-body atras">
                 <h3>SEGURO INTEGRAL DE SALUD</h3>
                 <h6><i>CREADO MEDIANTE D.S 26474 DEL 29 DE ENERO DE 1999</i></h6>
-                <div style="width: 290px;" id="edit">
+                <div style="width: 290px; margin-left: 16px;" id="edit">
                     <p>CONSULTORIO CALLE ESPAÑA Nº 473 TELF: 3364160 - 3371167</p>
                     <p>OF. ADMINISTRATIVAS C/24 DE SEP. Nº 266 EDIF. ITAU TELF. 3323173 - 3326572</p>
                     <p>CLINICA Y LABORATORIO AV. 2 DE AGOSTO Nº 6135 PASANDO EL 6TO ANILLO</p>
@@ -156,7 +156,7 @@
         function(){
         alertify.success('Ok');
         printJS({ printable: 'carnet_front', type: 'html', css: ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
-                    style: '.card {margin-top: 40px; margin-left: -520px; border: none;} @page { size: Letter landscape; margin: 0px}',
+                    style: '.card {margin-top: 60px; margin-left: -520px; border: none;} @page { size: Letter landscape; margin: 0px}',
                 scanStyles: false, onPrintDialogClose: () => {
                 clearInterval(focuser);
 
@@ -179,7 +179,7 @@
         function(){
         alertify.success('Ok');
         printJS({ printable: 'carnet_back', type: 'html', css: ["../public/css/card.css","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"],
-                    style: '.card {margin-top: 40px; margin-left: -520px; border: none;} @page { size: Letter landscape; }',
+                    style: '.card {margin-top: 60px; margin-left: -520px; border: none;} @page { size: Letter landscape; }',
                 scanStyles: false, onPrintDialogClose: () => {
                 clearInterval(focuser);
                 // do your thing..
