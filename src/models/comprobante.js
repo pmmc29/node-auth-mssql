@@ -46,11 +46,11 @@ async function verificarComprobanteA(req, res) {
                         if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                             req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                             req.flash('aux', req.body.codigo)
-                            res.redirect('/buscarAsegurado')
+                            res.redirect('/CARNETIZACION/buscarAsegurado')
                         } else {
                             req.flash('loginMessage', 'Error en el registro del comprobante')
                             req.flash('aux', req.body.codigo)
-                            res.redirect('/buscarAsegurado')
+                            res.redirect('/CARNETIZACION/buscarAsegurado')
                         }
                     }
                     if (req.body.validez == 'ITEM') {
@@ -60,11 +60,11 @@ async function verificarComprobanteA(req, res) {
                         if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                             req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                             req.flash('aux', req.body.codigo)
-                            res.redirect('/buscarAsegurado')
+                            res.redirect('/CARNETIZACION/buscarAsegurado')
                         } else {
                             req.flash('loginMessage', 'Error en el registro del comprobante')
                             req.flash('aux', req.body.codigo)
-                            res.redirect('/buscarAsegurado')
+                            res.redirect('/CARNETIZACION/buscarAsegurado')
                         }
                     }
                     if (req.body.tipo == 'RECUPERADO') {
@@ -79,25 +79,25 @@ async function verificarComprobanteA(req, res) {
                             if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                 req.flash('aux', req.body.codigo)
-                                res.redirect('/buscarAsegurado')
+                                res.redirect('/CARNETIZACION/buscarAsegurado')
                             } else {
                                 req.flash('loginMessage', 'Error en el registro del comprobante')
                                 req.flash('aux', req.body.codigo)
-                                res.redirect('/buscarAsegurado')
+                                res.redirect('/CARNETIZACION/buscarAsegurado')
                             }
                         }
                     }
                 } else {
                     req.flash('loginMessage', 'Numero de comprobante no existe')
                     req.flash('aux', req.body.codigo)
-                    res.redirect('/buscarAsegurado')
+                    res.redirect('/CARNETIZACION/buscarAsegurado')
                 }
             }
         } catch (error) {
             console.log('SQL ERROR: ', error)
             req.flash('loginMessage', 'Error en el registro del comprobante')
             req.flash('aux', req.body.codigo)
-            res.redirect('/buscarAsegurado')
+            res.redirect('/CARNETIZACION/buscarAsegurado')
         }
 
     } else {
@@ -125,11 +125,11 @@ async function verificarComprobanteB(req, res) {
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                 req.flash('aux', req.body.codigo)
                         
-                                res.redirect('/buscarBeneficiario')
+                                res.redirect('/CARNETIZACION/buscarBeneficiario')
                             } else {
                                 req.flash('loginMessage', 'Error en el registro del comprobante')
                                 req.flash('aux', req.body.codigo)
-                                res.redirect('/buscarBeneficiario')
+                                res.redirect('/CARNETIZACION/buscarBeneficiario')
                             }
                         }
                         if (parseInt(req.body.edad) + 3 < 19) {
@@ -140,11 +140,11 @@ async function verificarComprobanteB(req, res) {
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                 req.flash('aux', req.body.codigo)
                         
-                                res.redirect('/buscarBeneficiario')
+                                res.redirect('/CARNETIZACION/buscarBeneficiario')
                             } else {
                                 req.flash('loginMessage', 'Error en el registro del comprobante')
                                 req.flash('aux', req.body.codigo)
-                                res.redirect('/buscarBeneficiario')
+                                res.redirect('/CARNETIZACION/buscarBeneficiario')
                             }
                         }
                     }
@@ -179,11 +179,11 @@ async function verificarComprobanteB(req, res) {
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                     req.flash('aux', req.body.codigo)
                             
-                                    res.redirect('/buscarBeneficiario')
+                                    res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 } else {
                                     req.flash('loginMessage', 'Error en el registro del comprobante')
                                     req.flash('aux', req.body.codigo)
-                                    res.redirect('/buscarBeneficiario')
+                                    res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 }
                             }
                             if (dias_rest.recordset[0].dias_rest < 0) { // la fecha se pasa de su cumpleaños 25
@@ -195,11 +195,11 @@ async function verificarComprobanteB(req, res) {
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                     req.flash('aux', req.body.codigo)
                             
-                                    res.redirect('/buscarBeneficiario')
+                                    res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 } else {
                                     req.flash('loginMessage', 'Error en el registro del comprobante')
                                     req.flash('aux', req.body.codigo)
-                                    res.redirect('/buscarBeneficiario')
+                                    res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 }
                             }
                         }
@@ -213,11 +213,11 @@ async function verificarComprobanteB(req, res) {
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                     req.flash('aux', req.body.codigo)
                             
-                                    res.redirect('/buscarBeneficiario')
+                                    res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 } else {
                                     req.flash('loginMessage', 'Error en el registro del comprobante')
                                     req.flash('aux', req.body.codigo)
-                                    res.redirect('/buscarBeneficiario')
+                                    res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 }
                             } else {
                                 const new_fec_fin = `CONCAT('31/12/',YEAR(GETDATE()))`
@@ -228,11 +228,11 @@ async function verificarComprobanteB(req, res) {
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                     req.flash('aux', req.body.codigo)
                             
-                                    res.redirect('/buscarBeneficiario')
+                                    res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 } else {
                                     req.flash('loginMessage', 'Error en el registro del comprobante')
                                     req.flash('aux', req.body.codigo)
-                                    res.redirect('/buscarBeneficiario')
+                                    res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 }
                             }
                         }
@@ -250,11 +250,11 @@ async function verificarComprobanteB(req, res) {
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                                 req.flash('aux', req.body.codigo)
                         
-                                res.redirect('/buscarBeneficiario')
+                                res.redirect('/CARNETIZACION/buscarBeneficiario')
                             } else {
                                 req.flash('loginMessage', 'Error en el registro del comprobante')
                                 req.flash('aux', req.body.codigo)
-                                res.redirect('/buscarBeneficiario')
+                                res.redirect('/CARNETIZACION/buscarBeneficiario')
                             }
                         }
                         // if (dias_rest.recordset[0].dias_rest < 0) {//no tiene dias restantes -> se limita la fecha de validez a su cumpleaños 25
@@ -265,25 +265,25 @@ async function verificarComprobanteB(req, res) {
                         //     if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                         //         req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
                         //         req.flash('aux', req.body.codigo)
-                        //         res.redirect('/buscarBeneficiario')
+                        //         res.redirect('/CARNETIZACION/buscarBeneficiario')
                         //     } else {
                         //         req.flash('loginMessage', 'Error en el registro del comprobante')
                         //         req.flash('aux', req.body.codigo)
-                        //         res.redirect('/buscarBeneficiario')
+                        //         res.redirect('/CARNETIZACION/buscarBeneficiario')
                         //     }
                         // }
                     }
                 } else {
                     req.flash('loginMessage', 'Numero de comprobante no existe')
                     req.flash('aux', req.body.codigo)
-                    res.redirect('/buscarBeneficiario')
+                    res.redirect('/CARNETIZACION/buscarBeneficiario')
                 }
             }
         } catch (error) {
             console.log('SQL ERROR: ', error)
             req.flash('loginMessage', 'Error en el registro del comprobante')
             req.flash('aux', req.body.codigo)
-            res.redirect('/buscarBeneficiario')
+            res.redirect('/CARNETIZACION/buscarBeneficiario')
         }
 
     } else {

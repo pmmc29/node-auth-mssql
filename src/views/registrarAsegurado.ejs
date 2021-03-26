@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="../public/sidenav.js"></script>
+<title>Registrar Asegurado</title>
+<%- include home.ejs %>
+<body>
+    <main>
+        <div class="row col s12">
+            <div class="col s6">
+                <form method="POST" action="/registrarAsegurado">
+                    <h3>Registrar Asegurado</h3>
+                    <blockquote style="background-color: bisque;">
+                        <%= typeof loginMessage != 'undefined' ? loginMessage : '' %>
+                        <%= typeof message != 'undefined' ? message : '' %>
+                    </blockquote>
+                    <div class="input-field col s9">
+                        <div class="input-field col s12">
+                            <input id="search" name="edtMatricula" type="text" class="validate"
+                                value="<%= typeof id != 'undefined' ? id : '' %><%= typeof aux != 'undefined' ? aux : '' %>">
+                            <label for="search">Nº Matrícula</label>
+                        </div>
+                    <div class="input-field col s12">
+                        <input id="name" name="edtNombre" type="text" class="validate"
+                            value="<%= typeof res.nombre != 'undefined' ? res.nombre : '' %>">
+                                <label for="name">Nombre Completo</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="company" name="edtEmpresa" type="number" class="validate"
+                                value="<%= typeof res.nom_emp != 'undefined' ? res.nom_emp : '' %>">
+                            <label for="company">Cod.Empresa</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="join_date" name="edtFec_nac" type="text" class="datepicker"
+                                value="<%= typeof res.fec_ing != 'undefined' ? res.fec_ing : '' %>">
+                            <label for="join_date">Fecha de Nacimiento</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="join_date" name="edtFec_ing" type="text" class="datepicker"
+                                value="<%= typeof res.fec_ing != 'undefined' ? res.fec_ing : '' %>">
+                            <label for="join_date">Fecha de Ingreso</label>
+                        </div>
+                    </div>
+                    <div class="input-field col s12">
+                         <div class="input-field col s3">
+                        <input id="ci" name="edtCi" type="text" class="validate">
+                    <label for="ci">CI.</label>
+                </div> 
+                <div class="input-field col s3">
+                         <select name="ci_loc" id="ci_loc">
+                             <option selected>Elige un Lugar</option>
+                        <option value="CH">Chuquisaca</option>
+                        <option value="LP">La Paz</option>
+                        <option value="CB">Cochabamba</option>
+                        <option value="OR">Oruro</option>
+                        <option value="PT">Potosí</option>
+                        <option value="TJ">Tarija</option>
+                        <option value="SC">Santa Cruz</option>
+                        <option value="BE">Beni</option>
+                        <option value="PD">Pando</option>
+                        </select>
+                        <label>Lugar</label>
+                    </div>
+                    <div class="input-field col s3">
+                        <select name="select_sangre" id="select_sangre">
+                            <option selected>Elige un Tipo</option>
+                            <option value="A+">A Rh+</option>
+                            <option value="A-">A Rh-</option>
+                            <option value="B+">B Rh+</option>
+                            <option value="B-">B Rh-</option>
+                            <option value="AB+">AB Rh+</option>
+                            <option value="AB-">AB Rh-</option>
+                            <option value="O+">O Rh+</option>
+                            <option value="O-">O Rh-</option>
+                        </select>
+                        <label>Tipo de Sangre</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                        <button class="btn waves-effect waves-light" type="submit" name="btnRegistrarAse"
+                            id="btnRegistrarAse">Registrar Asegurado
+                            <i class="material-icons right">person_add</i>
+                        </button>
+                    </div>
+                </form>
+                    </div>
+                   
+            </div>
+            </div>
+    </main>
+</body>
+
+</html>

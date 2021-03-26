@@ -94,7 +94,7 @@ async function listaFirmas(req, res, next) {
             console.log(req.user.id, req.user)
             console.log(firmas)
         } else {
-            res.redirect('/login');
+            res.redirect('/CARNETIZACION/login');
         }
     } catch (err) {
         console.error('SQL error', err);
@@ -104,11 +104,19 @@ async function listaFirmas(req, res, next) {
 async function btnListaFirmas(req, res) {
     try {
         if (req.isAuthenticated()) {
-            console.log(req.body)
-            req.flash('aux', `Accion para la firma ${req.body.id_firma}`)
-            res.redirect('/crear_firma')
+            if (req.body.id_firma) { //clic en boton ESTADO de cuenta   (0 = inactivo   1 = activo)
+                const estado = await request.query(`select * from firma where id_firma = ${req.body.id_firma}`)
+                if (estado.recordset[0].estado == '1') {
+                    await request.query(`update firma set estado = '0' where id_firma = ${req.body.id_firma}`)
+                }
+                if (estado.recordset[0].estado == '0') {
+                    await request.query(`update firma set estado = '1' where id_firma = ${req.body.id_firma}`)
+                    await request.query(`update firma set estado = '0' where id_firma != ${req.body.id_firma}`)
+                }
+                res.redirect('/CARNETIZACION/crear_firma')
+            }
         } else {
-            res.redirect('/login');
+            res.redirect('/CARNETIZACION/login');
         }
     } catch (err) {
         console.error('SQL error', err);
@@ -133,7 +141,7 @@ async function actualizarFoto(req, res) {
                 }
             })
         } else {
-            res.redirect('/login');
+            res.redirect('/CARNETIZACION/login');
         }
     } catch (err) {
         console.error(err);
@@ -149,20 +157,20 @@ async function crearFirma(req, res) {
                 console.log(firma.recordset[0])
                 if (firma.recordset[0]) { //Firma ya existe
                     req.flash('aux', `Esta firma ya existe`)
-                    res.redirect('/crear_firma')
+                    res.redirect('/CARNETIZACION/crear_firma')
                 } else {
                     const new_firma = await request.query(`insert into firma (nombre,created_at,estado,ruta) values('${req.body.nombre_firma}',CONVERT(VARCHAR,GETDATE(), 103),'1','${req.body.nombre_firma}.jpg')`)
                     if (new_firma.rowsAffected[0] === 1) {
                         req.flash('aux', `Firma registrada correctamente`)
-                        res.redirect('/crear_firma')
+                        res.redirect('/CARNETIZACION/crear_firma')
                     }else{
                         req.flash('aux', `Error al registrar la firma`)
-                        res.redirect('/crear_firma')
+                        res.redirect('/CARNETIZACION/crear_firma')
                     }
                 }
             })
         } else {
-            res.redirect('/login');
+            res.redirect('/CARNETIZACION/login');
         }
     } catch (e) {
         throw (e)

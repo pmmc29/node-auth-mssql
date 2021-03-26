@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
 
     <link rel="stylesheet" href="../public/css/card.css">
+    <link rel="icon" href="../photos/icon.png">
 
 
 </head>
@@ -35,8 +36,8 @@
                             src="<%= typeof file_carnet != 'undefined' ? file_carnet : '' %>">
 
                     </figure>
-                    <p style="margin-bottom: 0px;"><b>Nro.</b> <%= res.id_carnet %></p>
-                    <img id="foto_firma" style="height: 40px; width: 120px; border-bottom: 1px solid;">
+                    <p style="margin-bottom: 0px;"><b>Nº</b> <%= res.id_carnet %></p>
+                    <img id="foto_firma" style="height: 40px; width: 120px; border-bottom: 1px solid;" src="../photos/Firmas/<%= firmas[0].ruta %>">
                     <p style="margin-bottom: -50px;"><b>Jefe de afiliacion</b></p>
                 </div>
                 <!-- <img id="foto_firma" style="width: 120px;
@@ -45,7 +46,7 @@
     height: 40px;"> -->
                 <div class="info">
                     <figure>
-                        <img src="../photos/Usuarios/sinec.PNG">
+                        <img src="../photos/logo.png">
                     </figure>
                     <p><i><b>
                                 <center>ENTE GESTOR DE LA SEGURIDAD SOCIAL</center>
@@ -60,7 +61,7 @@
                     </div>
                     <p><b>Empresa:</b> <%= res.nom_emp %></p>
                     <p><b>Fecha de ingreso:</b> <%= res.fec_ing %></p>
-                    <p><b>Nro. Matricula:</b> <%= res.cod_asegurado %><%= res.cod_bnf %>
+                    <p><b>Nº Matricula:</b> <%= res.cod_asegurado %><%= res.cod_bnf %>
                     </p>
                     <p><b>Fecha de nacimiento: </b><%= res.fec_nac %></p>
                     <p><b>Tipo de Sangre:</b> <%= res.tipo_sangre %></p>
@@ -70,7 +71,7 @@
             </div>
         </div>
         <div class="card" id="carnet_back">
-            <div class="card-body atras">
+            <div class="card-body atras" style="padding: 15px; height: 276px;">
                 <h3>SEGURO INTEGRAL DE SALUD</h3>
                 <h6><i>CREADO MEDIANTE D.S 26474 DEL 29 DE ENERO DE 1999</i></h6>
                 <div style="width: 290px; margin-left: 16px;" id="edit">
@@ -105,7 +106,7 @@
         <br>
         <br>
         <br>
-        <div class="input-group mb-3">
+        <!-- <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label class="input-group-text" for="inputGroupSelect01">Firmas</label>
             </div>
@@ -115,7 +116,10 @@
                 <option value="<%= firmas[i].ruta %>"><%= firmas[i].nombre %></option>
                 <% } %>
             </select>
-        </div>
+        </div> -->
+        <br>
+        <br>
+        <br>
         <br>
         <br>
         <% if (imp.back == 0 || imp.estado == 1) { %>

@@ -133,19 +133,19 @@ async function agregarFotoB(req, res) {//click en agregar foto
                     if (err) {
                         req.flash('loginMessage', err)
                         req.flash('aux', req.body.edtBuscar)
-                        res.redirect('/buscarBeneficiario')
+                        res.redirect('/CARNETIZACION/buscarBeneficiario')
                     } else {
                         if (req.file == undefined) {
                             console.log(req.body,req.file)
                             req.flash('loginMessage', 'Seleccione una imagen!')
                             req.flash('aux', req.body.edtBuscar)
-                            res.redirect('/buscarBeneficiario')
+                            res.redirect('/CARNETIZACION/buscarBeneficiario')
                         } else {
                             console.log(req.body)
                             console.log(req.file)
                             req.flash('loginMessage', 'Foto agregada!')
                             req.flash('aux', req.body.edtBuscar)
-                            res.redirect('/buscarBeneficiario')
+                            res.redirect('/CARNETIZACION/buscarBeneficiario')
                         }
                     }
                 })
@@ -163,26 +163,61 @@ async function registrarDatos(req, res) {
         if (req.body.fec_ing === '') {
                 req.flash('msgRD', 'LLene los campos correspondientes')
                 req.flash('aux', req.body.edtBuscar)
-                res.redirect('/buscarBeneficiario')
+                res.redirect('/CARNETIZACION/buscarBeneficiario')
         } else {
             const result = await request.query(`update beneficiarios set fec_ing = '${req.body.fec_ing}', tipo_sangre = '${req.body.select_sangre}', ci = '${req.body.ci}', ci_loc = '${req.body.ci_loc}' where cod_bnf = '${req.body.edtBuscar}'`)
             const response = result.rowsAffected[0]
             if (response > 0) { // 1 fila afectada = actualizacion exitosa
                 req.flash('msgRD', 'Registro Exitoso')
                 req.flash('aux', req.body.edtBuscar)
-                res.redirect('/buscarBeneficiario')
+                res.redirect('/CARNETIZACION/buscarBeneficiario')
             } else { // 0 filas afectadas = no se actualizo
                 console.log(req.body)
                 req.flash('msgRD', 'Error en el Registro')
                 req.flash('aux', req.body.edtBuscar)
-                res.redirect('/buscarBeneficiario')
+                res.redirect('/CARNETIZACION/buscarBeneficiario')
             }
         }
     } catch (err) {
         console.error('SQL error', err);
         req.flash('msgRD', 'Error en el Registro')
         req.flash('aux', req.body.edtBuscar)
-        res.redirect('/buscarBeneficiario')
+        res.redirect('/CARNETIZACION/buscarBeneficiario')
+    }
+}
+
+async function registrarBeneficiario(req, res) {
+    if (req.isAuthenticated()) {
+        try {
+            await poolConnect;
+            const body = req.body;
+            if (body.select_sangre === '' || body.edtCi === '' || body.ci_loc === '' || body.edtMatricula === '' || body.edtNombre === '' ||
+                body.edtEmpresa === '' || body.edtFec_ing === '' || body.edtFec_nac === '') {
+                console.log(req.body)
+                req.flash('loginMessage', 'LLene todos los campos')
+                req.flash('aux', req.body.edtMatricula)
+                res.redirect('/CARNETIZACION/registrarBeneficiario')
+            } else {
+                const result = await request.query(`insert into beneficiarios(cod_bnf,nombre,fec_nac,ci,ci_loc,cod_emp,fec_ing,tipo_sangre)
+                                                    values ('${body.edtMatricula}','${body.edtNombre}','${body.edtFec_nac}','${body.edtCi}','${body.ci_loc}',
+                                                            '${parseInt(body.edtEmpresa)}','${body.edtFec_ing}','${body.select_sangre}')`)
+                const response = result.rowsAffected[0]
+                if (response > 0) { // 1 fila afectada = actualizacion exitosa
+                    req.flash('loginMessage', 'Registro Exitoso')
+                    res.redirect('/CARNETIZACION/registrarBeneficiario')
+                } else { // 0 filas afectadas = no se actualizo
+                    req.flash('loginMessage', 'Error en el Registro')
+                    res.redirect('/CARNETIZACION/registrarBeneficiario')
+                }
+                console.log(response)
+            }
+        } catch (err) {
+            console.error('SQL error', err);
+        }
+    } else {
+        res.render('login', {
+            title: "Iniciar Sesion"
+        });
     }
 }
 
@@ -198,11 +233,12 @@ async function renderDatos(req, res, msg) {
                         END
                         from beneficiarios where cod_bnf = '${req.body.edtBuscar}'`
         const result = await request.query(`select *, (${edad_bnf}) as edad from beneficiarios where beneficiarios.cod_bnf = '${req.body.edtBuscar}'`)
+        const empresa = await request.query(`select empresas.nom_emp from empresas,beneficiarios where beneficiarios.cod_emp = empresas.id_emp and beneficiarios.cod_bnf = '${req.body.edtBuscar}'`)
         const response = result.recordset[0]
         console.log(response)
         if (response == undefined) { // no existe el codigo del asegurado
             req.flash('loginMessage', 'Beneficiario no encontrado')
-            res.redirect('/buscarBeneficiario')
+            res.redirect('/CARNETIZACION/buscarBeneficiario')
         }
         if (response !== undefined) { // beneficiario encontrado
             const str = response.nombre.split(" ")
@@ -249,14 +285,15 @@ async function renderDatos(req, res, msg) {
                     apellido: apellido,
                     nombre: nombre,
                     codigo: response.cod_bnf,
-                    historial: carnet.recordset
+                    historial: carnet.recordset,
+                    new_emp: empresa.recordset[0]
                 })
             })
         }
     } catch (err) {
         console.error('SQL error', err);
         req.flash('loginMessage', 'ERROR')
-        // res.redirect('/buscarBeneficiario')
+        // res.redirect('/CARNETIZACION/buscarBeneficiario')
     }
 }
 
@@ -265,5 +302,6 @@ module.exports = {
     obtenerInfoBeneficiario,
     listaBeneficiarios,
     btnListaBeneficiarios,
-    agregarFotoB
+    agregarFotoB,
+    registrarBeneficiario
 }

@@ -64,7 +64,7 @@ async function testConnection2() {
         console.error('SQL error', err);
     }
 }
-// testConnection()
-// testConnection2()
+testConnection()
+testConnection2()
 
 module.exports = pool,config

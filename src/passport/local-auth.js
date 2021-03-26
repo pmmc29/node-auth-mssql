@@ -48,12 +48,12 @@ passport.use('local', new LocalStrategy({
                             console.log('bcrypt check: ', check)
                             let estado = result.recordset[0].estado
                             if (estado == '0') {
-                                req.flash('loginMessage', 'Usuario no habilitado, hable con el administrador.')
+                                req.flash('loginMessage', 'Usuario inhabilitado, comuniquese con el administrador.')
                                 return done(null, false);
                             } else if (estado == '2') {
-                                req.flash('loginMessage', 'Debe cambiar de contraseña antes de utilizar el sistema.')
+                                req.flash('loginMessage', 'Debe cambiar su contraseña antes de poder Iniciar Sesión.')
                                 req.flash('btn_updatepwd', `<div class="input-field col s12">
-                                                                <button class="waves-effect waves-teal btn-flat" onclick="window.location.href='update_pwd'">
+                                                                <button class="btn waves-effect waves-light" onclick="window.location.href='update_pwd'">
                                                                     Actualizar Contraseña
                                                                     <i class="material-icons left">update</i>
                                                                 </button>
@@ -71,7 +71,7 @@ passport.use('local', new LocalStrategy({
                         } else {
                             req.flash('loginMessage', 'Datos Incorrectos')
                             req.flash('btn_updatepwd', `<div class="input-field col s12">
-                                                                <button class="waves-effect waves-teal btn-flat" onclick="window.location.href='update_pwd'">
+                                                                <button class="btn waves-effect waves-light" onclick="window.location.href='update_pwd'">
                                                                     Actualizar Contraseña
                                                                     <i class="material-icons left">update</i>
                                                                 </button>

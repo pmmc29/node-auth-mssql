@@ -5,8 +5,8 @@
 <link rel="stylesheet" href="../public/css/cuentas.css">
 <title>Crear Firma</title>
 
+<%- include home.ejs %>
 <body>
-    <%- include home.ejs %>
     <main>
         <div class="container">
             <div class="row">
@@ -42,9 +42,8 @@
                                         <th>ID</th>
                                         <th>NOMBRE</th>
                                         <th>FECHA</th>
-                                        <th>ESTADO</th>
                                         <th>IMAGEN</th>
-                                        <th>ACCION</th>
+                                        <th>ESTADO</th>
                                     </tr>
                                 </thead>
 
@@ -54,12 +53,18 @@
                                         <td><%= firmas[i].id_firma %></td>
                                         <td><%= firmas[i].nombre %></td>
                                         <td><%= firmas[i].created_at %></td>
-                                        <td><%= firmas[i].estado %></td>
                                         <td><img class="materialboxed"
-                                                src="<%= typeof firmas[i].photo != 'undefined' ? firmas[i].photo : '' %>">
+                                            src="<%= typeof firmas[i].photo != 'undefined' ? firmas[i].photo : '' %>">
                                         </td>
-                                        <td><button class="btn" name="id_firma" type="submit"
-                                                value="<%= firmas[i].id_firma %>">ACCION</button></td>
+                                        <td>
+                                            <button class="btn" name="id_firma" type="submit"
+                                                value="<%= firmas[i].id_firma %>" <% if(firmas[i].estado == '1'){ %>
+                                                    style="background-color: green;"<% } else {%>
+                                                    style="background-color: darkred;"<%}%>>
+                                                <% if(firmas[i].estado == '1'){ %>Activo
+                                                <% } else {%>Inactivo<%}%>
+                                            </button>
+                                        </td>
                                     </tr>
                                     <% } %>
                                 </tbody>

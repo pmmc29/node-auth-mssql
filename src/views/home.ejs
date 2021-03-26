@@ -1,7 +1,7 @@
 <%- include resources.ejs %>
 <script src="../public/sidenav.js"></script>
 <!-- <link rel="stylesheet" href="../public/css/sidenav.css"> -->
-<title>Inicio</title>
+<title>INICIO - CARNETIZACIÓN</title>
 
 <header>
     <nav class="top-nav">
@@ -11,8 +11,8 @@
         <div><a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i
                     class="material-icons">menu</i></a></div>
         <div>
-            <a href="/home">
-                SINEC
+            <a href="/CARNETIZACION/Inicio">
+                SINEC - CARNETIZACIÓN
             </a>
         </div>
     </nav>
@@ -30,7 +30,7 @@
                     <div class="col s6">
                         <!-- <a href="/logout" class="btn">Cerrar Sesion</a> -->
                         <!-- <button onclick="window.location.href='logout'" class="waves-effect waves-light btn-large">Cerrar Sesion</button> -->
-                        <button onclick="window.location.href='logout'" class="btn waves-effect waves-light">Salir
+                        <button onclick="window.location.href='/CARNETIZACION/logout'" class="btn waves-effect waves-light">Salir
                         </button>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="collapsible-body">
                     <ul>
-                        <li class="<% if (subm === 'crear_usuario') { %> active <%}%>"><a href="/crear_usuario"><i class="material-icons">person_add</i>Crear
+                        <li class="<% if (subm === 'crear_usuario') { %> active <%}%>"><a href="/CARNETIZACION/crear_usuario"><i class="material-icons">person_add</i>Crear
                                 Usuario</a>
                         </li>
                     </ul>
@@ -65,7 +65,7 @@
                 </div>
                 <div class="collapsible-body">
                     <ul>
-                        <li class="<% if (subm === 'crear_firma') { %> active <%}%>"><a href="/crear_firma"><i class="material-icons">photo_size_select_small</i>Crear Firmas</a></li>
+                        <li class="<% if (subm === 'crear_firma') { %> active <%}%>"><a href="/CARNETIZACION/crear_firma"><i class="material-icons">photo_size_select_small</i>Crear Firmas</a></li>
                     </ul>
                 </div>
             </li>
@@ -78,7 +78,7 @@
                     </div>
                     <div class="collapsible-body">
                         <ul>
-                            <li class="<% if (subm === 'profile') { %> active <%}%>"><a href="/profile"><i class="material-icons">person</i>Ver Perfil</a></li>
+                            <li class="<% if (subm === 'profile') { %> active <%}%>"><a href="/CARNETIZACION/Perfil"><i class="material-icons">person</i>Ver Perfil</a></li>
                         </ul>
                     </div>
                 </li>
@@ -88,18 +88,20 @@
                     </div>
                     <div class="collapsible-body">
                         <ul>
-                            <li class="<% if (subm === 'buscarAsegurado') { %> active <%}%>"><a href="/buscarAsegurado"><i class="material-icons">search</i>Buscar Asegurado</a></li>
+                            <li class="<% if (subm === 'buscarAsegurado') { %> active <%}%>"><a href="/CARNETIZACION/buscarAsegurado"><i class="material-icons">search</i>Buscar Asegurado</a></li>
+                            <li class="<% if (subm === 'registrarAsegurado') { %> active <%}%>"><a href="/CARNETIZACION/registrarAsegurado"><i class="material-icons">person_add</i>Registrar Asegurado</a></li>
                             <!-- <li class="<% if (subm === 'listaAsegurados') { %> active <%}%>"><a href="/listaAsegurados"><i class="material-icons">credit_card</i>Lista de Asegurados</a></li> -->
                         </ul>
                     </div>
                 </li>
                 <li class="bold <% if (menu === 'Beneficiarios') { %> active <%}%>">
                     <div class="collapsible-header waves-effect waves-teal"><i
-                            class="material-icons">people_outline</i>Beneficiarios
+                        class="material-icons">people_outline</i>Beneficiarios
                     </div>
                     <div class="collapsible-body">
                         <ul>
-                            <li class="<% if (subm === 'buscarBeneficiario') { %> active <%}%>"><a href="/buscarBeneficiario"><i class="material-icons">search</i>Buscar Beneficiario</a></li>
+                            <li class="<% if (subm === 'buscarBeneficiario') { %> active <%}%>"><a href="/CARNETIZACION/buscarBeneficiario"><i class="material-icons">search</i>Buscar Beneficiario</a></li>
+                            <li class="<% if (subm === 'registrarBeneficiario') { %> active <%}%>"><a href="/CARNETIZACION/registrarBeneficiario"><i class="material-icons">person_add</i>Registrar Asegurado</a></li>
                             <!-- <li class="<% if (subm === 'listaBeneficiarios') { %> active <%}%>"><a href="/listaBeneficiarios"><i class="material-icons">credit_card</i>Lista de Beneficiarios</a></li> -->
                         </ul>
                     </div>
@@ -121,7 +123,7 @@
                     </div>
                     <div class="collapsible-body">
                         <ul>
-                            <li class="<% if (subm === 'actualizarBD') { %> active <%}%>"><a href="/actualizarBD"><i class="material-icons">update</i>Actualizar BD</a></li>
+                            <li class="<% if (subm === 'actualizarBD') { %> active <%}%>"><a href="/CARNETIZACION/actualizarBD"><i class="material-icons">update</i>Actualizar BD</a></li>
                         </ul>
                     </div>
                 </li>
@@ -132,4 +134,5 @@
         </ul>
         <!-- <button href="#" data-target="slide-out" class="sidenav-trigger show-on-large waves-effect waves-light btn"><i
             class="material-icons">menu</i></button> -->
-    </header>
+            
+</header>

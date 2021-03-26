@@ -5,8 +5,8 @@
 <link rel="stylesheet" href="../public/css/cuentas.css">
 <title>Crear Usuario</title>
 
+<%- include home.ejs %>
 <body>
-    <%- include home.ejs %>
     <main>
         <div class="container">
             <div class="row">
@@ -44,9 +44,8 @@
                                         <th>USUARIO</th>
                                         <th>TIPO</th>
                                         <th>CREADO</th>
-                                        <th>ESTADO</th>
                                         <th>FOTO</th>
-                                        <th>ACTIVO</th>
+                                        <th>ESTADO</th>
                                         <th>ACTUALIZAR CONTRASEÑA</th>
                                     </tr>
                                 </thead>
@@ -58,39 +57,28 @@
                                         <td><%= cuentas[i].login %></td>
                                         <td><%= cuentas[i].tipo %></td>
                                         <td><%= cuentas[i].created_at %></td>
-                                        <td><%= cuentas[i].estado %></td>
                                         <td><img class="materialboxed"
                                                 src="<%= typeof cuentas[i].photo != 'undefined' ? cuentas[i].photo : '' %>">
                                         </td>
                                         <!-- <td><button class="btn" name="id_cuenta" type="submit"
                                                 value="<%= cuentas[i].id %>">ACCION</button></td> -->
                                         <td>
-                                            <!-- Switch -->
-                                            <div class="switch">
-                                                <label>
-                                                    NO
-                                                    <input type="checkbox" name="cuenta_activo"
-                                                        value="<%= cuentas[i].id %>"
-                                                        onclick="document.getElementById('form_cuentas').submit()"
-                                                        <% if(cuentas[i].estado == '1'){ %> checked<% }%>>
-                                                    <span class="lever"></span>
-                                                    SI
-                                                </label>
-                                            </div>
+                                            <button class="btn" name="btnEstado" type="submit"
+                                                value="<%= cuentas[i].id %>" <% if(cuentas[i].estado == '1'){ %>
+                                                    style="background-color: green;"<% } else {%>
+                                                    style="background-color: darkred;"<%}%>>
+                                                <% if(cuentas[i].estado == '1'){ %>Activo
+                                                <% } else {%>Inactivo<%}%>
+                                            </button>
                                         </td>
                                         <td>
-                                            <!-- Switch -->
-                                            <div class="switch">
-                                                <label>
-                                                    NO
-                                                    <input type="checkbox" name="cuenta_update"
-                                                        value="<%= cuentas[i].id %>"
-                                                        onclick="document.getElementById('form_cuentas').submit()"
-                                                        <% if(cuentas[i].estado == '2'){ %> checked<% }%>>
-                                                    <span class="lever"></span>
-                                                    SI
-                                                </label>
-                                            </div>
+                                            <button class="btn" name="btnContra" type="submit"
+                                                value="<%= cuentas[i].id %>" <% if(cuentas[i].estado == '2'){ %>
+                                                    style="background-color: green;"<% } else {%>
+                                                    style="background-color: darkred;"<%}%>>
+                                                <% if(cuentas[i].estado == '2'){ %>Activo
+                                                <% } else {%>Inhabilitado<%}%>
+                                            </button>
                                         </td>
                                     </tr>
                                     <% } %>

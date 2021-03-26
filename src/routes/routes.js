@@ -16,7 +16,7 @@ const firmas = require('../models/firmas')
 //-------------ROUTES-------------------
 router.get('/', function (req, res, next) {
     if (req.isAuthenticated()) {
-        res.redirect('/home');
+        res.redirect('/CARNETIZACION/Inicio');
     } else {
         res.render('login', {
             title: "Home",
@@ -27,7 +27,7 @@ router.get('/', function (req, res, next) {
 
 router.get('/signup', function (req, res, next) {
     if (req.isAuthenticated()) {
-        res.redirect('/home');
+        res.redirect('/CARNETIZACION/Inicio');
     } else {
         res.render('signup', {
             title: "Sign Up",
@@ -39,9 +39,9 @@ router.get('/signup', function (req, res, next) {
 router.post('/signup', cuentas.crearUsuario);
 
 //----------------------------------------------
-router.get('/login', function (req, res, next) {
+router.get('/CARNETIZACION/login', function (req, res, next) {
     if (req.isAuthenticated()) {
-        res.redirect('/home');
+        res.redirect('/CARNETIZACION/Inicio');
     } else {
         res.render('login', {
             user: req.user
@@ -49,9 +49,9 @@ router.get('/login', function (req, res, next) {
     }
 
 });
-router.get('/update_pwd', function (req, res, next) {
+router.get('/CARNETIZACION/update_pwd', function (req, res, next) {
     if (req.isAuthenticated()) {
-        res.redirect('/home');
+        res.redirect('/CARNETIZACION/Inicio');
     } else {
         res.render('update_pwd', {
             user: req.user
@@ -61,7 +61,7 @@ router.get('/update_pwd', function (req, res, next) {
 });
 
 router.post('/login', passport.authenticate('local', {
-    failureRedirect: '/login'
+    failureRedirect: '/CARNETIZACION/login'
 }), function (req, res) {
     if (req.body.remember) {
         console.log('remember')
@@ -73,21 +73,21 @@ router.post('/login', passport.authenticate('local', {
     res.redirect('/');
 });
 //----------------------------------------------
-router.get('/logout', function (req, res) {
+router.get('/CARNETIZACION/logout', function (req, res) {
 
     console.log(req.isAuthenticated());
     req.logout();
     console.log(req.isAuthenticated());
     req.flash('loginMessage', "Cerró sesión con exito");
-    res.redirect('/login');
+    res.redirect('/CARNETIZACION/login');
 });
 //----------------------------------------------
 
-router.get('/home', async function (req, res, next) {
+router.get('/CARNETIZACION/Inicio', async function (req, res, next) {
     if (req.isAuthenticated()) {
         QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
             // console.log(url)
-            res.render('home', {
+            res.render('iframe', {
                 user: req.user,
                 menu: 'home',
                 subm: 'home',
@@ -97,13 +97,13 @@ router.get('/home', async function (req, res, next) {
         })
         console.log(req.user.id)
     } else {
-        res.redirect('/login');
+        res.redirect('/CARNETIZACION/login');
     }
 });
 
 
 
-router.get('/profile', async function (req, res, next) {
+router.get('/CARNETIZACION/Perfil', async function (req, res, next) {
     if (req.isAuthenticated()) {
 
         QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
@@ -118,13 +118,13 @@ router.get('/profile', async function (req, res, next) {
         })
         console.log(req.user.id)
     } else {
-        res.redirect('/login');
+        res.redirect('/CARNETIZACION/login');
     }
 });
-router.get('/listaAsegurados', asegurados.listAsegurados);
-router.get('/listaEmpresas', empresas.listaEmpresas);
+router.get('/CARNETIZACION/listaAsegurados', asegurados.listAsegurados);
+router.get('/CARNETIZACION/listaEmpresas', empresas.listaEmpresas);
 
-router.get('/buscarAsegurado', async function (req, res, next) {
+router.get('/CARNETIZACION/buscarAsegurado', async function (req, res, next) {
     if (req.isAuthenticated()) {
         QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
             // console.log(url)
@@ -139,17 +139,66 @@ router.get('/buscarAsegurado', async function (req, res, next) {
                 apellido: '',
                 nombre: '',
                 historial: '',
+                message: '',
+                new_emp: ''
+
+            });
+        })
+        console.log(req.user.id)
+    } else {
+        res.redirect('/CARNETIZACION/login');
+    }
+});
+router.get('/CARNETIZACION/registrarAsegurado', async function (req, res, next) {
+    if (req.isAuthenticated()) {
+        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+            // console.log(url)
+            res.render('registrarAsegurado', {
+                user: req.user,
+                menu: 'Asegurados',
+                subm: 'registrarAsegurado',
+                qr: `${url}`,
+                file: `../photos/Usuarios/${req.user.email}.jpg`,
+                file_ase: '',
+                res: '',
+                apellido: '',
+                nombre: '',
+                historial: '',
                 message: ''
 
             });
         })
         console.log(req.user.id)
     } else {
-        res.redirect('/login');
+        res.redirect('/CARNETIZACION/login');
+    }
+});
+router.get('/CARNETIZACION/registrarBeneficiario', async function (req, res, next) {
+    if (req.isAuthenticated()) {
+        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+            // console.log(url)
+            res.render('registrarBeneficiario', {
+                user: req.user,
+                menu: 'Beneficiarios',
+                subm: 'registrarBeneficiario',
+                qr: `${url}`,
+                file: `../photos/Usuarios/${req.user.email}.jpg`,
+                file_ase: '',
+                res: '',
+                apellido: '',
+                nombre: '',
+                historial: '',
+                message: ''
+
+            });
+        })
+        console.log(req.user.id)
+    } else {
+        res.redirect('/CARNETIZACION/login');
     }
 });
 
-router.get('/buscarBeneficiario', async function (req, res, next) {
+router.get('/CARNETIZACION/buscarBeneficiario', async function (req, res, next) {
     if (req.isAuthenticated()) {
         QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
             // console.log(url)
@@ -164,16 +213,17 @@ router.get('/buscarBeneficiario', async function (req, res, next) {
                 apellido: '',
                 nombre: '',
                 historial: '',
-                message: ''
+                message: '',
+                new_emp: ''
 
             });
         })
         console.log(req.user.id)
     } else {
-        res.redirect('/login');
+        res.redirect('/CARNETIZACION/login');
     }
 });
-router.get('/buscarEmpresa', async function (req, res, next) {
+router.get('/CARNETIZACION/buscarEmpresa', async function (req, res, next) {
     if (req.isAuthenticated()) {
         QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
             // console.log(url)
@@ -193,12 +243,14 @@ router.get('/buscarEmpresa', async function (req, res, next) {
         })
         console.log(req.user.id)
     } else {
-        res.redirect('/login');
+        res.redirect('/CARNETIZACION/login');
     }
 });
 
 router.post('/buscarAsegurado', asegurados.obtenerInfoAsegurado)
+router.post('/registrarAsegurado', asegurados.registrarAsegurado)
 router.post('/buscarBeneficiario', beneficiarios.obtenerInfoBeneficiario)
+router.post('/registrarBeneficiario', beneficiarios.registrarBeneficiario)
 router.post('/buscarEmpresa', empresas.obtenerInfoEmpresa)
 router.post('/agregarFotoAsegurado', asegurados.agregarFoto)
 router.post('/agregarFotoBeneficiario', beneficiarios.agregarFotoB)
@@ -217,9 +269,9 @@ router.post('/crear_firma', firmas.crearFirma)
 router.post('/update_pwd', cuentas.actualizarPWD)
 
 
-router.get('/crear_usuario', cuentas.listaCuenta);
-router.get('/crear_firma', firmas.listaFirmas);
-router.get('/actualizarBD', bdatos.renderView);
+router.get('/CARNETIZACION/crear_usuario', cuentas.listaCuenta);
+router.get('/CARNETIZACION/crear_firma', firmas.listaFirmas);
+router.get('/CARNETIZACION/actualizarBD', bdatos.renderView);
 
 // router.post('/crear_usuario', asegurados.obtenerInfoAsegurado)
 

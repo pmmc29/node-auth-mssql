@@ -97,7 +97,7 @@ async function listaCuenta(req, res, next) {
             console.log(req.user.id, req.user)
             // console.log(cuentas)
         } else {
-            res.redirect('/login');
+            res.redirect('/CARNETIZACION/login');
         }
     } catch (err) {
         console.error('SQL error', err);
@@ -107,37 +107,56 @@ async function listaCuenta(req, res, next) {
 async function btnListaCuentas(req, res) {
     try {
         if (req.isAuthenticated() && req.user.tipo == 1) {
-            console.log(req.body)
-            req.flash('aux', `Accion para el usuario ${req.body.id_cuenta}`)
-            res.redirect('/crear_usuario')
+            if (req.body.btnEstado) {//clic en boton ESTADO de cuenta   (0 = inactivo   1 = activo    2 = actualizar contraseña)
+                const estado = await request.query(`select * from usuarios where id = ${req.body.btnEstado}`)
+                if (estado.recordset[0].estado == '1') {
+                    await request.query(`update usuarios set estado = '0' where id = ${req.body.btnEstado}`)
+                }
+                if (estado.recordset[0].estado == '0') {
+                    await request.query(`update usuarios set estado = '1' where id = ${req.body.btnEstado}`)
+                }
+                // req.flash('aux', `Accion para el usuario ${req.body.btnEstado}`)
+                res.redirect('/CARNETIZACION/crear_usuario')
+            }
+            if (req.body.btnContra) {//clic en boton de ACTUALIZAR CONTRASEÑA de cuenta
+                const contra = await request.query(`select * from usuarios where id = ${req.body.btnContra}`)
+                if (contra.recordset[0].estado != '2') {
+                    await request.query(`update usuarios set estado = '2' where id = ${req.body.btnContra}`)
+                }
+                if (contra.recordset[0].estado == '2') {
+                    await request.query(`update usuarios set estado = '0' where id = ${req.body.btnContra}`)
+                }
+                // req.flash('aux', `Accion para el usuario ${req.body.btnContra}`)
+                res.redirect('/CARNETIZACION/crear_usuario')
+            }
         } else {
-            res.redirect('/login');
+            res.redirect('/CARNETIZACION/login');
         }
     } catch (err) {
         console.error('SQL error', err);
-
     }
 }
+
 async function actualizarFoto(req, res) {
     try {
         if (req.isAuthenticated()) {
             uploadPhoto(req,res, (error) => {
                 if (error) {
                     req.flash('aux', error)
-                    res.redirect('/profile')
+                    res.redirect('/CARNETIZACION/profile')
                 }else{
                     if (req.file == undefined) {
                         req.flash('aux', `Seleccione una Foto!`)
-                        res.redirect('/profile')
+                        res.redirect('/CARNETIZACION/profile')
                     }else{
                         req.flash('aux', `Foto Actualizada.`)
-                        res.redirect('/profile')
+                        res.redirect('/CARNETIZACION/profile')
                     }
                 }
 
             })
         } else {
-            res.redirect('/login');
+            res.redirect('/CARNETIZACION/login');
         }
     } catch (err) {
         console.error(err);
@@ -156,14 +175,14 @@ async function actualizarPWD(req, res) {
                                                     where login = '${req.body.usuario}'`)
                 if (new_pass.rowsAffected[0] === 1) {
                     req.flash('loginMessage', `Usuario actualizado correctamente`)
-                    res.redirect('/login')
+                    res.redirect('/CARNETIZACION/login')
                 }else{
                     req.flash('loginMessage', `Error al actualizar contraseña`)
-                    res.redirect('/update_pwd')
+                    res.redirect('/CARNETIZACION/update_pwd')
                 }
             } else {
                 req.flash('loginMessage', `Este usuario no tiene permisos para actualizar su contraseña`)
-                res.redirect('/update_pwd')
+                res.redirect('/CARNETIZACION/update_pwd')
             }
         
     } catch (e) {
@@ -179,20 +198,20 @@ async function crearUsuario(req, res) {
             // console.log(usuario.recordset[0])
             if (usuario.recordset[0]) { //Usuario ya existe
                 req.flash('aux', `Este usuario ya existe`)
-                res.redirect('/crear_usuario')
+                res.redirect('/CARNETIZACION/crear_usuario')
             } else {
                 var enc_pass = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
                 const new_user = await request.query(`insert into usuarios (login,pass,tipo,created_at,estado) values('${req.body.login}','${enc_pass}','2',CONVERT(VARCHAR,GETDATE(), 103),'1')`)
                 if (new_user.rowsAffected[0] === 1) {
                     req.flash('aux', `Usuario creado correctamente`)
-                    res.redirect('/crear_usuario')
+                    res.redirect('/CARNETIZACION/crear_usuario')
                 }else{
                     req.flash('aux', `Error al crear el usuario`)
-                    res.redirect('/crear_usuario')
+                    res.redirect('/CARNETIZACION/crear_usuario')
                 }
             }
         } else {
-            res.redirect('/login');
+            res.redirect('/CARNETIZACION/login');
         }
     } catch (e) {
         throw (e)
