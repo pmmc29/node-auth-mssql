@@ -67,6 +67,20 @@ async function verificarComprobanteA(req, res) {
                             res.redirect('/CARNETIZACION/buscarAsegurado')
                         }
                     }
+                    if (req.body.validez == 'JUBILADO') {
+                        const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
+                                                values((select id_carnet from carnet where cod_asegurado = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
+                                                ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',CONVERT(VARCHAR, (select DATEADD(yyyy, 10, GETDATE())), 103))`)
+                        if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
+                            req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
+                            req.flash('aux', req.body.codigo)
+                            res.redirect('/CARNETIZACION/buscarAsegurado')
+                        } else {
+                            req.flash('loginMessage', 'Error en el registro del comprobante')
+                            req.flash('aux', req.body.codigo)
+                            res.redirect('/CARNETIZACION/buscarAsegurado')
+                        }
+                    }
                     if (req.body.tipo == 'RECUPERADO') {
                         const last_card = await requestdb.query(`SELECT TOP 1 carnet.id_carnet,fec_emision,id_firma,validez,motivo,comprobante,fec_fin FROM imp_carnet,carnet
                                                                 where imp_carnet.id_carnet = carnet.id_carnet and carnet.cod_asegurado = '${req.body.codigo}'

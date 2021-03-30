@@ -68,6 +68,7 @@ $("#btn_add_card_A").click(function () {
                                 <input name="comprobante" type="text" class="validate" value=""
                                     placeholder="Numero de Comprobante" required>
                                 <li id="fec_item" hidden><b>Valido por: </b> 3 Años</li>
+                                <li id="fec_jubilado" hidden><b>Valido por: </b> 10 Años</li>
                             </div>
                             <div class="input-field" id="fec_contrato">
                                 <input id="contrato" name="fec_contrato" type="text" class="fec_contrato">
@@ -92,6 +93,12 @@ $("#btn_add_card_A").click(function () {
                                         <span>ITEM</span>
                                     </label>
                                 </p>
+                                <p>
+                                    <label class="white-text">
+                                        <input name="validez" type="radio" value="JUBILADO"/>
+                                        <span>JUBILADO</span>
+                                    </label>
+                                </p>
                             </div>
                         </ul>
                     </form>
@@ -102,12 +109,20 @@ $("#btn_add_card_A").click(function () {
         if ($('input[name="validez"]:checked').val() == 'ITEM') {
             console.log('item')
             $('#fec_contrato').attr('hidden', 'true');
+            $('#fec_jubilado').attr('hidden', 'true');
             $('#fec_item').removeAttr('hidden');
         }
         if ($('input[name="validez"]:checked').val() == 'CONTRATO') {
             console.log('contrato')
             $('#fec_item').attr('hidden', 'true');
+            $('#fec_jubilado').attr('hidden', 'true');
             $('#fec_contrato').removeAttr('hidden');
+        }
+        if ($('input[name="validez"]:checked').val() == 'JUBILADO') {
+            console.log('jubilado')
+            $('#fec_contrato').attr('hidden', 'true');
+            $('#fec_item').attr('hidden', 'true');
+            $('#fec_jubilado').removeAttr('hidden');
         }
     });
     M.Datepicker.init(document.querySelectorAll('.fec_contrato'), options);
