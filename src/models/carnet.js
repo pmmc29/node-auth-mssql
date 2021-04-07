@@ -39,7 +39,7 @@ async function verificarCarnetA(req, res) { //ASEGURADOS
         try {
             await poolConnect;
             console.log(req.body)
-            const resultImp = await request.query(`SELECT id_imp,nombre,empresas.nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,imp_carnet.id_carnet,fec_emision,fec_fin
+            const resultImp = await request.query(`SELECT id_imp,nombre,empresas.nom_emp,fec_ing,asegurados.cod_asegurado,fec_nac,tipo_sangre,imp_carnet.id_carnet,fec_emision,fec_fin,validez
                                             from asegurados,carnet,imp_carnet,empresas
                                             where asegurados.cod_asegurado = '${req.body.codigo}'
                                             and asegurados.cod_asegurado = carnet.cod_asegurado and asegurados.cod_emp = empresas.id_emp
@@ -74,7 +74,8 @@ async function verificarCarnetA(req, res) { //ASEGURADOS
                         firmas: resultFirmas.recordset,
                         imp: detalleImp.recordset[0],
                         nombre: nombre,
-                        apellido: apellido
+                        apellido: apellido,
+                        titular: ''
                     })
                 })
             }
@@ -98,13 +99,14 @@ async function verificarCarnetA(req, res) { //ASEGURADOS
                         firmas: resultFirmas.recordset,
                         imp: detalleImp.recordset[0],
                         nombre: nombre,
-                        apellido: apellido
+                        apellido: apellido,
+                        titular: ''
                     })
                 })
             }
         } catch (err) {
             console.error('SQL error', err);
-            req.flash('aux', req.body.codigo)
+            req.flash('aux', req.body.nombre)
             req.flash('loginMessage', 'Error en el Nro. de Comprobante')
             res.redirect('/CARNETIZACION/buscarAsegurado')
         }
@@ -125,6 +127,11 @@ async function verificarCarnetB(req, res) { //BENEFICIARIOS
                                             and id_imp = ${req.body.id_imp}`)
             const resultFirmas = await request.query(`select * from firma where estado = '1'`)
             const detalleImp = await request.query(`select * from imp_carnet where id_imp = ${req.body.id_imp}`)
+            const nom_titular = await request.query(`select asegurados.nombre as titular
+                                                    from asegurados,beneficiarios,parentezco where asegurados.agenda = beneficiarios.agenda 
+                                                    and parentezco.id_par = beneficiarios.cod_par 
+                                                    and asegurados.agenda = (select agenda from beneficiarios where cod_bnf = '${req.body.codigo}')
+                                                    and beneficiarios.cod_bnf = '${req.body.codigo}'`);
             //nombre y apellido
             console.log('AQUI', resultImp.recordset, resultFirmas.recordset)
             
@@ -149,7 +156,8 @@ async function verificarCarnetB(req, res) { //BENEFICIARIOS
                         firmas: resultFirmas.recordset,
                         imp: detalleImp.recordset[0],
                         nombre: nombre,
-                        apellido: apellido
+                        apellido: apellido,
+                        titular: nom_titular.recordset[0].titular
                     })
                 })
             }
@@ -169,7 +177,8 @@ async function verificarCarnetB(req, res) { //BENEFICIARIOS
                         firmas: resultFirmas.recordset,
                         imp: detalleImp.recordset[0],
                         nombre: nombre,
-                        apellido: apellido
+                        apellido: apellido,
+                        titular: nom_titular.recordset[0].titular
                     })
                 })
             }
@@ -192,15 +201,19 @@ async function actualizarImp(req, res) { //actualizar impresion del frente y atr
     if (req.isAuthenticated()) {
         try {
             await poolConnect;
+            const nom_ase = await request.query(`select nombre from asegurados where cod_asegurado = '${req.body.cod_ase}'`)
+            const nom_bnf = await request.query(`select nombre from beneficiarios where cod_bnf = '${req.body.cod_bnf}'`)
             if (req.body.cara === 'front') { //se imprimio el frente del carnet
                 console.log(req.body)
+                console.log(nom_ase.recordset[0].nom_ase)
                 // const carnet = await request.query(`update imp_carnet set front = '1', id_usuario = ${req.user.id} where id_carnet = ${req.body.cod_carnet}`)
                 const carnet = await request.query(`update imp_carnet set front = ((select front from imp_carnet where id_imp = ${req.body.cod_carnet} ) +1),id_usuario = ${req.user.id}
                                                     where id_imp = ${req.body.cod_carnet} `)
                 console.log(carnet.rowsAffected)
                 if (carnet.rowsAffected[0] === 1) { //actualizacion correcta
                     if (req.body.cod_ase) {
-                        req.flash('aux', `${req.body.cod_ase}${req.body.cod_bnf}`)
+                        // req.flash('aux', `${req.body.cod_ase}${req.body.cod_bnf}`)
+                        req.flash('aux', `${nom_ase.recordset[0].nombre}`)
                         req.flash('loginMessage', 'Registro de la impresion correcta')
                         res.redirect('/CARNETIZACION/buscarAsegurado')
                     }
@@ -218,7 +231,8 @@ async function actualizarImp(req, res) { //actualizar impresion del frente y atr
                                                     where id_imp = ${req.body.cod_carnet} `)
                 console.log(carnet.rowsAffected)
                 if (carnet.rowsAffected[0] === 1) { //actualizacion correcta
-                    req.flash('aux', `${req.body.cod_ase}${req.body.cod_bnf}`)
+                    // req.flash('aux', `${req.body.cod_ase}${req.body.cod_bnf}`)
+                    req.flash('aux', `${nom_ase.recordset[0].nombre}`)
                     req.flash('loginMessage', 'Registro de la impresion correcta')
                     if (req.body.cod_bnf) {
                         res.redirect('/CARNETIZACION/buscarBeneficiario')

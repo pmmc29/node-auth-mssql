@@ -17,7 +17,7 @@ async function obtenerEmpresas(req, res, next) {
             const result = await request.query(`SELECT * FROM usuarios where tipo = '${tipo}'`)
             res.json(result.recordset)
         } else {
-            const result2 = await request.query(`SELECT * FROM empresas`)
+            const result2 = await request.query(`SELECT * FROM empresas order by nom_emp`)
             res.json(result2.recordset)
         }
     } catch (err) {
@@ -90,13 +90,13 @@ async function registrarDatos(req, res) {
     try {
         await poolConnect;
         if (req.body.ci === '' || req.body.validez === '') {
-                req.flash('msgRD', 'LLene los campos correspondientes')
-                req.flash('aux', req.body.edtBuscar)
-                res.redirect('/buscarEmpresa')
+            req.flash('msgRD', 'LLene los campos correspondientes')
+            req.flash('aux', req.body.edtBuscar)
+            res.redirect('/buscarEmpresa')
         } else {
             const result = await request.query(`update empresas set validez = '${req.body.validez}', programa = '${req.body.programa}' where id_emp = ${req.body.edtBuscar}`)
             const response = result.rowsAffected[0]
-    
+
             if (response > 0) { // 1 fila afectada = actualizacion exitosa
                 req.flash('msgRD', 'Registro Exitoso')
                 req.flash('aux', req.body.edtBuscar)

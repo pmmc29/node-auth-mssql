@@ -31,8 +31,15 @@
         <div class="card" id="carnet_front">
             <div class="card-body frente" style="padding: 15px; height: 276px;">
                 <div class="foto">
+                    <%=res.validez%>
                     <figure>
-                    <img id="foto_perfil" style="margin-top: 5px; <% if (res.validez == 'MENOR') { %> border: 16px solid red; <%} if (res.validez == 'MAYOR') {%> border: 16px solid yellow; <%}%>"
+                    <img id="foto_perfil" style="margin-top: 5px; 
+                    <% if (res.validez === 'MENOR') { %> 
+                    border: 16px solid red; <%} 
+                    if (res.validez === 'MODULAR' || res.validez === 'TRIMESTRAL' || res.validez ==='SEMESTRAL' || res.validez ==='ANUAL') {%> 
+                    border: 16px solid yellow; <%} 
+                    if (res.validez === 'ITEM' || res.validez ==='CONTRATO' || res.validez ==='JUBILADO') {%>
+                    border: 16px solid blue; <%}%>"
                             src="<%= typeof file_carnet != 'undefined' ? file_carnet : '' %>">
 
                     </figure>
@@ -45,28 +52,40 @@
     bottom: 25px;
     height: 40px;"> -->
                 <div class="info">
-                    <figure>
-                        <img src="../photos/logo.png">
-                    </figure>
-                    <p><i><b>
-                                <center>ENTE GESTOR DE LA SEGURIDAD SOCIAL</center>
-                            </b></i></p>
-                    <div style="display: flex;">
-                        <b>Nombres:</b>
-                        <p id="edit_name"> <%= nombre %></p>
+                    <div style="height: 100%;">
+                    <img src="../photos/icon.png" style="display: block;
+                                                        margin-left: auto;
+                                                        margin-right: auto;
+                                                        height: 100%;
+                                                        opacity: 0.5;">
                     </div>
-                    <div style="display: flex;">
-                        <b>Apellidos: </b>
-                        <p id="edit_lastN"> <%= apellido %></p>
+                    <div style="position: absolute;">
+                        <figure>
+                            <img src="../photos/logo.png">
+                        </figure>
+                        <p><b>
+                                    <center style="color: darkgreen; font-size: 16px;">
+                                        ENTE GESTOR DE LA SEGURIDAD SOCIAL
+                                    </center>
+                                </b></p>
+                        <div style="display: flex;">
+                            <b>Nombres:</b>
+                            <p id="edit_name"> <%= nombre %></p>
+                        </div>
+                        <div style="display: flex;">
+                            <b>Apellidos: </b>
+                            <p id="edit_lastN"> <%= apellido %></p>
+                        </div>
+                        <% if (res.validez === 'MODULAR' || res.validez === 'TRIMESTRAL' || res.validez ==='SEMESTRAL' || res.validez ==='ANUAL' ||res.validez === 'MENOR') {%>
+                            <p><b>Titular:</b> <%= titular %></p>
+                        <%}%>
+                        <p><b>Empresa:</b> <%= res.nom_emp %></p>
+                        <p><b>Fecha de ingreso:</b> <%= res.fec_ing %></p>
+                        <p><b>Nº Matricula:</b> <%= res.cod_asegurado %><%= res.cod_bnf %>
+                        </p>
+                        <p><b>Fecha de nacimiento: </b><%= res.fec_nac %></p>
+                        <p><b>Tipo de Sangre:</b> <%= res.tipo_sangre %></p>
                     </div>
-                    <p><b>Empresa:</b> <%= res.nom_emp %></p>
-                    <p><b>Fecha de ingreso:</b> <%= res.fec_ing %></p>
-                    <p><b>Nº Matricula:</b> <%= res.cod_asegurado %><%= res.cod_bnf %>
-                    </p>
-                    <p><b>Fecha de nacimiento: </b><%= res.fec_nac %></p>
-                    <p><b>Tipo de Sangre:</b> <%= res.tipo_sangre %></p>
-                    <!-- <p><b>Validez:</b> 1 Año</p> -->
-
                 </div>
             </div>
         </div>

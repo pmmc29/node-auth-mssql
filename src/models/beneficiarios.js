@@ -54,7 +54,7 @@ async function obtenerBeneficiarios(req, res) {
             const result2 = await request.query(`select * from beneficiarios where cod_bnf = '${codigo}'`)
             res.json(result2.recordset)
         } else {
-            const result = await request.query(`select * from beneficiarios order by agenda`)
+            const result = await request.query(`select * from beneficiarios order by nombre`)
             res.json(result.recordset)
         }
     } catch (err) {
@@ -111,7 +111,7 @@ async function btnListaBeneficiarios(req, res) {
 async function obtenerInfoBeneficiario(req, res) {
     if (req.isAuthenticated()) {
         if (req.body.btnBuscar != undefined) { //click en buscar
-            
+
             await renderDatos(req, res, "Beneficiario encontrado")
         }
         if (req.body.btnRegistrar == 'clic') { //click en registrar
@@ -127,28 +127,28 @@ async function obtenerInfoBeneficiario(req, res) {
     }
 }
 
-async function agregarFotoB(req, res) {//click en agregar foto
+async function agregarFotoB(req, res) { //click en agregar foto
     if (req.isAuthenticated()) {
-            uploadPhoto(req, res, (err) => {
-                    if (err) {
-                        req.flash('loginMessage', err)
-                        req.flash('aux', req.body.edtBuscar)
-                        res.redirect('/CARNETIZACION/buscarBeneficiario')
-                    } else {
-                        if (req.file == undefined) {
-                            console.log(req.body,req.file)
-                            req.flash('loginMessage', 'Seleccione una imagen!')
-                            req.flash('aux', req.body.edtBuscar)
-                            res.redirect('/CARNETIZACION/buscarBeneficiario')
-                        } else {
-                            console.log(req.body)
-                            console.log(req.file)
-                            req.flash('loginMessage', 'Foto agregada!')
-                            req.flash('aux', req.body.edtBuscar)
-                            res.redirect('/CARNETIZACION/buscarBeneficiario')
-                        }
-                    }
-                })
+        uploadPhoto(req, res, (err) => {
+            if (err) {
+                req.flash('loginMessage', err)
+                req.flash('aux', req.body.edtBuscar)
+                res.redirect('/CARNETIZACION/buscarBeneficiario')
+            } else {
+                if (req.file == undefined) {
+                    console.log(req.body, req.file)
+                    req.flash('loginMessage', 'Seleccione una imagen!')
+                    req.flash('aux', req.body.edtBuscar)
+                    res.redirect('/CARNETIZACION/buscarBeneficiario')
+                } else {
+                    console.log(req.body)
+                    console.log(req.file)
+                    req.flash('loginMessage', 'Foto agregada!')
+                    req.flash('aux', req.body.edtBuscar)
+                    res.redirect('/CARNETIZACION/buscarBeneficiario')
+                }
+            }
+        })
     } else {
         res.render('login', {
             title: "Iniciar Sesion"
@@ -161,9 +161,9 @@ async function registrarDatos(req, res) {
     try {
         await poolConnect;
         if (req.body.fec_ing === '') {
-                req.flash('msgRD', 'LLene los campos correspondientes')
-                req.flash('aux', req.body.edtBuscar)
-                res.redirect('/CARNETIZACION/buscarBeneficiario')
+            req.flash('msgRD', 'LLene los campos correspondientes')
+            req.flash('aux', req.body.edtBuscar)
+            res.redirect('/CARNETIZACION/buscarBeneficiario')
         } else {
             const result = await request.query(`update beneficiarios set fec_ing = '${req.body.fec_ing}', tipo_sangre = '${req.body.select_sangre}', ci = '${req.body.ci}', ci_loc = '${req.body.ci_loc}' where cod_bnf = '${req.body.edtBuscar}'`)
             const response = result.rowsAffected[0]
@@ -250,7 +250,7 @@ async function renderDatos(req, res, msg) {
             // const carnet = await request.query(`SELECT id_carnet,beneficiarios.cod_bnf,nombre, carnet.created_at,motivo,comprobante,estado FROM carnet,beneficiarios where beneficiarios.cod_bnf = '${response.cod_bnf}'
             //                                     and beneficiarios.cod_bnf = carnet.cod_bnf`)
 
-            
+
 
             const carnet = await request.query(`SELECT imp_carnet.id_carnet,id_imp, beneficiarios.cod_bnf, nombre, login, imp_carnet.fec_emision, imp_carnet.motivo, comprobante, imp_carnet.estado,
                                                 fec_fin, front, back,imp_carnet.validez, CONVERT(VARCHAR, GETDATE(), 103) as fec_servidor,(${edad_bnf}) as edad
@@ -262,15 +262,15 @@ async function renderDatos(req, res, msg) {
 
             let file_test = `./src/photos/Beneficiarios/${req.body.edtBuscar}.jpg`
             let file_ase = ''
-            fs.access(file_test,fs.constants.F_OK, (err) => {
+            fs.access(file_test, fs.constants.F_OK, (err) => {
                 if (err) {
                     // console.error(err)
-                file_ase = ''
+                    file_ase = ''
                     return
                 }
                 //file exists
                 file_ase = `../photos/Beneficiarios/${req.body.edtBuscar}.jpg`
-                })
+            })
             QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
                 res.render('buscarBeneficiario', {
                     message: msg,

@@ -16,10 +16,16 @@
                     <%= typeof message != 'undefined' ? message : '' %>
                 </blockquote>
                 <div class="input-field col s9">
-                    <div class="input-field col s9">
+                    <!-- <div class="input-field col s9">
                         <input id="search" name="edtBuscar" type="text" class="validate"
                             value="<%= typeof id != 'undefined' ? id : '' %><%= typeof aux != 'undefined' ? aux : '' %>">
                         <label for="search">Nº Matrícula</label>
+                    </div> -->
+                    <div class="input-field col s9">
+                        <i class="material-icons prefix">search</i>
+                        <input type="text" id="nombre" class="autocompleteA" name="edtBuscarNombre"
+                            value="<%= typeof id != 'undefined' ? id : '' %><%= typeof aux != 'undefined' ? aux : '' %>">
+                        <label for="nombre">Nombre Completo</label>
                     </div>
                     <div class="input-field col s3">
                         <button class="btn waves-effect waves-light" type="submit" name="btnBuscar" id="btnBuscar"
@@ -28,16 +34,16 @@
                             <i class="material-icons right">search</i>
                         </button>
                     </div>
-                    <div class="input-field col s12">
+                    <!-- <div class="input-field col s12">
                         <input id="name" name="nombre" type="text" class="validate"
                             value="<%= typeof res.nombre != 'undefined' ? res.nombre : '' %>" disabled>
                         <label for="name">Nombre Completo</label>
-                    </div>
-                    <!-- <div class="input-field col s12">
-                        <input id="last_name" name="apellidos" type="text" class="validate"
-                            value="<%= typeof apellido != 'undefined' ? apellido : '' %>" disabled>
-                        <label for="last_name">Apellidos</label>
                     </div> -->
+                    <div class="input-field col s12">
+                        <input id="matricula" name="matricula" type="text" class="validate"
+                            value="<%= typeof res.cod_asegurado != 'undefined' ? res.cod_asegurado : '' %>" disabled>
+                        <label for="matricula">Nº Matricula</label>
+                    </div>
                     <div class="input-field col s12">
                         <input id="company" name="empresa" type="text" class="validate"
                             value="<%= typeof new_emp.nom_emp != 'undefined' ? new_emp.nom_emp : '' %>" disabled>
@@ -48,15 +54,15 @@
                             value="<%= typeof res.fec_ing != 'undefined' ? res.fec_ing : '' %>" disabled>
                         <label for="join_date">Fecha de Ingreso</label>
                     </div>
-                    <!-- <div class="input-field col s12">
-                        <input id="num_matricula" name="nro_matricua" type="text" class="validate"
-                            value="<%= typeof codigo != 'undefined' ? codigo : '' %>" disabled>
-                        <label for="num_matricula">Nro. Matricula</label>
-                    </div> -->
                     <div class="input-field col s12">
                         <input id="birth_date" name="birth_date" type="text" class="validate"
-                            value="<%= typeof res.fec_nac != 'undefined' ? res.fec_nac : '' %>" disabled>
+                        value="<%= typeof res.fec_nac != 'undefined' ? res.fec_nac : '' %>" disabled>
                         <label for="birth_date">Fecha de Nacimiento</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="edad" name="edad" type="text" class="validate"
+                            value="<%= typeof res.edad != 'undefined' ? res.edad : '' %>" disabled>
+                        <label for="edad">Edad</label>
                     </div>
                 </div>
                 <div class="col s3">

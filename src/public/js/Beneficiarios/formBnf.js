@@ -29,7 +29,7 @@
                 </form>
             </div>
         </div>`);
-        }else{
+        } else {
             if (edad >= 19 && edad <= 25) {
                 $("#historialB").append(`<div class="card" style="background: #008080;">
             <div class="card-content white-text row">
@@ -79,8 +79,8 @@
                 </form>
             </div>
         </div>`);
-        }else {// superior a 26 años
-            $("#historialB").append(`<div class="card" style="background: #008080;">
+            } else { // superior a 26 años
+                $("#historialB").append(`<div class="card" style="background: #008080;">
                 <div class="card-content white-text row">
                     <h5><b>Edad: ${edad} años</b></h5>
                 </div>
@@ -89,7 +89,7 @@
         }
     });
     $("#btn_recov_card_B").click(function () {
-            $("#historialB").append(`<div class="card grey darken-2">
+        $("#historialB").append(`<div class="card grey darken-2">
                 <div class="card-content row">
                     <form action="/numComprobanteB" method="POST">
                         <ul>
@@ -131,3 +131,21 @@
         $('#form_bnf').attr('enctype', '');
         $('#form_bnf').attr('action', '/buscarBeneficiario');
     })
+
+    document.addEventListener('DOMContentLoaded', async function () {
+        let apiBnf = await (await fetch('http://localhost:3000/api/getBeneficiarios')).json()
+        let lista = {}
+        apiBnf.map((e) => {
+            const key = e.nombre
+            const value = null
+            lista[key] = value
+        })
+        // console.log(lista)
+        // console.log(nombresApi)
+        var datos = {
+            data: lista
+        }
+        var elems = document.querySelectorAll('.autocompleteB');
+        var instance = M.Autocomplete.init(elems, datos);
+
+    });

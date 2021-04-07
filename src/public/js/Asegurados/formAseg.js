@@ -1,5 +1,6 @@
 //recuperar los datos del formulario
-const codigo = document.getElementById('search').value;
+const codigo = document.getElementById('matricula').value;
+const nombre = document.getElementById('nombre').value;
 
 var options = {
     format: 'dd/mm/yyyy',
@@ -65,10 +66,11 @@ $("#btn_add_card_A").click(function () {
                                 <h5><b>Nuevo Carnet</b></h5>
                                 <li><b>Codigo: </b> ${codigo}</li>
                                 <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
+                                <input name="nombre" type="text" class="validate" value="${nombre}" hidden>
                                 <input name="comprobante" type="text" class="validate" value=""
                                     placeholder="Numero de Comprobante" required>
-                                <li id="fec_item" hidden><b>Valido por: </b> 3 Años</li>
-                                <li id="fec_jubilado" hidden><b>Valido por: </b> 10 Años</li>
+                                <li id="fec_item" hidden><b>Valido por: </b> 5 Años</li>
+                                <li id="fec_jubilado" hidden><b>Valido por: </b> Indefinido</li>
                             </div>
                             <div class="input-field" id="fec_contrato">
                                 <input id="contrato" name="fec_contrato" type="text" class="fec_contrato">
@@ -171,3 +173,21 @@ $('#btnRegistrar').click(() => {
     $('#form_aseg').attr('enctype', '');
     $('#form_aseg').attr('action', '/buscarAsegurado');
 })
+
+document.addEventListener('DOMContentLoaded', async function () {
+    let apiAse = await (await fetch('http://localhost:3000/api/getAsegurados')).json()
+    let lista = {}
+    apiAse.map((e) => {
+        const key = e.nombre
+        const value = null
+        lista[key] = value
+    })
+    // console.log(lista)
+    // console.log(nombresApi)
+    var datos = {
+        data: lista
+    }
+    var elems = document.querySelectorAll('.autocompleteA');
+    var instance = M.Autocomplete.init(elems, datos);
+
+});

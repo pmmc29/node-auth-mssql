@@ -45,39 +45,39 @@ async function verificarComprobanteA(req, res) {
                                                 ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO','${req.body.fec_contrato}')`)
                         if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                             req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                            req.flash('aux', req.body.codigo)
+                            req.flash('aux', req.body.nombre)
                             res.redirect('/CARNETIZACION/buscarAsegurado')
                         } else {
                             req.flash('loginMessage', 'Error en el registro del comprobante')
-                            req.flash('aux', req.body.codigo)
+                            req.flash('aux', req.body.nombre)
                             res.redirect('/CARNETIZACION/buscarAsegurado')
                         }
                     }
                     if (req.body.validez == 'ITEM') {
                         const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                 values((select id_carnet from carnet where cod_asegurado = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
-                                                ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',CONVERT(VARCHAR, (select DATEADD(yyyy, 3, GETDATE())), 103))`)
+                                                ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',CONVERT(VARCHAR, (select DATEADD(yyyy, 5, GETDATE())), 103))`)
                         if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                             req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                            req.flash('aux', req.body.codigo)
+                            req.flash('aux', req.body.nombre)
                             res.redirect('/CARNETIZACION/buscarAsegurado')
                         } else {
                             req.flash('loginMessage', 'Error en el registro del comprobante')
-                            req.flash('aux', req.body.codigo)
+                            req.flash('aux', req.body.nombre)
                             res.redirect('/CARNETIZACION/buscarAsegurado')
                         }
                     }
                     if (req.body.validez == 'JUBILADO') {
                         const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
                                                 values((select id_carnet from carnet where cod_asegurado = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
-                                                ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',CONVERT(VARCHAR, (select DATEADD(yyyy, 10, GETDATE())), 103))`)
+                                                ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO','Indefinido')`)
                         if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                             req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                            req.flash('aux', req.body.codigo)
+                            req.flash('aux', req.body.nombre)
                             res.redirect('/CARNETIZACION/buscarAsegurado')
                         } else {
                             req.flash('loginMessage', 'Error en el registro del comprobante')
-                            req.flash('aux', req.body.codigo)
+                            req.flash('aux', req.body.nombre)
                             res.redirect('/CARNETIZACION/buscarAsegurado')
                         }
                     }
@@ -92,25 +92,25 @@ async function verificarComprobanteA(req, res) {
                                                     ${req.user.id}, '${last_card.recordset[0].validez}','${result.recordset[0].Numero}','RECUPERADO','${last_card.recordset[0].fec_fin}')`)
                             if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                                req.flash('aux', req.body.codigo)
+                                req.flash('aux', req.body.nombre)
                                 res.redirect('/CARNETIZACION/buscarAsegurado')
                             } else {
                                 req.flash('loginMessage', 'Error en el registro del comprobante')
-                                req.flash('aux', req.body.codigo)
+                                req.flash('aux', req.body.nombre)
                                 res.redirect('/CARNETIZACION/buscarAsegurado')
                             }
                         }
                     }
                 } else {
                     req.flash('loginMessage', 'Numero de comprobante no existe')
-                    req.flash('aux', req.body.codigo)
+                    req.flash('aux', req.body.nombre)
                     res.redirect('/CARNETIZACION/buscarAsegurado')
                 }
             }
         } catch (error) {
             console.log('SQL ERROR: ', error)
             req.flash('loginMessage', 'Error en el registro del comprobante')
-            req.flash('aux', req.body.codigo)
+            req.flash('aux', req.body.nombre)
             res.redirect('/CARNETIZACION/buscarAsegurado')
         }
 
@@ -137,12 +137,12 @@ async function verificarComprobanteB(req, res) {
                                                     ${req.user.id}, '${req.body.tipo}','${result.recordset[0].Numero}','NUEVO',${new_fec_fin})`)
                             if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                                req.flash('aux', req.body.codigo)
+                                req.flash('aux', req.body.nombre)
                         
                                 res.redirect('/CARNETIZACION/buscarBeneficiario')
                             } else {
                                 req.flash('loginMessage', 'Error en el registro del comprobante')
-                                req.flash('aux', req.body.codigo)
+                                req.flash('aux', req.body.nombre)
                                 res.redirect('/CARNETIZACION/buscarBeneficiario')
                             }
                         }
@@ -152,12 +152,12 @@ async function verificarComprobanteB(req, res) {
                                                     ${req.user.id}, '${req.body.tipo}','${result.recordset[0].Numero}','NUEVO',CONVERT(VARCHAR, (select DATEADD(yyyy, 3, GETDATE())), 103))`)
                             if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                                req.flash('aux', req.body.codigo)
+                                req.flash('aux', req.body.nombre)
                         
                                 res.redirect('/CARNETIZACION/buscarBeneficiario')
                             } else {
                                 req.flash('loginMessage', 'Error en el registro del comprobante')
-                                req.flash('aux', req.body.codigo)
+                                req.flash('aux', req.body.nombre)
                                 res.redirect('/CARNETIZACION/buscarBeneficiario')
                             }
                         }
@@ -191,12 +191,12 @@ async function verificarComprobanteB(req, res) {
                                                         ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',CONVERT(VARCHAR, DATEADD(mm, ${meses}, GETDATE()), 103))`)
                                 if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                                    req.flash('aux', req.body.codigo)
+                                    req.flash('aux', req.body.nombre)
                             
                                     res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 } else {
                                     req.flash('loginMessage', 'Error en el registro del comprobante')
-                                    req.flash('aux', req.body.codigo)
+                                    req.flash('aux', req.body.nombre)
                                     res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 }
                             }
@@ -207,12 +207,12 @@ async function verificarComprobanteB(req, res) {
                                                     ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',${new_fec_fin})`)
                                 if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                                    req.flash('aux', req.body.codigo)
+                                    req.flash('aux', req.body.nombre)
                             
                                     res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 } else {
                                     req.flash('loginMessage', 'Error en el registro del comprobante')
-                                    req.flash('aux', req.body.codigo)
+                                    req.flash('aux', req.body.nombre)
                                     res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 }
                             }
@@ -225,12 +225,12 @@ async function verificarComprobanteB(req, res) {
                                                     ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',${new_fec_fin})`)
                                 if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                                    req.flash('aux', req.body.codigo)
+                                    req.flash('aux', req.body.nombre)
                             
                                     res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 } else {
                                     req.flash('loginMessage', 'Error en el registro del comprobante')
-                                    req.flash('aux', req.body.codigo)
+                                    req.flash('aux', req.body.nombre)
                                     res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 }
                             } else {
@@ -240,12 +240,12 @@ async function verificarComprobanteB(req, res) {
                                                         ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','NUEVO',${new_fec_fin})`)
                                 if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                     req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                                    req.flash('aux', req.body.codigo)
+                                    req.flash('aux', req.body.nombre)
                             
                                     res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 } else {
                                     req.flash('loginMessage', 'Error en el registro del comprobante')
-                                    req.flash('aux', req.body.codigo)
+                                    req.flash('aux', req.body.nombre)
                                     res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 }
                             }
@@ -262,12 +262,12 @@ async function verificarComprobanteB(req, res) {
                                                     ${req.user.id}, '${last_card.recordset[0].validez}','${result.recordset[0].Numero}','RECUPERADO','${last_card.recordset[0].fec_fin}')`)
                             if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                                 req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                                req.flash('aux', req.body.codigo)
+                                req.flash('aux', req.body.nombre)
                         
                                 res.redirect('/CARNETIZACION/buscarBeneficiario')
                             } else {
                                 req.flash('loginMessage', 'Error en el registro del comprobante')
-                                req.flash('aux', req.body.codigo)
+                                req.flash('aux', req.body.nombre)
                                 res.redirect('/CARNETIZACION/buscarBeneficiario')
                             }
                         }
@@ -278,25 +278,25 @@ async function verificarComprobanteB(req, res) {
                         //                             ${req.user.id}, '${req.body.validez}','${result.recordset[0].Numero}','${req.body.motivo}',${new_fec_fin})`)
                         //     if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
                         //         req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
-                        //         req.flash('aux', req.body.codigo)
+                        //         req.flash('aux', req.body.nombre)
                         //         res.redirect('/CARNETIZACION/buscarBeneficiario')
                         //     } else {
                         //         req.flash('loginMessage', 'Error en el registro del comprobante')
-                        //         req.flash('aux', req.body.codigo)
+                        //         req.flash('aux', req.body.nombre)
                         //         res.redirect('/CARNETIZACION/buscarBeneficiario')
                         //     }
                         // }
                     }
                 } else {
                     req.flash('loginMessage', 'Numero de comprobante no existe')
-                    req.flash('aux', req.body.codigo)
+                    req.flash('aux', req.body.nombre)
                     res.redirect('/CARNETIZACION/buscarBeneficiario')
                 }
             }
         } catch (error) {
             console.log('SQL ERROR: ', error)
             req.flash('loginMessage', 'Error en el registro del comprobante')
-            req.flash('aux', req.body.codigo)
+            req.flash('aux', req.body.nombre)
             res.redirect('/CARNETIZACION/buscarBeneficiario')
         }
 

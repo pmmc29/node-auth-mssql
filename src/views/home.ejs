@@ -30,13 +30,14 @@
                     <div class="col s6">
                         <!-- <a href="/logout" class="btn">Cerrar Sesion</a> -->
                         <!-- <button onclick="window.location.href='logout'" class="waves-effect waves-light btn-large">Cerrar Sesion</button> -->
-                        <button onclick="window.location.href='/CARNETIZACION/logout'" class="btn waves-effect waves-light">Salir
+                        <button onclick="window.location.href='/CARNETIZACION/logout'"
+                            class="btn waves-effect waves-light">Salir
                         </button>
                     </div>
                 </div>
                 <!-- <a><span class="white-text name">Id: <%= user.id%></span></a> -->
-                    <a><span class="white-text name">Usuario: <%= user.email%></span></a>
-                    <a><span class="white-text name">Cuenta: <% if (user.tipo === '2') { %>
+                <a><span class="white-text name">Usuario: <%= user.email%></span></a>
+                <a><span class="white-text name">Cuenta: <% if (user.tipo === '2') { %>
                         Normal
                         <%}%> <% if (user.tipo === '1') { %>
                         Administrador
@@ -45,10 +46,10 @@
         </li>
         <ul class=" collapsible collapsible-accordion">
             <% if (user.tipo === '1') { %>
-            <li>
-                <div class="divider"></div>
-            </li>
-            <li class=" bold <% if (menu === 'Usuarios') { %> active <%}%>">
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li class=" bold <% if (menu === 'Usuarios') { %> active <%}%>">
                 <div class="collapsible-header waves-effect waves-teal"><i class="material-icons">account_circle</i>Usuarios
                 </div>
                 <div class="collapsible-body">
@@ -101,7 +102,7 @@
                     <div class="collapsible-body">
                         <ul>
                             <li class="<% if (subm === 'buscarBeneficiario') { %> active <%}%>"><a href="/CARNETIZACION/buscarBeneficiario"><i class="material-icons">search</i>Buscar Beneficiario</a></li>
-                            <li class="<% if (subm === 'registrarBeneficiario') { %> active <%}%>"><a href="/CARNETIZACION/registrarBeneficiario"><i class="material-icons">person_add</i>Registrar Asegurado</a></li>
+                            <li class="<% if (subm === 'registrarBeneficiario') { %> active <%}%>"><a href="/CARNETIZACION/registrarBeneficiario"><i class="material-icons">person_add</i>Registrar Beneficiario</a></li>
                             <!-- <li class="<% if (subm === 'listaBeneficiarios') { %> active <%}%>"><a href="/listaBeneficiarios"><i class="material-icons">credit_card</i>Lista de Beneficiarios</a></li> -->
                         </ul>
                     </div>
