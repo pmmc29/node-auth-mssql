@@ -128,10 +128,20 @@
                         </ul>
                     </div>
                 </li>
+                <li>
+                    <div class="divider"></div>
+                </li>
+                <li class="bold <% if (menu === 'Manual de Usuario') { %> active <%}%>">
+                    <div class="collapsible-header waves-effect waves-teal"><i
+                            class="material-icons">library_books</i>Manual de Usuario
+                    </div>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li class="<% if (subm === 'manual') { %> active <%}%>"><a href="/CARNETIZACION/manual"><i class="material-icons">library_books</i>Manual PDF</a></li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
-            <li>
-                <div class="divider"></div>
-            </li>
         </ul>
         <!-- <button href="#" data-target="slide-out" class="sidenav-trigger show-on-large waves-effect waves-light btn"><i
             class="material-icons">menu</i></button> -->

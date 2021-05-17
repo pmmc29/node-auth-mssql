@@ -31,7 +31,7 @@
         <div class="card" id="carnet_front">
             <div class="card-body frente" style="padding: 15px; height: 276px;">
                 <div class="foto">
-                    <%=res.validez%>
+                    <%#=res.validez%>
                     <figure>
                     <img id="foto_perfil" style="margin-top: 5px; 
                     <% if (res.validez === 'MENOR') { %> 
@@ -45,7 +45,13 @@
                     </figure>
                     <p style="margin-bottom: 0px;"><b>Nº</b> <%= res.id_carnet %></p>
                     <img id="foto_firma" style="height: 40px; width: 120px; border-bottom: 1px solid;" src="../photos/Firmas/<%= firmas[0].ruta %>">
-                    <p style="margin-bottom: -50px;"><b>Jefe de afiliacion</b></p>
+                    <p style="margin-bottom: -50px; font-size: 13px;"><b>Jefe de afiliacion</b></p>
+                    <p style="font-size: 13px;
+                            position: absolute;
+                            bottom: -30px;">
+                    <b>Usuario:</b> <%= user.email %>
+                    </p>
+                    <!-- <p><b>Usuario: <%= res.id_carnet %></b></p> -->
                 </div>
                 <!-- <img id="foto_firma" style="width: 120px;
     position: absolute;
@@ -69,22 +75,27 @@
                                     </center>
                                 </b></p>
                         <div style="display: flex;">
-                            <b>Nombres:</b>
-                            <p id="edit_name"> <%= nombre %></p>
+                            <% if (res.validez === 'ITEM' || res.validez ==='CONTRATO' || res.validez ==='JUBILADO') {%> 
+                                <b>Titular:</b><%} else {%> <b>Beneficiario:</b><%}%>
+                            <p id="edit_name"> <%= res.nombre %></p>
                         </div>
-                        <div style="display: flex;">
+                        <!-- <div style="display: flex;">
                             <b>Apellidos: </b>
                             <p id="edit_lastN"> <%= apellido %></p>
-                        </div>
+                        </div> -->
                         <% if (res.validez === 'MODULAR' || res.validez === 'TRIMESTRAL' || res.validez ==='SEMESTRAL' || res.validez ==='ANUAL' ||res.validez === 'MENOR') {%>
                             <p><b>Titular:</b> <%= titular %></p>
                         <%}%>
-                        <p><b>Empresa:</b> <%= res.nom_emp %></p>
+                        <p style="white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                max-width: 300px;"><b>Empresa:</b> <%= res.nom_emp %></p>
                         <p><b>Fecha de ingreso:</b> <%= res.fec_ing %></p>
-                        <p><b>Nº Matricula:</b> <%= res.cod_asegurado %><%= res.cod_bnf %>
-                        </p>
                         <p><b>Fecha de nacimiento: </b><%= res.fec_nac %></p>
+                        <p><b>Nº Matricula:</b> <%= res.cod_asegurado %><%= res.cod_bnf %></p>
+                        <% if (res.tipo_sangre != '') {%>
                         <p><b>Tipo de Sangre:</b> <%= res.tipo_sangre %></p>
+                        <%}%>
                     </div>
                 </div>
             </div>
@@ -221,7 +232,7 @@
     
     document.getElementById('edit').contentEditable = true;
     document.getElementById('edit_name').contentEditable = true;
-    document.getElementById('edit_lastN').contentEditable = true;
+    // document.getElementById('edit_lastN').contentEditable = true;
 
     $("#list_firmas").change(function () {
         $('#foto_firma').attr('src', `../photos/Firmas/${$('#list_firmas').val()}`);

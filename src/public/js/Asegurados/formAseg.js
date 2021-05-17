@@ -175,7 +175,8 @@ $('#btnRegistrar').click(() => {
 })
 
 document.addEventListener('DOMContentLoaded', async function () {
-    let apiAse = await (await fetch('http://localhost:3000/api/getAsegurados')).json()
+    console.log(location.hostname);
+    let apiAse = await (await fetch(`http://${location.hostname}:3000/api/getAsegurados`)).json()
     let lista = {}
     apiAse.map((e) => {
         const key = e.nombre

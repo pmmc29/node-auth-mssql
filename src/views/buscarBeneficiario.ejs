@@ -18,10 +18,16 @@
                 <div class="col s9">
                     <input type="text" class="validate" value="<%= typeof res.edad != 'undefined' ? res.edad : '' %>" id="edad_bnf" hidden>
                     <input type="text" class="validate" value="<%= typeof res.last_card != 'undefined' ? res.last_card : '' %>" id="last_card_bnf" hidden>
-                    <div class="input-field col s9">
+                    <!-- <div class="input-field col s9">
                         <input id="search" name="edtBuscar" type="text" class="validate"
                             value="<%= typeof id != 'undefined' ? id : '' %><%= typeof aux != 'undefined' ? aux : '' %>">
                         <label for="search">Nº Matrícula</label>
+                    </div> -->
+                    <div class="input-field col s9">
+                        <i class="material-icons prefix">search</i>
+                        <input type="text" id="nombre" class="autocompleteB" name="edtBuscarNombre"
+                            value="<%= typeof id != 'undefined' ? id : '' %><%= typeof aux != 'undefined' ? aux : '' %>">
+                        <label for="nombre">Nombre Completo</label>
                     </div>
                     <div class="input-field col s3">
                         <button class="btn waves-effect waves-light" type="submit" name="btnBuscar" id="btnBuscar">
@@ -31,9 +37,9 @@
                         </button>
                     </div>
                     <div class="input-field col s12">
-                        <input id="name" name="nombre" type="text" class="validate"
-                            value="<%= typeof res.nombre != 'undefined' ? res.nombre : '' %>" disabled>
-                        <label for="name">Nombre Completo</label>
+                        <input id="matricula" name="matricula" type="text" class="validate"
+                            value="<%= typeof res.cod_bnf != 'undefined' ? res.cod_bnf : '' %>" disabled>
+                        <label for="matricula">Nº Matricula</label>
                     </div>
                     <!-- <div class="input-field col s12">
                         <input id="last_name" name="apellidos" type="text" class="validate"
@@ -55,10 +61,25 @@
                             value="<%= typeof res.fec_nac != 'undefined' ? res.fec_nac : '' %>" disabled>
                         <label for="birth_date">Fecha de Nacimiento</label>
                     </div>
+                    <div class="input-field col s12">
+                        <input id="edad" name="edad" type="text" class="validate"
+                            value="<%= typeof res.edad != 'undefined' ? res.edad : '' %>" disabled>
+                        <label for="edad">Edad</label>
+                    </div>
+                    <div class="input-field col s12" hidden>
+                        <input id="tipo_bnf" name="tipo_bnf" type="text" class="validate"
+                            value="<%= typeof res.tipo_bnf != 'undefined' ? res.tipo_bnf : '' %>" disabled>
+                        <label for="tipo_bnf">Tipo_bnf</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="parentezco" name="parentezco" type="text" class="validate"
+                            value="<%= typeof res.nom_parent != 'undefined' ? res.nom_parent : '' %>" disabled>
+                        <label for="parentezco">Parentezco</label>
+                    </div>
                 </div>
                 <div class="col s3">
                     <div class="file-field input-field">
-                            <img style="width: 100%;" src="<%= typeof file_ase != 'undefined' ? file_ase : '' %>">
+                            <img style="width: 100%;" src="<%= typeof file_bnf != 'undefined' ? file_bnf : '' %>">
                             <% if (nombre !== '') { %>
                             <div class="file-field input-field">
                                 <div class="btn">
@@ -70,7 +91,7 @@
                                 </div>
                             </div>
                             <button class="btn waves-effect waves-light" type="submit" name="btnAgregarFoto"
-                                id="btnAgregarFoto"> <% if (file_ase !== '') { %>Actualizar Foto <%} else {%> Agregar Foto <%}%>
+                                id="btnAgregarFoto"> <% if (file_bnf !== '') { %>Actualizar Foto <%} else {%> Agregar Foto <%}%>
                                 <i class="material-icons right">add_a_photo</i>
                             </button>
                             <%}%>
@@ -173,6 +194,8 @@
                                             value="<%= historial[i].comprobante %>" hidden>
                                     </li>
                                     <input type="text" name="codigo" value="<%= historial[i].cod_bnf %>" hidden>
+                                    <!-- <input type="text" name="parentezco" value="<%= res.nom_parent %>" hidden> -->
+                                    <!-- <input type="text" id="tipo_bnf" value="<%= res.tipo_bnf %>" hidden> -->
                                     <li style="background-color: #009688;"><b>Motivo: </b>
                                         <%= historial[i].motivo %></li>
                                     <li><b>Tipo Validez: </b> <%= historial[i].validez %></li>

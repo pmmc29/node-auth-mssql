@@ -17,7 +17,7 @@ pool.on('error', err => {
 const storage = multer.diskStorage({
     destination: path.join(__dirname, '../photos/Beneficiarios'),
     filename: function (req, file, cb) {
-        cb(null, req.body.edtBuscar + '.jpg') //nombre de las fotos
+        cb(null, req.body.edtBuscarNombre + '.jpg') //nombre de las fotos
     }
 })
 
@@ -132,19 +132,19 @@ async function agregarFotoB(req, res) { //click en agregar foto
         uploadPhoto(req, res, (err) => {
             if (err) {
                 req.flash('loginMessage', err)
-                req.flash('aux', req.body.edtBuscar)
+                req.flash('aux', req.body.edtBuscarNombre)
                 res.redirect('/CARNETIZACION/buscarBeneficiario')
             } else {
                 if (req.file == undefined) {
                     console.log(req.body, req.file)
                     req.flash('loginMessage', 'Seleccione una imagen!')
-                    req.flash('aux', req.body.edtBuscar)
+                    req.flash('aux', req.body.edtBuscarNombre)
                     res.redirect('/CARNETIZACION/buscarBeneficiario')
                 } else {
                     console.log(req.body)
                     console.log(req.file)
                     req.flash('loginMessage', 'Foto agregada!')
-                    req.flash('aux', req.body.edtBuscar)
+                    req.flash('aux', req.body.edtBuscarNombre)
                     res.redirect('/CARNETIZACION/buscarBeneficiario')
                 }
             }
@@ -162,26 +162,26 @@ async function registrarDatos(req, res) {
         await poolConnect;
         if (req.body.fec_ing === '') {
             req.flash('msgRD', 'LLene los campos correspondientes')
-            req.flash('aux', req.body.edtBuscar)
+            req.flash('aux', req.body.edtBuscarNombre)
             res.redirect('/CARNETIZACION/buscarBeneficiario')
         } else {
-            const result = await request.query(`update beneficiarios set fec_ing = '${req.body.fec_ing}', tipo_sangre = '${req.body.select_sangre}', ci = '${req.body.ci}', ci_loc = '${req.body.ci_loc}' where cod_bnf = '${req.body.edtBuscar}'`)
+            const result = await request.query(`update beneficiarios set fec_ing = '${req.body.fec_ing}', tipo_sangre = '${req.body.select_sangre}', ci = '${req.body.ci}', ci_loc = '${req.body.ci_loc}' where nombre = '${req.body.edtBuscarNombre}'`)
             const response = result.rowsAffected[0]
             if (response > 0) { // 1 fila afectada = actualizacion exitosa
                 req.flash('msgRD', 'Registro Exitoso')
-                req.flash('aux', req.body.edtBuscar)
+                req.flash('aux', req.body.edtBuscarNombre)
                 res.redirect('/CARNETIZACION/buscarBeneficiario')
             } else { // 0 filas afectadas = no se actualizo
                 console.log(req.body)
                 req.flash('msgRD', 'Error en el Registro')
-                req.flash('aux', req.body.edtBuscar)
+                req.flash('aux', req.body.edtBuscarNombre)
                 res.redirect('/CARNETIZACION/buscarBeneficiario')
             }
         }
     } catch (err) {
         console.error('SQL error', err);
         req.flash('msgRD', 'Error en el Registro')
-        req.flash('aux', req.body.edtBuscar)
+        req.flash('aux', req.body.edtBuscarNombre)
         res.redirect('/CARNETIZACION/buscarBeneficiario')
     }
 }
@@ -225,15 +225,16 @@ async function renderDatos(req, res, msg) {
 
     try {
         await poolConnect;
-        const edad_bnf = `select DATEDIFF(yy, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.edtBuscar}'), 103)), GETDATE()) - 
+        const edad_bnf = `select DATEDIFF(yy, (select CONVERT(date, (select fec_nac from beneficiarios where nombre = '${req.body.edtBuscarNombre}'), 103)), GETDATE()) - 
                         CASE
-                            WHEN DATEADD(yy, (DATEDIFF(yy, (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.edtBuscar}'), 103)), GETDATE())), (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.edtBuscar}'), 103))) > GETDATE()
+                            WHEN DATEADD(yy, (DATEDIFF(yy, (select CONVERT(date, (select fec_nac from beneficiarios where nombre = '${req.body.edtBuscarNombre}'), 103)), GETDATE())), (select CONVERT(date, (select fec_nac from beneficiarios where cod_bnf = '${req.body.edtBuscar}'), 103))) > GETDATE()
                             THEN 1
                             ELSE 0
                         END
-                        from beneficiarios where cod_bnf = '${req.body.edtBuscar}'`
-        const result = await request.query(`select *, (${edad_bnf}) as edad from beneficiarios where beneficiarios.cod_bnf = '${req.body.edtBuscar}'`)
-        const empresa = await request.query(`select empresas.nom_emp from empresas,beneficiarios where beneficiarios.cod_emp = empresas.id_emp and beneficiarios.cod_bnf = '${req.body.edtBuscar}'`)
+                        from beneficiarios where nombre = '${req.body.edtBuscarNombre}'`
+        const parentezco = ``
+        const result = await request.query(`select *, (${edad_bnf}) as edad from beneficiarios,parentezco where parentezco.id_par = beneficiarios.cod_par and beneficiarios.nombre = '${req.body.edtBuscarNombre}'`)
+        const empresa = await request.query(`select empresas.nom_emp from empresas,beneficiarios where beneficiarios.cod_emp = empresas.id_emp and beneficiarios.nombre = '${req.body.edtBuscarNombre}'`)
         const response = result.recordset[0]
         console.log(response)
         if (response == undefined) { // no existe el codigo del asegurado
@@ -260,27 +261,27 @@ async function renderDatos(req, res, msg) {
                                                 and imp_carnet.id_usuario = usuarios.id and imp_carnet.id_carnet = carnet.id_carnet `)
             console.log(carnet.recordset)
 
-            let file_test = `./src/photos/Beneficiarios/${req.body.edtBuscar}.jpg`
-            let file_ase = ''
+            let file_test = `./src/photos/Beneficiarios/${response.nombre}.jpg`
+            let file_bnf = ''
             fs.access(file_test, fs.constants.F_OK, (err) => {
                 if (err) {
                     // console.error(err)
-                    file_ase = ''
+                    file_bnf = ''
                     return
                 }
                 //file exists
-                file_ase = `../photos/Beneficiarios/${req.body.edtBuscar}.jpg`
+                file_bnf = `../photos/Beneficiarios/${response.nombre}.jpg`
             })
             QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
                 res.render('buscarBeneficiario', {
                     message: msg,
                     menu: 'Beneficiarios',
                     subm: 'buscarBeneficiario',
-                    id: req.body.edtBuscar,
+                    id: req.body.edtBuscarNombre,
                     user: req.user,
                     qr: `${url}`,
                     file: `../photos/Usuarios/${req.user.email}.jpg`,
-                    file_ase: file_ase,
+                    file_bnf: file_bnf,
                     res: response,
                     apellido: apellido,
                     nombre: nombre,

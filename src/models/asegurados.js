@@ -17,7 +17,7 @@ pool.on('error', err => {
 const storage = multer.diskStorage({
     destination: path.join(__dirname, '../photos/Asegurados'),
     filename: function (req, file, cb) {
-        cb(null, req.body.edtBuscar + '.jpg') //nombre de las fotos
+        cb(null, req.body.edtBuscarNombre + '.jpg') //nombre de las fotos
     }
 })
 
@@ -164,7 +164,7 @@ async function registrarSangre(req, res) {
                 res.redirect('/CARNETIZACION/buscarAsegurado')
             } else {
                 const result = await request.query(`update asegurados set tipo_sangre = '${req.body.select_sangre}', ci = '${req.body.ci}', ci_loc ='${req.body.ci_loc}'
-                                                where cod_asegurado = '${req.body.edtBuscar}'`)
+                                                where nombre = '${req.body.edtBuscarNombre}'`)
                 const response = result.rowsAffected[0]
 
                 if (response > 0) { // 1 fila afectada = actualizacion exitosa
@@ -257,7 +257,7 @@ async function renderDatos(req, res, msg) {
                                                 and asegurados.cod_asegurado = carnet.cod_asegurado
                                                 and imp_carnet.id_usuario = usuarios.id and imp_carnet.id_carnet = carnet.id_carnet `)
             console.log(carnet.recordset)
-            let file_test = `./src/photos/Asegurados/${response.cod_asegurado}.jpg`
+            let file_test = `./src/photos/Asegurados/${response.nombre}.jpg`
             let file_ase = ''
             fs.access(file_test, fs.constants.F_OK, (err) => {
                 if (err) {
@@ -266,7 +266,7 @@ async function renderDatos(req, res, msg) {
                     return
                 }
                 //file exists
-                file_ase = `../photos/Asegurados/${response.cod_asegurado}.jpg`
+                file_ase = `../photos/Asegurados/${response.nombre}.jpg`
             })
 
             QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {

@@ -83,11 +83,29 @@ router.get('/CARNETIZACION/logout', function (req, res) {
 });
 //----------------------------------------------
 
-router.get('/CARNETIZACION/Inicio', async function (req, res, next) {
+router.get('/CARNETIZACION/Manual', async function (req, res, next) {
     if (req.isAuthenticated()) {
         QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
             // console.log(url)
             res.render('iframe', {
+                user: req.user,
+                menu: 'Manual de Usuario',
+                subm: 'manual',
+                qr: `${url}`,
+                file: `../photos/Usuarios/${req.user.email}.jpg`
+            });
+        })
+        console.log(req.user.id)
+    } else {
+        res.redirect('/CARNETIZACION/login');
+    }
+});
+
+router.get('/CARNETIZACION/Inicio', async function (req, res, next) {
+    if (req.isAuthenticated()) {
+        QRCode.toDataURL(JSON.stringify(req.user), function (err, url) {
+            // console.log(url)
+            res.render('home', {
                 user: req.user,
                 menu: 'home',
                 subm: 'home',
