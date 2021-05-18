@@ -69,8 +69,8 @@ $("#btn_add_card_A").click(function () {
                                 <input name="nombre" type="text" class="validate" value="${nombre}" hidden>
                                 <input name="comprobante" type="text" class="validate" value=""
                                     placeholder="Numero de Comprobante" required>
-                                <li id="fec_item" hidden><b>Valido por: </b> 5 Años</li>
-                                <li id="fec_jubilado" hidden><b>Valido por: </b> Indefinido</li>
+                                <li id="fec_item" hidden><b>Valido por: </b> 4 Años</li>
+                                <li id="fec_jubilado" hidden><b>Valido por: </b> 4 Años</li>
                             </div>
                             <div class="input-field" id="fec_contrato">
                                 <input id="contrato" name="fec_contrato" type="text" class="fec_contrato">

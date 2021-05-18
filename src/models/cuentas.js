@@ -143,14 +143,14 @@ async function actualizarFoto(req, res) {
             uploadPhoto(req,res, (error) => {
                 if (error) {
                     req.flash('aux', error)
-                    res.redirect('/CARNETIZACION/profile')
+                    res.redirect('/CARNETIZACION/perfil')
                 }else{
                     if (req.file == undefined) {
                         req.flash('aux', `Seleccione una Foto!`)
-                        res.redirect('/CARNETIZACION/profile')
+                        res.redirect('/CARNETIZACION/perfil')
                     }else{
                         req.flash('aux', `Foto Actualizada.`)
-                        res.redirect('/CARNETIZACION/profile')
+                        res.redirect('/CARNETIZACION/perfil')
                     }
                 }
 

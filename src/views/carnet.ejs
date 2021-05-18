@@ -46,11 +46,7 @@
                     <p style="margin-bottom: 0px;"><b>Nº</b> <%= res.id_carnet %></p>
                     <img id="foto_firma" style="height: 40px; width: 120px; border-bottom: 1px solid;" src="../photos/Firmas/<%= firmas[0].ruta %>">
                     <p style="margin-bottom: -50px; font-size: 13px;"><b>Jefe de afiliacion</b></p>
-                    <p style="font-size: 13px;
-                            position: absolute;
-                            bottom: -30px;">
-                    <b>Usuario:</b> <%= user.email %>
-                    </p>
+                    
                     <!-- <p><b>Usuario: <%= res.id_carnet %></b></p> -->
                 </div>
                 <!-- <img id="foto_firma" style="width: 120px;
@@ -96,6 +92,13 @@
                         <% if (res.tipo_sangre != '') {%>
                         <p><b>Tipo de Sangre:</b> <%= res.tipo_sangre %></p>
                         <%}%>
+                        <p style="font-size: 13px;
+                                position: absolute;
+                                bottom: -50px;
+                                right: 10px;
+                                border: solid 1px black;">
+                            <%= user.email %>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -104,7 +107,7 @@
             <div class="card-body atras" style="padding: 15px; height: 276px;">
                 <h3>SEGURO INTEGRAL DE SALUD</h3>
                 <h6><i>CREADO MEDIANTE D.S 26474 DEL 29 DE ENERO DE 1999</i></h6>
-                <div style="width: 290px; margin-left: 16px;" id="edit">
+                <div style="width: 285px; margin-left: 16px;" id="edit">
                     <p>CONSULTORIO CALLE ESPAÑA Nº 473 TELF: 3364160 - 3371167</p>
                     <p>OF. ADMINISTRATIVAS C/24 DE SEP. Nº 266 EDIF. ITAU TELF. 3323173 - 3326572</p>
                     <p>CLINICA Y LABORATORIO AV. 2 DE AGOSTO Nº 6135 PASANDO EL 6TO ANILLO</p>
