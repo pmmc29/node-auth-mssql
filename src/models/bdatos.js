@@ -98,7 +98,7 @@ async function updateBeneficiarios(req, res) {
         csv({
                 delimiter: ["|"],
                 noheader: true,
-                headers: ['agenda', 'cod_bnf', 'nombre', 'fec_nac', 'sexo', 'cod_par', 'cod_emp', 'nom_emp', 'tipo_sangre']
+                headers: ['agenda', 'cod_bnf', 'nombre', 'fec_nac', 'sexo', 'cod_par', 'cod_emp', 'nom_emp', 'tipo_bnf', 'tipo_sangre']
             })
             .fromFile(file_bnf)
             .then(async (jsonObj) => {
@@ -107,9 +107,9 @@ async function updateBeneficiarios(req, res) {
                     // table.rows.add(parseInt(e.agenda), e.cod_asegurado, e.nombre, e.fec_nac, e.sexo, e.ci, e.ci_loc,
                     //     parseInt(e.cod_emp), e.nom_emp, e.fec_ing, e.tipo_sangre)
                     await request.query(`if not exists (select 1 from beneficiarios where cod_bnf = '${e.cod_bnf}')
-                                             insert into beneficiarios(agenda,cod_bnf,nombre,fec_nac,sexo,cod_par,cod_emp,nom_emp,tipo_sangre) 
+                                             insert into beneficiarios(agenda,cod_bnf,nombre,fec_nac,sexo,cod_par,cod_emp,nom_emp,tipo_sangre,tipo_bnf) 
                                              values(${parseInt(e.agenda)},'${e.cod_bnf}','${e.nombre}','${e.fec_nac}','${e.sexo}',
-                                             ${parseInt(e.cod_par)},${parseInt(e.cod_emp)},'${e.nom_emp}','${e.tipo_sangre}')
+                                             ${parseInt(e.cod_par)},${parseInt(e.cod_emp)},'${e.nom_emp}','${e.tipo_sangre}','${e.tipo_bnf}')
                                          else
                                              update beneficiarios set agenda=${parseInt(e.agenda)},cod_bnf='${e.cod_bnf}',nombre='${e.nombre}',
                                              fec_nac='${e.fec_nac}',sexo='${e.sexo}',cod_par=${parseInt(e.cod_par)},cod_emp=${parseInt(e.cod_emp)},
@@ -155,18 +155,18 @@ function descargarFTP(req, res, txtname) {
             ftp.get(`${req.body.bdname}`, function (err, stream) {
                 if (err) {
                     req.flash('aux', `${err}`)
-                    res.redirect('/actualizarBD')
+                    res.redirect('/CARNETIZACION/actualizarBD')
                 } else {
                     // stream.once('close', function () {c.end();});
                     stream.pipe(fs.createWriteStream(`./src/dbfiles/${txtname}.txt`));
                     req.flash('aux', `Archivo descargado Correctamente.`)
-                    res.redirect('/actualizarBD')
+                    res.redirect('/CARNETIZACION/actualizarBD')
                 }
             });
         });
     } catch (error) {
         req.flash('aux', `${error}`)
-        res.redirect('/actualizarBD')
+        res.redirect('/CARNETIZACION/actualizarBD')
     }
 }
 
@@ -180,21 +180,21 @@ async function actualizarBD(req, res, next) {
                 await request.query(`insert into updates(tabla,fec_creado,id_usuario)  
                                     values (3,(CONVERT(VARCHAR, GETDATE(), 103) + ' ' + CONVERT(VARCHAR, GETDATE(), 8)),${req.user.id})`);
                 req.flash('aux', `Empresas actualizadas!`)
-                res.redirect('/actualizarBD')
+                res.redirect('/CARNETIZACION/actualizarBD')
             }
             if (req.body.btn_actualizar_ase == '') { //click en actualizar asegurados
                 updateAsegurados(req,res)  
                 await request.query(`insert into updates(tabla,fec_creado,id_usuario)  
                                     values (1,(CONVERT(VARCHAR, GETDATE(), 103) + ' ' + CONVERT(VARCHAR, GETDATE(), 8)),${req.user.id})`);
                 req.flash('aux', `Asegurados actualizados!`)
-                res.redirect('/actualizarBD')
+                res.redirect('/CARNETIZACION/actualizarBD')
             }
             if (req.body.btn_actualizar_bnf == '') { //click en actualizar beneficiarios
                 updateBeneficiarios(req,res)    
                 await request.query(`insert into updates(tabla,fec_creado,id_usuario)  
                                     values (2,(CONVERT(VARCHAR, GETDATE(), 103) + ' ' + CONVERT(VARCHAR, GETDATE(), 8)),${req.user.id})`);            
                 req.flash('aux', `Beneficiarios actualizados!`)
-                res.redirect('/actualizarBD')
+                res.redirect('/CARNETIZACION/actualizarBD')
             }
             if (req.body.btn_descargar_ase == '') { //click en DESCARGAR asegurados
                 descargarFTP(req, res, 'new_asegurados')
@@ -206,11 +206,11 @@ async function actualizarBD(req, res, next) {
                 descargarFTP(req, res, 'new_empresas')
             }
         } else {
-            res.redirect('/login');
+            res.redirect('/CARNETIZACION/login');
         }
     } catch (e) {
         req.flash('aux', `${e}`)
-        res.redirect('/actualizarBD')
+        res.redirect("/CARNETIZACION/actualizarBD");
         // throw (e)
     }
 }
@@ -254,7 +254,7 @@ async function renderView(req, res) {
         })
         console.log(req.user.id)
     } else {
-        res.redirect('/login');
+        res.redirect("/CARNETIZACION/login");
     }
 }
 

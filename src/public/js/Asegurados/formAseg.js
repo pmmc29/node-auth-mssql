@@ -141,6 +141,7 @@ $("#btn_recov_card_A").click(function () {
                                 <h6>(Ultimo carnet registrado)</h6>
                                 <li><b>Codigo: </b> ${codigo}</li>
                                 <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
+                                <input name="nombre" type="text" class="validate" value="${nombre}" hidden>
                                 <input name="tipo" type="text" class="validate" value="RECUPERADO" hidden>
                                 <input name="comprobante" type="text" class="validate" value=""
                                     placeholder="Numero de Comprobante" required>

@@ -3,18 +3,18 @@ const bnf = require('./beneficiarios');
 
 ///////////////////////////////////////////////////////
 const configSinec = {
-    user: 'carnet_user',
-    password: 'carnet2021',
-    server: 'localhost',
-    database: 'sinec2021',
-    options: {
-        enableArithAbort: true,
-        encrypt: true,
-        cryptoCredentialsDetails: {
-            minVersion: 'TLSv1'
-        }
-    }
-}
+  user: "carnet_user",
+  password: "carnet2021",
+  server: "localhost",
+  database: "sinec2021",
+  options: {
+    enableArithAbort: true,
+    encrypt: true,
+    cryptoCredentialsDetails: {
+      minVersion: "TLSv1",
+    },
+  },
+};
 const pool = new sql.ConnectionPool(configSinec);
 const poolConnect = pool.connect();
 const request = pool.request();
@@ -248,6 +248,34 @@ async function verificarComprobanteB(req, res) {
                                     res.redirect('/CARNETIZACION/buscarBeneficiario')
                                 }
                             }
+                        }
+                    }
+                    if (req.body.tipo == 'ESPECIAL') {
+                        const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
+                                                values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
+                                                ${req.user.id}, '${req.body.tipo}','${result.recordset[0].Numero}','NUEVO',CONVERT(VARCHAR, (select DATEADD(yyyy, 4, GETDATE())), 103))`)
+                        if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
+                            req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
+                            req.flash('aux', req.body.nombre)
+                            res.redirect('/CARNETIZACION/buscarBeneficiario')
+                        } else {
+                            req.flash('loginMessage', 'Error en el registro del comprobante')
+                            req.flash('aux', req.body.nombre)
+                            res.redirect('/CARNETIZACION/buscarBeneficiario')
+                        }
+                    }
+                    if (req.body.tipo == 'ESP_PAD') {
+                        const imp_carnet = await requestdb.query(`insert into imp_carnet (id_carnet,front,back,fec_emision,estado,id_usuario,validez,comprobante,motivo,fec_fin) 
+                                                values((select id_carnet from carnet where cod_bnf = '${req.body.codigo}'),'0','0', CONVERT(VARCHAR,GETDATE(), 103), '0',
+                                                ${req.user.id}, '${req.body.tipo}','${result.recordset[0].Numero}','NUEVO',CONVERT(VARCHAR, (select DATEADD(yyyy, 4, GETDATE())), 103))`)
+                        if (imp_carnet.rowsAffected[0] === 1) { //1 fila afectada, se registro correctamente
+                            req.flash('loginMessage', `Comprobante: ${req.body.comprobante}, Concepto: ${result.recordset[0].Concepto}`)
+                            req.flash('aux', req.body.nombre)
+                            res.redirect('/CARNETIZACION/buscarBeneficiario')
+                        } else {
+                            req.flash('loginMessage', 'Error en el registro del comprobante')
+                            req.flash('aux', req.body.nombre)
+                            res.redirect('/CARNETIZACION/buscarBeneficiario')
                         }
                     }
                     if (req.body.tipo == 'RECUPERADO') {

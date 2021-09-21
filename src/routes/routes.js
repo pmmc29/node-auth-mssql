@@ -282,7 +282,7 @@ router.post('/numComprobanteA', comprobante.verificarComprobanteA)
 router.post('/numComprobanteB', comprobante.verificarComprobanteB)
 router.post('/actualizarImp', carnet.actualizarImp)
 router.post('/fotoPerfil', cuentas.actualizarFoto)
-router.post('/actualizarBD', bdatos.actualizarBD);
+router.post("/actualizarBD", bdatos.actualizarBD);
 router.post('/crear_firma', firmas.crearFirma)
 router.post('/update_pwd', cuentas.actualizarPWD)
 

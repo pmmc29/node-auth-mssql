@@ -1,31 +1,31 @@
-const sql = require('mssql');
+const sql = require("mssql");
 
 const config = {
-    user: 'carnet_user',
-    password: 'carnet2021',
-    server: 'localhost',
-    database: 'test',
-    options: {
-        enableArithAbort: true,
-        encrypt: true,
-        cryptoCredentialsDetails: {
-            minVersion: 'TLSv1'
-        }
-    }
-}
+  user: "carnet_user",
+  password: "carnet2021",
+  server: "localhost",
+  database: "carnet2021",
+  options: {
+    enableArithAbort: true,
+    encrypt: true,
+    cryptoCredentialsDetails: {
+      minVersion: "TLSv1",
+    },
+  },
+};
 const configSinec = {
-    user: 'carnet_user',
-    password: 'carnet2021',
-    server: 'localhost',
-    database: 'sinec2021',
-    options: {
-        enableArithAbort: true,
-        encrypt: true,
-        cryptoCredentialsDetails: {
-            minVersion: 'TLSv1'
-        }
-    }
-}
+  user: "carnet_user",
+  password: "carnet2021",
+  server: "localhost",
+  database: "sinec2021",
+  options: {
+    enableArithAbort: true,
+    encrypt: true,
+    cryptoCredentialsDetails: {
+      minVersion: "TLSv1",
+    },
+  },
+};
 
 const pool = new sql.ConnectionPool(config);
 const pool2 = new sql.ConnectionPool(configSinec);

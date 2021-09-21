@@ -46,6 +46,7 @@
                             <li><b>Parentezco: </b> ${parentezco}</li>
                             <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
                             <input name="edad" type="text" class="validate" value="${edad}" hidden>
+                            <input name="nombre" type="text" class="validate" value="${nombre}" hidden>
                             <input name="tipo" type="text" class="validate" value="MAYOR" hidden>
                             <input name="comprobante" type="text" class="validate" value=""
                                 placeholder="Numero de Comprobante" required>
@@ -98,8 +99,9 @@
                             <li><b>Validez: </b> Igual a la del Titular </li>
                             <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
                             <input name="edad" type="text" class="validate" value="${edad}" hidden>
+                            <input name="nombre" type="text" class="validate" value="${nombre}" hidden>
                             <input name="parentezco" type="text" class="validate" value="${parentezco}" hidden>
-                            <input name="tipo" type="text" class="validate" value="MAYOR" hidden>
+                            <input name="tipo" type="text" class="validate" value="ESP_PAD" hidden>
                             <input name="comprobante" type="text" class="validate" value=""
                                 placeholder="Numero de Comprobante" required>
                         </div>
@@ -128,8 +130,9 @@
                             <li><b>Validez: </b> 4 Años </li>
                             <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
                             <input name="edad" type="text" class="validate" value="${edad}" hidden>
+                            <input name="nombre" type="text" class="validate" value="${nombre}" hidden>
                             <input name="parentezco" type="text" class="validate" value="${parentezco}" hidden>
-                            <input name="tipo" type="text" class="validate" value="MAYOR" hidden>
+                            <input name="tipo" type="text" class="validate" value="ESPECIAL" hidden>
                             <input name="comprobante" type="text" class="validate" value=""
                                 placeholder="Numero de Comprobante" required>
                         </div>
@@ -165,6 +168,7 @@
                                 <li><b>Edad: </b> ${edad} años</li>
                                 <input name="codigo" type="text" class="validate" value="${codigo}" hidden>
                                 <input name="edad" type="text" class="validate" value="${edad}" hidden>
+                                <input name="nombre" type="text" class="validate" value="${nombre}" hidden>
                                 <input name="tipo" type="text" class="validate" value="RECUPERADO" hidden>
                                 <input name="comprobante" type="text" class="validate" value=""
                                     placeholder="Numero de Comprobante" required>
