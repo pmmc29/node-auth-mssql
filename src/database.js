@@ -1,7 +1,7 @@
 const sql = require("mssql");
 
 const config = {
-  user: "carnet_user",
+  user: "user_carnet",
   password: "carnet2021",
   server: "localhost",
   database: "carnet2021",
@@ -14,7 +14,7 @@ const config = {
   },
 };
 const configSinec = {
-  user: "carnet_user",
+  user: "user_carnet",
   password: "carnet2021",
   server: "localhost",
   database: "sinec2021",

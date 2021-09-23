@@ -3,7 +3,7 @@ const bnf = require('./beneficiarios');
 
 ///////////////////////////////////////////////////////
 const configSinec = {
-  user: "carnet_user",
+  user: "user_carnet",
   password: "carnet2021",
   server: "localhost",
   database: "sinec2021",
